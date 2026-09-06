@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "UIContext.h"
 
-#include "../Core/TextFit.h"
+#include "TextFit.h"
 
 #include <algorithm>
 #include <atomic>
@@ -19,7 +19,7 @@
 #include "../Math/Matrix.h"
 #include "../Platform/ITextRasterizer.h"
 #include "../Rendering/RenderFrameBuilder.h"
-#include "../Core/ResourceId.h"
+#include "../Assets/ResourceId.h"
 
 namespace GameEngine::UI
 {
@@ -101,7 +101,7 @@ UIContext::UIContext(
     // 단색 사각형은 전부 이 1x1 흰 픽셀을 틴트해 그린다. id는 동적 도메인의 0번 자리를 쓰며,
     // 픽셀이 결코 바뀌지 않으므로 백엔드가 한 번 업로드해 계속 쓴다.
     auto white = std::make_shared<Assets::TextureData>();
-    white->id = Core::MakeResourceId(Core::ResourceIdDomain::Dynamic, 0);
+    white->id = Assets::MakeResourceId(Assets::ResourceIdDomain::Dynamic, 0);
     white->width = 1;
     white->height = 1;
     white->pixels.assign(4, std::byte{ 0xFF });
@@ -359,7 +359,7 @@ void UIContext::PushText(
     // 글자는 받은 사각형 안에 맞춘다. 라벨, 버튼, 목록 행이 모두 이 경로를 사용해
     // 긴 문구가 이웃 위젯을 덮지 않도록 같은 폭 제한을 적용한다.
     const float inset = align == TextAlign::Center ? 0.0f : TextLeftInset * mScale;
-    const Core::TextFitResult fit = Core::FitTextToWidth(
+    const UI::TextFitResult fit = UI::FitTextToWidth(
         text, rect.width - inset, TextEllipsis,
         [&](const std::string_view candidate)
         {
@@ -536,7 +536,7 @@ bool UIContext::DrawTextField(const WidgetId id, const UIRect& rect, std::string
 
         // 키와 타이핑은 편집 모델의 것이다. 위젯이 하는 일은 이번 프레임의 입력을 모아 넘기고,
         // 모델이 돌려준 것을 화면과 클립보드에 옮기는 것뿐이다.
-        Core::TextEditModel::Input editInput;
+        UIModel::TextEditModel::Input editInput;
         editInput.typedText = mTypedText;
         editInput.backspace = mBackspacePressed;
         editInput.deleteForward = mDeletePressed;
@@ -556,7 +556,7 @@ bool UIContext::DrawTextField(const WidgetId id, const UIRect& rect, std::string
             editInput.pastedText = pasted;
         }
 
-        const Core::TextEditModel::Result edit = mTextEdit.Apply(text, editInput);
+        const UIModel::TextEditModel::Result edit = mTextEdit.Apply(text, editInput);
         if (edit.wroteClipboard && mClipboard)
         {
             mClipboard->SetText(edit.clipboardText);
@@ -579,7 +579,7 @@ bool UIContext::DrawTextField(const WidgetId id, const UIRect& rect, std::string
     const std::size_t caretIndex = mTextEdit.GetCaret();
     if (stillFocused)
     {
-        const Core::TextEditModel::Selection selection = mTextEdit.GetSelection();
+        const UIModel::TextEditModel::Selection selection = mTextEdit.GetSelection();
         if (selection.HasSelection())
         {
             // 선택 배경은 텍스트보다 먼저 실려야 글자가 그 위에 보인다.
@@ -644,7 +644,7 @@ UIContext::TextEditState UIContext::GetTextEditState() const
 {
     // 편집 모델이 쥔 것을 위젯의 언어로 비춘다. 이 구조체는 테스트가 편집을 관찰하는 창이고,
     // 소유자는 모델이다.
-    const Core::TextEditModel::Selection selection = mTextEdit.GetSelection();
+    const UIModel::TextEditModel::Selection selection = mTextEdit.GetSelection();
     TextEditState state;
     state.caret = mTextEdit.GetCaret();
     state.selectionBegin = selection.begin;
@@ -666,7 +666,7 @@ std::size_t UIContext::CaretIndexFromX(const std::string& text, const float x)
     std::size_t boundary = 0;
     while (boundary < text.size())
     {
-        boundary = Core::TextEditModel::NextCharBoundary(text, boundary);
+        boundary = UIModel::TextEditModel::NextCharBoundary(text, boundary);
         const float width = MeasureFieldText(std::string_view(text).substr(0, boundary));
         if (width >= x)
         {
@@ -786,8 +786,8 @@ void UIContext::UpdateDynamicTexture(
     // 완성한 뒤 교체하고, 같은 크기의 GPU 텍스처는 id와 revision으로 재사용한다.
     auto updated = mDynamicTextureSnapshots.Acquire(rgbaPixels.size());
     const bool sameSize = texture && texture->width == width && texture->height == height;
-    updated->id = sameSize ? texture->id : Core::MakeResourceId(
-        Core::ResourceIdDomain::Dynamic, sNextDynamicTextureIndex++);
+    updated->id = sameSize ? texture->id : Assets::MakeResourceId(
+        Assets::ResourceIdDomain::Dynamic, sNextDynamicTextureIndex++);
     updated->revision = sameSize ? texture->revision + 1 : 1;
     updated->width = width;
     updated->height = height;
@@ -804,8 +804,8 @@ std::shared_ptr<const Assets::TextureData> UIContext::MakeDynamicTexture(
         return nullptr;
     }
     auto texture = mDynamicTextureSnapshots.Acquire(rgbaPixels.size());
-    texture->id = Core::MakeResourceId(
-        Core::ResourceIdDomain::Dynamic, sNextDynamicTextureIndex++);
+    texture->id = Assets::MakeResourceId(
+        Assets::ResourceIdDomain::Dynamic, sNextDynamicTextureIndex++);
     texture->width = width;
     texture->height = height;
     texture->pixels = rgbaPixels;

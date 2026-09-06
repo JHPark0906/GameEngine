@@ -1,6 +1,6 @@
 #include "Rules/EditorFileWrite.h"
 
-#include "Core/TextFile.h"
+#include "Platform/TextFile.h"
 #include "Diagnostics/Debug.h"
 
 namespace GameEditor
@@ -8,8 +8,8 @@ namespace GameEditor
 
 bool WriteFileAtomically(const std::filesystem::path& fullPath, const std::string& text)
 {
-    const GameEngine::Core::FileWriteResult written =
-        GameEngine::Core::WriteTextFileAtomically(fullPath, text);
+    const GameEngine::Platform::FileWriteResult written =
+        GameEngine::Platform::WriteTextFileAtomically(fullPath, text);
     if (!written)
     {
         GameEngine::Diagnostics::Debug::LogError(

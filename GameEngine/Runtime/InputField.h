@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "../Core/TextEditModel.h"
+#include "../UIModel/TextEditModel.h"
 #include "RectTransform.h"
 #include "Selectable.h"
 
@@ -17,12 +17,12 @@ class UIEventSystem;
 /// <summary>
 /// 사람이 글자를 치는 UI 요소다. 자기 <see cref="RectTransform"/>이 차지한 사각형에서 클릭으로
 /// 키보드 포커스를 얻고, 포커스가 있는 동안의 타이핑·선택·클립보드를
-/// <see cref="Core::TextEditModel"/>에게 맡긴다. 보이는 글자는 같은 오브젝트의
+/// <see cref="UIModel::TextEditModel"/>에게 맡긴다. 보이는 글자는 같은 오브젝트의
 /// <see cref="TextRenderer"/>가 그린다.
 ///
 /// 편집 규칙을 스스로 갖지 않는 이유는 즉시 모드 에디터 UI의 텍스트 필드가 이미 같은 규칙을
 /// 쓰고 있기 때문이다 — 캐럿이 UTF-8 문자 단위로 움직이는 것, 한 줄 필드가 붙여넣은 개행을
-/// 거르는 것은 두 벌이 될 이유가 없다. 그 규칙은 Core에 있고 두 UI가 같은 것을 쓴다.
+/// 거르는 것은 두 벌이 될 이유가 없다. 그 규칙은 UIModel에 있고 두 UI가 같은 것을 쓴다.
 ///
 /// 포커스를 스스로 정하지 않는 이유는 <see cref="Button"/>이 눌림을 스스로 정하지 않는 이유와
 /// 같다: 어느 요소가 클릭을 받는지는 계층 전체를 봐야 아는 질문이고,
@@ -83,7 +83,7 @@ public:
     [[nodiscard]] std::size_t GetDisplayCaret() const { return mDisplayCaret; }
 
     /// <summary>지금의 선택 범위다. 선택이 없으면 양끝이 같다.</summary>
-    [[nodiscard]] Core::TextEditModel::Selection GetSelection() const
+    [[nodiscard]] UIModel::TextEditModel::Selection GetSelection() const
     {
         return mEdit.GetSelection();
     }
@@ -107,8 +107,8 @@ private:
     /// 이번 프레임의 편집을 적용한다. 클립보드를 오가는 텍스트는 결과로 주고받는다 — 이
     /// 컴포넌트도 편집 모델도 클립보드가 무엇인지 모른다.
     /// </summary>
-    [[nodiscard]] Core::TextEditModel::Result ApplyEditing(
-        const Core::TextEditModel::Input& input);
+    [[nodiscard]] UIModel::TextEditModel::Result ApplyEditing(
+        const UIModel::TextEditModel::Input& input);
 
     /// <summary>Enter가 눌린 프레임에 표시를 남긴다.</summary>
     void ApplySubmit();
@@ -127,7 +127,7 @@ private:
 
     std::string mText;
 
-    Core::TextEditModel mEdit;
+    UIModel::TextEditModel mEdit;
     bool mFocused = false;
     bool mFocusRequested = false;
     bool mEdited = false;

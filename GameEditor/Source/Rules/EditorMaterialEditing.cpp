@@ -4,7 +4,7 @@
 #include "Rules/EditorFileWrite.h"
 #include "Assets/Asset.h"
 #include "Core/Json.h"
-#include "Core/TextFile.h"
+#include "Platform/TextFile.h"
 
 #include <optional>
 #include <string>
@@ -20,7 +20,7 @@ bool WriteMaterial(
     // 있는 파일은 객체로 파싱해 texture·tint가 아닌 항목을 그대로 보존한다.
     // EditorSpriteSheetEditing.cpp의 WriteSpriteSheet와 같은 틀이다.
     GameEngine::Core::Json::Object members;
-    if (const std::optional<std::string> text = GameEngine::Core::ReadTextFile(path))
+    if (const std::optional<std::string> text = GameEngine::Platform::ReadTextFile(path))
     {
         try
         {

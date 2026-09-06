@@ -11,7 +11,7 @@
 #include <utility>
 #include <vector>
 
-#include "../Core/ResourceId.h"
+#include "../Assets/ResourceId.h"
 #include "../Diagnostics/Debug.h"
 
 namespace GameEngine::Rendering
@@ -102,8 +102,8 @@ namespace
     [[nodiscard]] std::shared_ptr<RasterizedTextImage> MakePage()
     {
         auto image = std::make_shared<RasterizedTextImage>();
-        image->id = Core::MakeResourceId(
-            Core::ResourceIdDomain::Text, gNextPageId.fetch_add(1) + 1);
+        image->id = Assets::MakeResourceId(
+            Assets::ResourceIdDomain::Text, gNextPageId.fetch_add(1) + 1);
         image->revision = 1;
         image->width = GlyphAtlas::PageSize;
         image->height = GlyphAtlas::PageSize;

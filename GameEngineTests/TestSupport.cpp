@@ -18,7 +18,7 @@
 #include <thread>
 
 #include "App/GameBootstrapRegistry.h"
-#include "Core/TextFile.h"
+#include "Platform/TextFile.h"
 #include "Platform/PlatformServices.h"
 #include "Platform/ProcessRun.h"
 
@@ -129,7 +129,7 @@ std::optional<std::string> ReadFileWhenSettled(const std::filesystem::path& path
         {
             return std::nullopt;
         }
-        if (std::optional<std::string> contents = GameEngine::Core::ReadTextFile(path))
+        if (std::optional<std::string> contents = GameEngine::Platform::ReadTextFile(path))
         {
             return contents;
         }

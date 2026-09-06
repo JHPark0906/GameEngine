@@ -12,7 +12,7 @@
 #include "AssetDatabase.h"
 #include "../Core/Guid.h"
 #include "../Core/Json.h"
-#include "../Core/TextFile.h"
+#include "../Platform/TextFile.h"
 #include "../Diagnostics/Debug.h"
 #include "../Platform/IContentSource.h"
 
@@ -27,7 +27,7 @@ namespace
     /// </summary>
     [[nodiscard]] bool WriteSidecar(const std::filesystem::path& path, const std::string& text)
     {
-        const Core::FileWriteResult written = Core::WriteTextFileAtomically(path, text);
+        const Platform::FileWriteResult written = Platform::WriteTextFileAtomically(path, text);
         if (!written)
         {
             Diagnostics::Debug::LogError(

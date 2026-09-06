@@ -8,7 +8,7 @@
 #include "Assets/AssetDatabase.h"
 #include "Assets/AssetIdentityIssue.h"
 #include "Assets/AssetMoveMatching.h"
-#include "Core/TextFile.h"
+#include "Platform/TextFile.h"
 #include "Diagnostics/Debug.h"
 #include "Runtime/Game.h"
 #include "Runtime/Object.h"
@@ -151,7 +151,7 @@ void EditorContext::LoadGameComponentSchemas(const std::filesystem::path& projec
         return;
     }
 
-    const std::optional<std::string> text = GameEngine::Core::ReadTextFile(schemaPath);
+    const std::optional<std::string> text = GameEngine::Platform::ReadTextFile(schemaPath);
     if (!text)
     {
         GameEngine::Diagnostics::Debug::LogError(

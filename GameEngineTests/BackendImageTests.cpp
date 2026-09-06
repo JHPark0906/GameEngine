@@ -190,7 +190,7 @@ namespace
         mesh->id = 0x1000'0000'0000'0001ull;
         const auto corner = [](const float x, const float y)
         {
-            Core::MeshVertex vertex;
+            Assets::MeshVertex vertex;
             vertex.position = { x, y, MeshDepth };
             vertex.normal = { 0.0f, 0.0f, -1.0f };
             vertex.textureCoordinate = { x, y };

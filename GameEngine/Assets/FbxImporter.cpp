@@ -25,9 +25,10 @@
 #include <vector>
 
 // Node transforms are composed with engine Math, so the importer depends on no graphics API.
+#include "../Math/Float.h"
 #include "../Math/Matrix.h"
 #include "../Math/Quaternion.h"
-#include "../Core/VertexLayout.h"
+#include "VertexLayout.h"
 
 namespace GameEngine::Assets
 {
@@ -1157,7 +1158,7 @@ namespace
     struct BoneInfluence
     {
         std::array<std::uint32_t, 4> boneIndices{};
-        Core::Float4 boneWeights;
+        Math::Float4 boneWeights;
     };
 
     /// <summary>
@@ -1222,7 +1223,7 @@ namespace
     }
 
     void GenerateSkinnedTriangleNormal(
-        Core::SkinnedMeshVertex& a, Core::SkinnedMeshVertex& b, Core::SkinnedMeshVertex& c)
+        Assets::SkinnedMeshVertex& a, Assets::SkinnedMeshVertex& b, Assets::SkinnedMeshVertex& c)
     {
         const float ab[3] = { b.position.x - a.position.x, b.position.y - a.position.y, b.position.z - a.position.z };
         const float ac[3] = { c.position.x - a.position.x, c.position.y - a.position.y, c.position.z - a.position.z };
@@ -1235,7 +1236,7 @@ namespace
         c.normal = { normal[0], normal[1], normal[2] };
     }
 
-    Core::SkinnedMeshVertex MakeSkinnedVertex(
+    Assets::SkinnedMeshVertex MakeSkinnedVertex(
         const std::vector<double>& positions,
         std::int32_t controlPoint,
         std::size_t polygonVertex,
@@ -1250,7 +1251,7 @@ namespace
         const ImportedMeshVertex base = MakeVertex(
             positions, controlPoint, polygonVertex, polygon, normals, uvs, transform, normalTransform,
             axisConversion);
-        Core::SkinnedMeshVertex vertex{};
+        Assets::SkinnedMeshVertex vertex{};
         vertex.position = { base.position[0], base.position[1], base.position[2] };
         vertex.normal = { base.normal[0], base.normal[1], base.normal[2] };
         vertex.textureCoordinate = { base.textureCoordinate[0], base.textureCoordinate[1] };
@@ -1298,13 +1299,13 @@ namespace
             {
                 const Corner& second = flipWinding ? corners[index + 1] : corners[index];
                 const Corner& third = flipWinding ? corners[index] : corners[index + 1];
-                Core::SkinnedMeshVertex a = MakeSkinnedVertex(positions, corners[0].controlPoint,
+                Assets::SkinnedMeshVertex a = MakeSkinnedVertex(positions, corners[0].controlPoint,
                     corners[0].polygonVertex, polygon, normals, uvs, transform, normalTransform,
                     axisConversion, influences);
-                Core::SkinnedMeshVertex b = MakeSkinnedVertex(positions, second.controlPoint,
+                Assets::SkinnedMeshVertex b = MakeSkinnedVertex(positions, second.controlPoint,
                     second.polygonVertex, polygon, normals, uvs, transform, normalTransform,
                     axisConversion, influences);
-                Core::SkinnedMeshVertex c = MakeSkinnedVertex(positions, third.controlPoint,
+                Assets::SkinnedMeshVertex c = MakeSkinnedVertex(positions, third.controlPoint,
                     third.polygonVertex, polygon, normals, uvs, transform, normalTransform,
                     axisConversion, influences);
                 if (normals.values.empty()) GenerateSkinnedTriangleNormal(a, b, c);

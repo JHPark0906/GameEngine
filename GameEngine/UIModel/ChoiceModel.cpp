@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "ChoiceModel.h"
 
-namespace GameEngine::Core
+namespace GameEngine::UIModel
 {
 
 void ChoiceModel::SetSelected(const std::size_t index, const std::size_t optionCount)

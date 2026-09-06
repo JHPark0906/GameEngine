@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <system_error>
 
-namespace GameEngine::Core
+namespace GameEngine::Platform
 {
 
 bool EscapesRoot(const std::filesystem::path& relativePath)

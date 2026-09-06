@@ -5,7 +5,7 @@
 #include <string>
 #include <system_error>
 
-#include "Core/TextFile.h"
+#include "Platform/TextFile.h"
 #include "TestSupport.h"
 
 using TestSupport::Expect;
@@ -18,10 +18,10 @@ namespace
 
 bool RunTextFileTests()
 {
-    using GameEngine::Core::FileWriteError;
-    using GameEngine::Core::ReadTextFile;
-    using GameEngine::Core::WriteTextFile;
-    using GameEngine::Core::WriteTextFileAtomically;
+    using GameEngine::Platform::FileWriteError;
+    using GameEngine::Platform::ReadTextFile;
+    using GameEngine::Platform::WriteTextFile;
+    using GameEngine::Platform::WriteTextFileAtomically;
 
     TemporaryDirectory temporaryDirectory("text-file");
     const std::filesystem::path root = temporaryDirectory.GetPath();
@@ -59,7 +59,7 @@ bool RunTextFileTests()
     // 디렉터리로 두는 것이다 — 임시 파일에는 쓰이지만 그 자리로 옮겨 갈 수 없다.
     const std::filesystem::path blocked = root / "blocked.txt";
     const bool madeBlocker = std::filesystem::create_directory(blocked, error) && !error;
-    const GameEngine::Core::FileWriteResult refused =
+    const GameEngine::Platform::FileWriteResult refused =
         WriteTextFileAtomically(blocked, "would overwrite a directory");
     const bool failsWithoutDamage = madeBlocker && !refused &&
         refused.error == FileWriteError::ReplaceFailed &&
@@ -81,4 +81,4 @@ bool RunTextFileTests()
 }
 
 static const TestSupport::Registration gTextFileTests{
-    "Core", "text file tests should pass", RunTextFileTests };
+    "ContentSource", "text file tests should pass", RunTextFileTests };

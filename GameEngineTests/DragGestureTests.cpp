@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "Core/DragGesture.h"
+#include "Rules/DragGesture.h"
 #include "TestSupport.h"
 
 using TestSupport::Expect;
@@ -13,7 +13,7 @@ namespace
 
 bool RunDragGestureTests()
 {
-    using GameEngine::Core::DragGesture;
+    using GameEditor::DragGesture;
     constexpr float Threshold = 6.0f;
 
     DragGesture gesture;
@@ -74,4 +74,4 @@ bool RunDragGestureTests()
 }
 
 static const TestSupport::Registration gDragGestureTests{
-    "Core", "drag gesture tests should pass", RunDragGestureTests };
+    "EditorDocument", "drag gesture tests should pass", RunDragGestureTests };

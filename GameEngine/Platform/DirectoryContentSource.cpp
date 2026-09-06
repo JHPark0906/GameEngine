@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "DirectoryContentSource.h"
 
-#include "../Core/RelativePath.h"
+#include "RelativePath.h"
 
 #include <algorithm>
 #include <cstddef>
@@ -35,7 +35,7 @@ std::filesystem::path DirectoryContentSource::ResolveFilePath(
     const std::filesystem::path& relativePath) const
 {
     if (!mIsValid || relativePath.empty() || relativePath.is_absolute() ||
-        Core::EscapesRoot(relativePath))
+        Platform::EscapesRoot(relativePath))
     {
         return {};
     }
@@ -51,7 +51,7 @@ std::filesystem::path DirectoryContentSource::ResolveFilePath(
     }
 
     const std::filesystem::path relativeToRoot = absolutePath.lexically_relative(mRootPath);
-    if (relativeToRoot.empty() || Core::EscapesRoot(relativeToRoot))
+    if (relativeToRoot.empty() || Platform::EscapesRoot(relativeToRoot))
     {
         return {};
     }
@@ -129,7 +129,7 @@ std::vector<std::filesystem::path> DirectoryContentSource::List() const
         std::error_code relativeError;
         std::filesystem::path relativePath =
             std::filesystem::relative(entry.path(), mRootPath, relativeError);
-        if (relativeError || relativePath.empty() || Core::EscapesRoot(relativePath))
+        if (relativeError || relativePath.empty() || Platform::EscapesRoot(relativePath))
         {
             continue;
         }

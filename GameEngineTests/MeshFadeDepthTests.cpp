@@ -13,7 +13,7 @@
 #include "Assets/MeshData.h"
 #include "Assets/SkinnedMeshData.h"
 #include "BackendPixelSupport.h"
-#include "Core/ResourceId.h"
+#include "Assets/ResourceId.h"
 #include "Math/Color.h"
 #include "Math/Matrix.h"
 #include "Platform/NativeSurface.h"
@@ -65,25 +65,25 @@ namespace
         std::shared_ptr<Assets::MeshData> mesh = std::make_shared<Assets::MeshData>();
         std::shared_ptr<Assets::SkinnedMeshData> skinned = std::make_shared<Assets::SkinnedMeshData>();
         std::shared_ptr<const Assets::TextureData> white = TestSupport::MakeHalvedTexture(
-            Core::MakeResourceId(Core::ResourceIdDomain::Texture, 0xFADED),
+            Assets::MakeResourceId(Assets::ResourceIdDomain::Texture, 0xFADED),
             { 255, 255, 255, 255 }, { 255, 255, 255, 255 });
         std::shared_ptr<const std::vector<Math::Matrix4x4>> bones =
             std::make_shared<std::vector<Math::Matrix4x4>>(1, Math::Matrix4x4::Identity());
 
         Fixtures()
         {
-            mesh->id = Core::MakeResourceId(Core::ResourceIdDomain::Mesh, 0xFADED);
-            skinned->id = Core::MakeResourceId(Core::ResourceIdDomain::SkinnedMesh, 0xFADED);
+            mesh->id = Assets::MakeResourceId(Assets::ResourceIdDomain::Mesh, 0xFADED);
+            skinned->id = Assets::MakeResourceId(Assets::ResourceIdDomain::SkinnedMesh, 0xFADED);
             const std::array corners{ std::array{ -1.0f, -1.0f }, std::array{ -1.0f, 1.0f },
                 std::array{ 1.0f, 1.0f }, std::array{ 1.0f, -1.0f } };
             for (const auto& corner : corners)
             {
-                Core::MeshVertex vertex;
+                Assets::MeshVertex vertex;
                 vertex.position = { corner[0], corner[1], 0.0f };
                 vertex.normal = { 0, 0, -1 };
                 vertex.textureCoordinate = { 0, 0 };
                 mesh->vertices.push_back(vertex);
-                Core::SkinnedMeshVertex skinnedVertex;
+                Assets::SkinnedMeshVertex skinnedVertex;
                 skinnedVertex.position = vertex.position;
                 skinnedVertex.normal = vertex.normal;
                 skinnedVertex.textureCoordinate = vertex.textureCoordinate;

@@ -6,8 +6,8 @@
 #include "AssetImporterRegistry.h"
 #include "../Platform/DirectoryContentSource.h"
 #include "../Core/Json.h"
-#include "../Core/RelativePath.h"
-#include "../Core/TextFile.h"
+#include "../Platform/RelativePath.h"
+#include "../Platform/TextFile.h"
 #include "../Diagnostics/Debug.h"
 
 #include <array>
@@ -531,8 +531,8 @@ bool AssetDatabase::SaveManifest(const std::filesystem::path& manifestPath) cons
 
     // 형식은 매니페스트가 안다. 표는 무엇을 적을지 — 이 에셋들을 — 만 말하고, 어떻게 적히는지는
     // 묻지 않는다.
-    const Core::FileWriteResult written =
-        Core::WriteTextFile(manifestPath, WriteManifestText(mAssets));
+    const Platform::FileWriteResult written =
+        Platform::WriteTextFile(manifestPath, WriteManifestText(mAssets));
     if (!written)
     {
         Diagnostics::Debug::LogError(
@@ -761,9 +761,9 @@ std::optional<AssetType> AssetDatabase::ParseAssetTypeName(const std::string_vie
 std::optional<std::filesystem::path> AssetDatabase::MakeRelativePath(
     const std::filesystem::path& assetPath) const
 {
-    // 규칙은 Core에 하나다. 이 멤버가 남아 있는 것은 부르는 자리들이 이 데이터베이스의
+    // 규칙은 Platform에 하나다. 이 멤버가 남아 있는 것은 부르는 자리들이 이 데이터베이스의
     // 루트를 따로 알 필요가 없게 하기 위해서다.
-    return Core::RelativePathWithin(mProjectRootPath, assetPath);
+    return Platform::RelativePathWithin(mProjectRootPath, assetPath);
 }
 
 void AssetDatabase::SortAndRebuildIndexes()

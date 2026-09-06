@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-#include "Core/DragGesture.h"
+#include "Rules/DragGesture.h"
 #include "TestSupport.h"
 
 using TestSupport::Expect;
@@ -44,7 +44,7 @@ namespace
     };
 
     [[nodiscard]] Outcome DriveOneFrame(
-        GameEngine::Core::DragGesture& gesture, const Frame& frame, const float threshold)
+        GameEditor::DragGesture& gesture, const Frame& frame, const float threshold)
     {
         Outcome outcome;
         if (!frame.mouseReleased && !frame.mouseDown)
@@ -53,7 +53,7 @@ namespace
             gesture.Release();
             return outcome;
         }
-        const GameEngine::Core::DragGesture::Result result =
+        const GameEditor::DragGesture::Result result =
             gesture.Update(frame.x, frame.y, frame.mouseDown, threshold);
         outcome.dropped = result.dropped;
         outcome.cancelled = result.cancelled;
@@ -65,7 +65,7 @@ namespace
         const float pressX, const float pressY, const std::vector<Frame>& frames,
         const float threshold, bool* const draggingAtEnd = nullptr)
     {
-        GameEngine::Core::DragGesture gesture;
+        GameEditor::DragGesture gesture;
         gesture.Press(pressX, pressY);
         Outcome outcome;
         for (const Frame& frame : frames)
@@ -297,7 +297,7 @@ namespace
 
 bool RunSceneViewGestureTests()
 {
-    using GameEngine::Core::DragGesture;
+    using GameEditor::DragGesture;
     constexpr float PickThreshold = 4.0f;
     bool passed = true;
 
@@ -430,7 +430,7 @@ bool RunSceneViewGestureTests()
 }
 
 static const TestSupport::Registration gEditorDragRuleTests{
-    "Core", "editor drag rule tests should pass", RunEditorDragRuleTests };
+    "EditorDocument", "editor drag rule tests should pass", RunEditorDragRuleTests };
 
 static const TestSupport::Registration gSceneViewGestureTests{
-    "Core", "scene view gesture tests should pass", RunSceneViewGestureTests };
+    "EditorDocument", "scene view gesture tests should pass", RunSceneViewGestureTests };

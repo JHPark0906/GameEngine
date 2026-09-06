@@ -98,7 +98,7 @@ namespace
         bool everyBoneIndexInRange = true;
         for (const SkinnedMeshData& mesh : meshes)
         {
-            for (const Core::SkinnedMeshVertex& vertex : mesh.vertices)
+            for (const Assets::SkinnedMeshVertex& vertex : mesh.vertices)
             {
                 const float total = vertex.boneWeights.x + vertex.boneWeights.y + vertex.boneWeights.z +
                     vertex.boneWeights.w;

@@ -10,7 +10,7 @@
 
 using GameEngine::Assets::ComputeBounds;
 using GameEngine::Math::Aabb3D;
-using GameEngine::Core::MeshVertex;
+using GameEngine::Assets::MeshVertex;
 using GameEngine::Math::Vector3;
 using TestSupport::Expect;
 

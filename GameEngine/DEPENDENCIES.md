@@ -19,6 +19,14 @@ The engine has no third-party runtime parsing dependencies. Project/scene JSON a
 FBX meshes, skeletons, and animation clips are parsed by engine-owned code. Compressed FBX arrays are decoded by the
 engine's built-in zlib/DEFLATE reader.
 
+Shared engine data follows its domain: `Core` owns GUIDs, JSON, and text encoding;
+`Math/Float.h` owns plain-float storage; `Assets/ResourceId.h` and `Assets/VertexLayout.h`
+own resource IDs and imported mesh layouts; and `Rendering/SpriteVertex.h` owns sprite/text
+vertices. `Rendering/ShaderInterop.h` uses those types for the shared shader contract.
+`UIModel` provides selection and text-edit models to Runtime and UI without depending on
+Platform or rendering. `Platform/TextFile` and `Platform/RelativePath` provide file I/O and
+root-relative path checks. These modules require no additional third-party library.
+
 PNG/JPEG decoding uses Windows Imaging Component and requires no additional package.
 
 The renderer supports D3D11 and native D3D12 from the Windows SDK. The D3D12 backend owns the

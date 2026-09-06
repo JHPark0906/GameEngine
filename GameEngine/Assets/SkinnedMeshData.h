@@ -7,9 +7,8 @@
 
 #include "../Math/Aabb3D.h"
 
-// A skinned mesh is imported straight into the layout the skinning shader declares, the same
-// reason MeshData borrows from Core rather than Rendering.
-#include "../Core/VertexLayout.h"
+// Assets owns the imported skinned vertex layout shared with renderers.
+#include "VertexLayout.h"
 
 namespace GameEngine::Assets
 {
@@ -29,7 +28,7 @@ struct SkinnedMeshData
     /// 않으므로 백엔드는 정점을 다시 들여다보지 않고 id에 대고 업로드를 캐시해도 된다.
     /// </summary>
     std::uint64_t id = 0;
-    std::vector<Core::SkinnedMeshVertex> vertices;
+    std::vector<Assets::SkinnedMeshVertex> vertices;
     std::vector<std::uint32_t> indices;
 
     /// <summary>
@@ -45,7 +44,7 @@ struct SkinnedMeshData
 
     [[nodiscard]] std::size_t GetByteSize() const
     {
-        return vertices.size() * sizeof(Core::SkinnedMeshVertex) +
+        return vertices.size() * sizeof(Assets::SkinnedMeshVertex) +
             indices.size() * sizeof(std::uint32_t);
     }
 };
@@ -55,10 +54,10 @@ struct SkinnedMeshData
 /// 이름 붙은 함수로 서 있다 — 파일도 창도 없이 시험할 수 있게.
 /// </summary>
 [[nodiscard]] inline Math::Aabb3D ComputeSkinnedBounds(
-    const std::span<const Core::SkinnedMeshVertex> vertices)
+    const std::span<const Assets::SkinnedMeshVertex> vertices)
 {
     Math::Aabb3D bounds = Math::Aabb3D::Empty();
-    for (const Core::SkinnedMeshVertex& vertex : vertices)
+    for (const Assets::SkinnedMeshVertex& vertex : vertices)
     {
         bounds.Encapsulate({ vertex.position.x, vertex.position.y, vertex.position.z });
     }

@@ -12,7 +12,7 @@
 #include "Assets/Asset.h"
 #include "Assets/AssetDatabase.h"
 #include "Core/Guid.h"
-#include "Core/RelativePath.h"
+#include "Platform/RelativePath.h"
 #include "Diagnostics/Debug.h"
 
 namespace GameEditor
@@ -32,7 +32,7 @@ namespace
         const std::filesystem::path& scenePath)
     {
         const std::optional<std::filesystem::path> relativeScenePath =
-            GameEngine::Core::RelativePathWithin(
+            GameEngine::Platform::RelativePathWithin(
                 project.GetAssetRootPath(), std::filesystem::absolute(scenePath));
         if (!relativeScenePath)
         {
@@ -195,7 +195,7 @@ void CreateScriptWithDialog(EditorContext& context, IFileDialogs& dialogs)
     const std::filesystem::path assetRoot = project->GetAssetRootPath();
     const std::optional<std::filesystem::path> contentDirectory = assetRoot == projectRoot
         ? std::optional<std::filesystem::path>{ "." }
-        : GameEngine::Core::RelativePathWithin(projectRoot, assetRoot);
+        : GameEngine::Platform::RelativePathWithin(projectRoot, assetRoot);
     if (!contentDirectory)
     {
         GameEngine::Diagnostics::Debug::LogError(

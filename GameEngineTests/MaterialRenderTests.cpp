@@ -88,10 +88,10 @@ namespace
                 return true;
             }
             auto mesh = std::make_shared<GameEngine::Assets::MeshData>();
-            mesh->id = identity.MakeResourceId(GameEngine::Core::ResourceIdDomain::Mesh, 0);
+            mesh->id = identity.MakeResourceId(GameEngine::Assets::ResourceIdDomain::Mesh, 0);
             const auto corner = [](const float x, const float y)
             {
-                GameEngine::Core::MeshVertex vertex;
+                GameEngine::Assets::MeshVertex vertex;
                 vertex.position = { x, y, 2.0f };
                 vertex.normal = { 0.0f, 0.0f, -1.0f };
                 vertex.textureCoordinate = { x, y };

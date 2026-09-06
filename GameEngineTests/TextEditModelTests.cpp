@@ -4,14 +4,14 @@
 #include <iostream>
 #include <string>
 
-#include "Core/TextEditModel.h"
+#include "UIModel/TextEditModel.h"
 #include "TestSupport.h"
 
 using TestSupport::Expect;
 
 namespace
 {
-    using GameEngine::Core::TextEditModel;
+    using GameEngine::UIModel::TextEditModel;
 
     /// <summary>
     /// 한 글자가 세 바이트인 텍스트다. 캐럿이 바이트 단위로 움직이면 여기서 글자가 쪼개진다 —
@@ -184,4 +184,4 @@ bool RunTextEditModelTests()
 }
 
 static const TestSupport::Registration gTextEditModelTests{
-    "Core", "text edit model tests should pass", RunTextEditModelTests };
+    "UIModel", "text edit model tests should pass", RunTextEditModelTests };

@@ -8,7 +8,7 @@
 #include <string>
 #include <thread>
 
-#include "Core/TextFile.h"
+#include "Platform/TextFile.h"
 #include "TestSupport.h"
 
 using TestSupport::Expect;
@@ -46,7 +46,7 @@ namespace
     /// </summary>
     [[nodiscard]] ReadOutcomes ReadsWhileRewriting(
         const std::filesystem::path& path,
-        GameEngine::Core::FileWriteResult (*write)(const std::filesystem::path&, std::string_view),
+        GameEngine::Platform::FileWriteResult (*write)(const std::filesystem::path&, std::string_view),
         const bool stopWhenTornIsSeen)
     {
         const std::string first = Contents('a');
@@ -72,7 +72,7 @@ namespace
         int reads = 0;
         while (writing)
         {
-            const std::optional<std::string> read = GameEngine::Core::ReadTextFile(path);
+            const std::optional<std::string> read = GameEngine::Platform::ReadTextFile(path);
             ++reads;
             if (!read)
             {
@@ -105,7 +105,7 @@ namespace
 
 bool RunSharedFileWriteTests()
 {
-    namespace Core = GameEngine::Core;
+    namespace Platform = GameEngine::Platform;
 
     TemporaryDirectory temporaryDirectory("shared-file-write");
     const std::filesystem::path root = temporaryDirectory.GetPath();
@@ -113,13 +113,13 @@ bool RunSharedFileWriteTests()
     // 파일을 제자리에서 잘라 쓰는 동안 읽으면 잘린 내용을 가져올 수 있다.
     // 이 대조군은 잘린 읽기를 하나라도 발견하면 멈춘다. 발생 횟수 대신 가능 여부를 검사한다.
     const ReadOutcomes inPlace =
-        ReadsWhileRewriting(root / "in-place.json", &Core::WriteTextFile, true);
+        ReadsWhileRewriting(root / "in-place.json", &Platform::WriteTextFile, true);
     Report("rewritten in place", inPlace);
 
     // 임시 파일에 쓰고 이름을 바꾸면 그 순간이 없다. 옛 내용 전체이거나 새 내용 전체다.
     // 이쪽은 끝까지 돌린다 — 없다는 것을 보이려면 찾을 수 있는 만큼 찾아봐야 한다.
     const ReadOutcomes atomic =
-        ReadsWhileRewriting(root / "atomic.json", &Core::WriteTextFileAtomically, false);
+        ReadsWhileRewriting(root / "atomic.json", &Platform::WriteTextFileAtomically, false);
     Report("replaced by rename", atomic);
 
     return Expect(
@@ -131,4 +131,4 @@ bool RunSharedFileWriteTests()
 }
 
 static const TestSupport::Registration gSharedFileWriteTests{
-    "Core", "shared file write tests should pass", RunSharedFileWriteTests };
+    "ContentSource", "shared file write tests should pass", RunSharedFileWriteTests };

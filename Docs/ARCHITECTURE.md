@@ -16,19 +16,24 @@ GameEngine, GameEditor, GameBuilder는 한 저장소의 별도 CMake 타깃이�
 
 | 모듈 | 책임 |
 | --- | --- |
-| `Core` | 공통 식별자·JSON·정점 데이터 계약 |
-| `Math` | 벡터·행렬·쿼터니언·색상·2D/3D 축 정렬 경계 상자 |
+| `Core` | `Guid`·`Json`·`TextEncoding`: 범용 식별자·JSON·문자 인코딩 |
+| `Math` | 벡터·행렬·plain-float 저장 타입·쿼터니언·색상·2D/3D 축 정렬 경계 상자 |
 | `Diagnostics` | 로깅·진단 |
-| `Platform` | 창·입력·파일·콘텐츠·오디오 등 운영체제 경계와 Win32 구현 |
-| `Assets`, `Animation`, `Text` | 임포트와 공유 데이터, 골격·클립, 글꼴 해석·래스터화 |
+| `Platform` | 창·입력·콘텐츠·오디오 인터페이스, 텍스트 파일 I/O·루트 상대 경로 검사와 Win32 구현 |
+| `UIModel` | Runtime과 즉시 모드 UI가 공유하는 선택·텍스트 편집 상태 모델 |
+| `Assets`, `Animation`, `Text` | 임포트·리소스 ID·메시 정점 데이터, 골격·클립, 글꼴 해석·래스터화 |
 | `Runtime` | Game·Scene·GameObject·Component, 물리·입력·유지형 UI·오디오 |
 | `Serialization` | 컴포넌트 속성 표와 씬 데이터의 저장·복원 |
-| `Rendering` | API 중립 프레임 계약, 공통 패스·정책과 D3D11/D3D12 백엔드 |
+| `Rendering` | API 중립 프레임·sprite/text 정점 계약, 공통 패스·정책과 D3D11/D3D12 백엔드 |
 | `SceneRendering` | 런타임 씬을 렌더 프레임으로 변환 |
 | `App`, `Player` | 실행 진입점, 애플리케이션 조립과 프레임 루프 |
-| `UI`, `Build` | 도구용 즉시 모드 UI, 프로젝트 패키징 서비스 |
+| `UI`, `Build` | 도구용 즉시 모드 UI·텍스트 폭 맞춤 정책, 프로젝트 패키징 서비스 |
 
 `Runtime`은 주입받은 씬 로더를 사용하며 `Serialization` 구현을 포함하지 않는다. `Rendering`은 런타임 오브젝트를 직접 알지 않고, `SceneRendering`이 두 계층을 연결한다. Win32와 Direct3D 자원은 해당 구현 디렉터리가 소유한다. 플랫폼 인터페이스의 존재가 다른 운영체제나 그래픽 API 구현을 뜻하지는 않는다.
+
+`UIModel`의 [ChoiceModel](../GameEngine/UIModel/ChoiceModel.h)과 [TextEditModel](../GameEngine/UIModel/TextEditModel.h)은 선택·편집 상태 전이를 값으로 처리한다. Core 2층 위의 3층이며 Runtime 9층과 UI 12층이 함께 사용한다. 같은 3층의 Platform과는 서로 의존하지 않는다. 텍스트 측정 콜백을 받아 표시 폭과 말줄임을 결정하는 [TextFit](../GameEngine/UI/TextFit.h)은 UI가 소유한다.
+
+[Math/Float.h](../GameEngine/Math/Float.h)는 `Float2`·`Float3`·`Float4`·행 우선 `Float4x4`를, [Assets/VertexLayout.h](../GameEngine/Assets/VertexLayout.h)는 `MeshVertex`·`SkinnedMeshVertex`를, [Rendering/SpriteVertex.h](../GameEngine/Rendering/SpriteVertex.h)는 sprite/text 정점을 정의한다. `ShaderInterop.h`는 이 타입을 사용해 셰이더 상수와 quad 정점 데이터를 정의하며, 두 백엔드는 같은 필드·크기·오프셋 계약을 사용한다.
 
 [Aabb2D](../GameEngine/Math/Aabb2D.h)와 [Aabb3D](../GameEngine/Math/Aabb3D.h)는 물리·에셋·컬링이 공유하는 수학 값이다. 2D 경계는 넓이가 없으면 비어 있고, 3D 경계는 평면·점을 렌더링 경계로 보존한다. 3D 물리는 `HasVolume()`으로 부피가 있는 경계를 구분한다.
 
@@ -75,6 +80,8 @@ flowchart LR
 Editor는 엔진의 게임 프로젝트·부트스트랩 확장 경로를 사용한다. 엔진 라이브러리가 Editor의 패널이나 문서 구현에 의존하지 않는다. Play는 열린 편집 씬 하나만 활성인 상태에서 시작하고 편집 스냅샷을 보관한다. Stop은 그 씬을 복원하고 실행 중 추가된 씬을 정리하며, 복원 실패 시 재시도할 스냅샷과 Play 상태를 유지한다.
 
 편집 이력의 [UndoStack과 IEditCommand](../GameEditor/Source/Document/UndoStack.h)는 Editor의 Document 계층이 소유한다. 편집 Undo는 부모·형제 위치·로컬 변환을 복원한다. 화면 UI의 계층·창·modal 순서는 그리기와 입력 판정이 함께 사용한다. 세부 사용법은 [GameEditor](../GameEditor/README.md)에 있다.
+
+Editor의 드래그 시작 문턱·드롭·취소 상태는 [Rules/DragGesture](../GameEditor/Source/Rules/DragGesture.h)가 담당하며 Views와 Shell이 사용한다.
 
 GameBuilder CLI는 이미 구성된 CMake 트리에서 게임을 컴파일한 뒤 엔진의 `Build::ProjectBuilder`에 패키징을 요청한다. 빌드 전후로 타깃의 소스 출처를 확인하고 자동 재구성 후 출력 경로를 다시 읽는다. 패키지는 독립 임시 디렉터리에서 조립·검증한 다음 게시하며, 게시 실패 시 기존 출력을 복원한다.
 

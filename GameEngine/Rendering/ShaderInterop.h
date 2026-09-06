@@ -3,13 +3,15 @@
 #include <array>
 #include <cstddef>
 
-#include "../Core/VertexLayout.h"
+#include "../Assets/VertexLayout.h"
+#include "../Math/Float.h"
+#include "SpriteVertex.h"
 
 namespace GameEngine::Rendering
 {
 
 /// <summary>
-/// 엔진이 셰이더와 공유하는 모든 레이아웃의 단 하나뿐인 C++ 정의이다.
+/// 셰이더 상수 레이아웃을 정의하고, 정점과 실수 묶음의 소유 타입을 연결하는 C++ 계약이다.
 ///
 /// 그래픽 API의 벡터 타입이 아니라 일부러 순수 float이다. 한 API의 타입으로 적으면 다른 API
 /// 계열의 백엔드는 전부 다시 정의해야 하고, 하나의 정의가 Direct3D 11과 12 사이에서 막아 주는
@@ -19,15 +21,14 @@ namespace GameEngine::Rendering
 /// 모든 멤버를 셰이딩 언어 쪽의 대응 선언과 동기화해서 유지하라.
 /// </summary>
 
-// 정점 레이아웃과 실수 묶음은 Core의 것이다: 에셋이 정점을 담으려면 렌더링 아래에 있어야
-// 한다. 셰이더 쪽 이름은 그 타입들을 가리키는 별칭이다.
-using ShaderFloat2 = Core::Float2;
-using ShaderFloat3 = Core::Float3;
-using ShaderFloat4 = Core::Float4;
-using ShaderFloat4x4 = Core::Float4x4;
-using MeshVertex = Core::MeshVertex;
-using SpriteVertex = Core::SpriteVertex;
-using SkinnedMeshVertex = Core::SkinnedMeshVertex;
+// 실수 묶음은 Math, 임포트된 메시 정점은 Assets, sprite/text 정점은 Rendering이 소유한다.
+// 셰이더 쪽 별칭은 같은 타입을 사용하므로 에셋이 렌더링에 의존하지 않고 바이트 배치를 공유한다.
+using ShaderFloat2 = Math::Float2;
+using ShaderFloat3 = Math::Float3;
+using ShaderFloat4 = Math::Float4;
+using ShaderFloat4x4 = Math::Float4x4;
+using MeshVertex = Assets::MeshVertex;
+using SkinnedMeshVertex = Assets::SkinnedMeshVertex;
 
 /// <summary>
 /// 광원 하나가 셰이더에 놓이는 모양이다. 방향광은 xyz가 빛이 나아가는 방향이고 w가 0, 점광은

@@ -10,7 +10,7 @@
 #include <utility>
 #include <vector>
 
-#include "../GameEngine/Core/ResourceId.h"
+#include "../GameEngine/Assets/ResourceId.h"
 #include "../GameEngine/Platform/IClipboard.h"
 #include "../GameEngine/Platform/IInput.h"
 #include "../GameEngine/Platform/ITextRasterizer.h"
@@ -1080,7 +1080,7 @@ namespace
 
         // 512x512 시트를 16x16으로 나눈 것 중 오른쪽 아래 칸이다.
         auto sheet = std::make_shared<Assets::TextureData>();
-        sheet->id = Core::MakeResourceId(Core::ResourceIdDomain::Texture, 7);
+        sheet->id = Assets::MakeResourceId(Assets::ResourceIdDomain::Texture, 7);
         sheet->width = 512;
         sheet->height = 512;
         sheet->pixels.assign(static_cast<std::size_t>(512) * 512 * 4, std::byte{ 0xFF });

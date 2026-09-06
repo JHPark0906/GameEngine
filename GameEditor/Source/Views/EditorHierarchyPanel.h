@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 
-#include "Core/DragGesture.h"
+#include "Rules/DragGesture.h"
 #include "UI/UIContext.h"
 #include "Rules/EditorConfirmation.h"
 #include "Rules/EditorPanelHosts.h"
@@ -91,7 +91,7 @@ private:
     /// <summary>집고 있는 객체다. 0이면 아무것도 집지 않았다.</summary>
     unsigned int mDragInstanceId = 0;
     /// <summary>그 객체를 끄는 손짓이다. 문턱과 클릭·놓기의 구분이 여기 산다.</summary>
-    GameEngine::Core::DragGesture mDrag;
+    GameEditor::DragGesture mDrag;
 };
 
 }

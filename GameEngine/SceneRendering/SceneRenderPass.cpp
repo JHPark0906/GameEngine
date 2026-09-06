@@ -15,7 +15,7 @@
 #include "../Math/Aabb2D.h"
 #include "../Math/Aabb3D.h"
 #include "../Core/Guid.h"
-#include "../Core/ResourceId.h"
+#include "../Assets/ResourceId.h"
 #include "../Diagnostics/Debug.h"
 #include "../Runtime/Animator.h"
 #include "../Runtime/Canvas.h"
@@ -332,7 +332,7 @@ const std::shared_ptr<const Assets::TextureData>& SceneRenderPass::GetSolidTextu
         auto white = std::make_shared<Assets::TextureData>();
         // 즉시 모드 UI의 흰 픽셀과 같은 id다. 픽셀이 글자 그대로 같으므로 백엔드 캐시가 한
         // 항목을 나눠 쓰고, 다르게 두면 같은 그림이 두 번 올라갈 뿐이다.
-        white->id = Core::MakeResourceId(Core::ResourceIdDomain::Dynamic, 0);
+        white->id = Assets::MakeResourceId(Assets::ResourceIdDomain::Dynamic, 0);
         white->width = 1;
         white->height = 1;
         white->pixels.assign(4, std::byte{ 0xFF });

@@ -16,7 +16,7 @@
 #include "Rules/EditorToolbarQuestions.h"
 #include "App/ProjectFile.h"
 #include "Assets/AssetReference.h"
-#include "Core/RelativePath.h"
+#include "Platform/RelativePath.h"
 #include "Diagnostics/Debug.h"
 #include "Platform/PlatformServices.h"
 #include "Runtime/Button.h"

@@ -5,7 +5,7 @@
 #include <ios>
 #include <iterator>
 
-namespace GameEngine::Core
+namespace GameEngine::Platform
 {
 
 std::optional<std::string> ReadTextFile(const std::filesystem::path& path)

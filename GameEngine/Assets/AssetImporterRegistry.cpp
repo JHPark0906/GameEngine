@@ -121,7 +121,7 @@ namespace
                 // Decoded straight into the form a frame carries. The pixels move rather than copy,
                 // so this is the only place they exist.
                 texture = std::make_shared<TextureData>();
-                texture->id = identity.MakeResourceId(Core::ResourceIdDomain::Texture, 0);
+                texture->id = identity.MakeResourceId(Assets::ResourceIdDomain::Texture, 0);
                 texture->width = decoded.width;
                 texture->height = decoded.height;
                 texture->pixels = std::move(decoded.pixels);
@@ -237,7 +237,7 @@ namespace
                 const ImportedMesh& imported = meshes[index];
                 auto mesh = std::make_shared<MeshData>();
                 mesh->id = identity.MakeResourceId(
-                    Core::ResourceIdDomain::Mesh, static_cast<std::uint32_t>(index));
+                    Assets::ResourceIdDomain::Mesh, static_cast<std::uint32_t>(index));
                 mesh->vertices.reserve(imported.vertices.size());
                 for (const ImportedMeshVertex& vertex : imported.vertices)
                 {
@@ -263,7 +263,7 @@ namespace
             {
                 auto mesh = std::make_shared<SkinnedMeshData>(std::move(skinnedMeshes[index]));
                 mesh->id = identity.MakeResourceId(
-                    Core::ResourceIdDomain::SkinnedMesh, static_cast<std::uint32_t>(index));
+                    Assets::ResourceIdDomain::SkinnedMesh, static_cast<std::uint32_t>(index));
                 if (!mesh->IsValid())
                 {
                     Diagnostics::Debug::LogError(
@@ -316,7 +316,7 @@ namespace
             if (DecodeWavAudio(fileBytes, decoded, decodeError))
             {
                 audio = std::make_shared<AudioData>();
-                audio->id = identity.MakeResourceId(Core::ResourceIdDomain::Audio, 0);
+                audio->id = identity.MakeResourceId(Assets::ResourceIdDomain::Audio, 0);
                 audio->channelCount = decoded.channelCount;
                 audio->sampleRate = decoded.sampleRate;
                 audio->samples = std::move(decoded.samples);
@@ -353,7 +353,7 @@ namespace
             if (decoder && decoder->Decode(fileBytes, Platform::AudioDecodeLimits{}, decoded, decodeError))
             {
                 audio = std::make_shared<AudioData>();
-                audio->id = identity.MakeResourceId(Core::ResourceIdDomain::Audio, 0);
+                audio->id = identity.MakeResourceId(Assets::ResourceIdDomain::Audio, 0);
                 audio->channelCount = decoded.channelCount;
                 audio->sampleRate = decoded.sampleRate;
                 audio->samples = std::move(decoded.samples);

@@ -10,7 +10,7 @@
 
 #include "AssetDatabase.h"
 #include "AssetDatabaseInternal.h"
-#include "../Core/RelativePath.h"
+#include "../Platform/RelativePath.h"
 #include "../Diagnostics/Debug.h"
 
 namespace GameEngine::Assets
@@ -175,7 +175,7 @@ std::optional<std::vector<ManifestRecord>> ReadManifestText(
             const std::optional<std::uintmax_t> fileSize = ParseFileSize(
                 assetJson.At("fileSize").Get<std::string>());
             if (!guid || !type || !contentHash || !fileSize || relativePath.empty() ||
-                relativePath.is_absolute() || Core::EscapesRoot(relativePath) ||
+                relativePath.is_absolute() || Platform::EscapesRoot(relativePath) ||
                 AssetDatabase::GetAssetType(relativePath) != type)
             {
                 throw Core::JsonError("invalid asset database record");

@@ -3,7 +3,7 @@
 #include <system_error>
 
 #include "App/ProjectFile.h"
-#include "Core/TextFile.h"
+#include "Platform/TextFile.h"
 #include "Diagnostics/Debug.h"
 #include "Rules/EditorPanelCommon.h"
 
@@ -16,8 +16,8 @@ namespace
     [[nodiscard]] bool WriteNewFile(
         const std::filesystem::path& filePath, const std::string& contents)
     {
-        const GameEngine::Core::FileWriteResult written =
-            GameEngine::Core::WriteTextFile(filePath, contents);
+        const GameEngine::Platform::FileWriteResult written =
+            GameEngine::Platform::WriteTextFile(filePath, contents);
         if (!written)
         {
             GameEngine::Diagnostics::Debug::LogError(

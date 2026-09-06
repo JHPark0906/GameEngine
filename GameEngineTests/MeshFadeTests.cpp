@@ -15,7 +15,7 @@
 #include "Assets/AssetImporter.h"
 #include "Assets/AssetImporterRegistry.h"
 #include "BackendPixelSupport.h"
-#include "Core/ResourceId.h"
+#include "Assets/ResourceId.h"
 #include "Platform/DirectoryContentSource.h"
 #include "Platform/IAudioOutput.h"
 #include "Platform/ITextMeasure.h"
@@ -57,11 +57,11 @@ namespace
                 { Assets::AssetType::AnimationClip, "Still pose" } };
             if (mode == Assets::ImportMode::Structure) return true;
             auto mesh = std::make_shared<Assets::MeshData>();
-            mesh->id = identity.MakeResourceId(Core::ResourceIdDomain::Mesh, 0);
+            mesh->id = identity.MakeResourceId(Assets::ResourceIdDomain::Mesh, 0);
             for (const auto point : { Math::Vector2{ -.5f, -.5f }, Math::Vector2{ -.5f, .5f },
                      Math::Vector2{ .5f, .5f }, Math::Vector2{ .5f, -.5f } })
             {
-                Core::MeshVertex vertex;
+                Assets::MeshVertex vertex;
                 vertex.position = { point.GetX(), point.GetY(), 2 };
                 vertex.normal = { 0, 0, -1 };
                 vertex.textureCoordinate = { 0, 0 };
@@ -70,10 +70,10 @@ namespace
             mesh->indices = { 0, 1, 2, 0, 2, 3 };
             mesh->bounds = Assets::ComputeBounds(mesh->vertices);
             auto skinned = std::make_shared<Assets::SkinnedMeshData>();
-            skinned->id = identity.MakeResourceId(Core::ResourceIdDomain::SkinnedMesh, 0);
+            skinned->id = identity.MakeResourceId(Assets::ResourceIdDomain::SkinnedMesh, 0);
             for (const auto& vertex : mesh->vertices)
             {
-                Core::SkinnedMeshVertex output;
+                Assets::SkinnedMeshVertex output;
                 output.position = vertex.position;
                 output.normal = vertex.normal;
                 output.textureCoordinate = vertex.textureCoordinate;

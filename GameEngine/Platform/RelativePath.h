@@ -3,7 +3,7 @@
 #include <filesystem>
 #include <optional>
 
-namespace GameEngine::Core
+namespace GameEngine::Platform
 {
 
 /// <summary>

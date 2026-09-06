@@ -9,7 +9,7 @@
 #include "Assets/AssetReference.h"
 #include "Assets/MaterialData.h"
 #include "Core/Json.h"
-#include "Core/TextFile.h"
+#include "Platform/TextFile.h"
 #include "Math/Color.h"
 #include "Platform/DirectoryContentSource.h"
 #include "TestSupport.h"
@@ -63,7 +63,7 @@ bool RunEditorMaterialEditingTests()
             "writing over an existing material file should succeed");
 
         const std::optional<std::string> text =
-            GameEngine::Core::ReadTextFile(root / "Materials" / "WithExtra.material");
+            GameEngine::Platform::ReadTextFile(root / "Materials" / "WithExtra.material");
         if (!Expect(text.has_value(), "the material file should still be readable after the write"))
         {
             return false;
@@ -100,12 +100,12 @@ bool RunEditorMaterialEditingTests()
             return false;
         }
         const std::optional<std::string> before =
-            GameEngine::Core::ReadTextFile(root / "Materials" / "Broken.material");
+            GameEngine::Platform::ReadTextFile(root / "Materials" / "Broken.material");
         passed &= Expect(
             !GameEditor::WriteMaterial(*material, MaterialData{}),
             "writing over a file that is not valid JSON should be refused");
         const std::optional<std::string> after =
-            GameEngine::Core::ReadTextFile(root / "Materials" / "Broken.material");
+            GameEngine::Platform::ReadTextFile(root / "Materials" / "Broken.material");
         passed &= Expect(
             before == after, "a rejected write should leave the broken file untouched");
     }

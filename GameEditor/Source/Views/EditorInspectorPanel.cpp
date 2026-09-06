@@ -471,7 +471,7 @@ void EditorInspectorPanel::DrawAssetReferenceRow(
     const std::function<void(const GameEngine::Assets::AssetReference&)>& apply)
 {
     namespace Assets = GameEngine::Assets;
-    using GameEngine::Core::ChoiceModel;
+    using GameEngine::UIModel::ChoiceModel;
 
     const Assets::AssetDatabase* const database = mContext.GetProjectAssetDatabase();
     const Assets::AssetReferenceStatus status = database

@@ -30,7 +30,7 @@
 #include "Rendering/MeshDrawGeometry.h"
 #include "Rendering/RenderFrameBuilder.h"
 #include "Assets/TextureData.h"
-#include "Core/ResourceId.h"
+#include "Assets/ResourceId.h"
 #include "Assets/AssetImporterRegistry.h"
 #include "Platform/IAudioOutput.h"
 #include "Platform/IWindow.h"
@@ -100,7 +100,7 @@ namespace
                 return true;
             }
             auto mesh = std::make_shared<GameEngine::Assets::MeshData>();
-            mesh->id = identity.MakeResourceId(GameEngine::Core::ResourceIdDomain::Mesh, 0);
+            mesh->id = identity.MakeResourceId(GameEngine::Assets::ResourceIdDomain::Mesh, 0);
             mesh->vertices.resize(3);
             mesh->indices = { 0, 1, 2 };
             contents.meshes.push_back(std::move(mesh));
@@ -733,7 +733,7 @@ namespace
         const auto makeText = [](Rendering::RenderFrameBuilder& builder, const Rendering::TextSpace space)
         {
             auto page = std::make_shared<Rendering::RasterizedTextImage>();
-            page->id = Core::MakeResourceId(Core::ResourceIdDomain::Text, 0xFFFF);
+            page->id = Assets::MakeResourceId(Assets::ResourceIdDomain::Text, 0xFFFF);
             page->width = 2;
             page->height = 1;
             page->alphaPixels.assign(2, std::byte{ 0xFF });

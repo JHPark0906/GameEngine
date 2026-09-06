@@ -65,7 +65,7 @@ bool WriteFile(const std::filesystem::path& path, std::string_view contents);
 /// <summary>
 /// 파일 하나를 통째로 읽는다. 없는 파일은 빈 문자열이다.
 ///
-/// 엔진의 <c>Core::ReadTextFile</c>과 달리 실패를 값으로 구분하지 않는 이유는, 시험이
+/// 엔진의 <c>Platform::ReadTextFile</c>과 달리 실패를 값으로 구분하지 않는 이유는, 시험이
 /// 묻는 것이 대개 「내용이 이것인가」이기 때문이다. 없는 것과 빈 것을 갈라야 하는 시험은
 /// <c>std::filesystem::exists</c>를 따로 묻는다 — 그 둘을 섮으면 안 되는 자리에서는 섮이지 않는 것이
 /// 보이게 하려는 것이 이 이름의 뜻이다.

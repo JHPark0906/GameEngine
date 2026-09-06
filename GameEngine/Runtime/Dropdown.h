@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "../Core/ChoiceModel.h"
+#include "../UIModel/ChoiceModel.h"
 #include "Selectable.h"
 
 namespace GameEngine::Runtime
@@ -19,9 +19,9 @@ class UIEventSystem;
 /// 그것이 값이 되며 접힌다. 고른 항목의 이름은 같은 오브젝트의 <see cref="TextRenderer"/>가
 /// 그린다.
 ///
-/// 고르는 규칙을 스스로 갖지 않고 <see cref="Core::ChoiceModel"/>에게 맡기는 이유는 즉시 모드
+/// 고르는 규칙을 스스로 갖지 않고 <see cref="UIModel::ChoiceModel"/>에게 맡기는 이유는 즉시 모드
 /// 에디터 UI의 에셋 선택 칸이 같은 규칙을 쓰기 때문이다 — <see cref="InputField"/>가 편집
-/// 규칙을 <see cref="Core::TextEditModel"/>과 나누는 것과 같다.
+/// 규칙을 <see cref="UIModel::TextEditModel"/>과 나누는 것과 같다.
 ///
 /// 어느 요소가 커서를 받는지는 <see cref="Button"/>과 같은 이유로 <see cref="UIEventSystem"/>이
 /// 정한다. 항목 줄은 그리지 않는다 — 버튼이 자기 그림을 만들지 않는 것과 같다.
@@ -86,7 +86,7 @@ private:
     /// </summary>
     void ApplyPointerState(
         bool hovered, bool clicked, float cursorX, float cursorY, bool pressedElsewhere,
-        const Core::ChoiceModel::Input& keys);
+        const UIModel::ChoiceModel::Input& keys);
 
     /// <summary>고른 항목의 이름을 TextRenderer에 싣는다.</summary>
     void SynchronizeDisplay();
@@ -103,7 +103,7 @@ private:
     std::vector<std::string> mOptions;
     float mOptionHeight = 0.0f;
 
-    Core::ChoiceModel mChoice;
+    UIModel::ChoiceModel mChoice;
     bool mHovered = false;
     bool mValueChanged = false;
 };

@@ -18,7 +18,7 @@
 #include "Runtime/SpriteRenderer.h"
 #include "Runtime/TextRenderer.h"
 #include "Runtime/Transform.h"
-#include "Core/TextFit.h"
+#include "UI/TextFit.h"
 #include "Diagnostics/Debug.h"
 #include "Platform/ITextMeasure.h"
 #include "Platform/ITextRasterizer.h"
@@ -358,7 +358,7 @@ void EditorConfirmationView::ShowRequest(
             // 상한에 걸려 라벨이 자기 자리보다 길면 말줄임한다. 자르는 자리를 정하는 것은
             // 폰트를 모르는 규칙이고, 재는 것만 잣대가 한다.
             const std::string& label = labels[index];
-            const GameEngine::Core::TextFitResult fit = GameEngine::Core::FitTextToWidth(
+            const GameEngine::UI::TextFitResult fit = GameEngine::UI::FitTextToWidth(
                 label, labelBudget, Ellipsis,
                 [textMeasure](const std::string_view piece)
                 { return MeasureWidth(textMeasure, std::string(piece), RowFontSize); });

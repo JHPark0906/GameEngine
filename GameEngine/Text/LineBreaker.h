@@ -52,7 +52,7 @@ struct LineRange
 ///
 /// <b>폰트를 모른다.</b> 폭은 이미 재어 <see cref="BreakItem::advance"/>에 담겨 오고, 여기서
 /// 하는 일은 그 수들 사이의 순수한 판단이다. 재는 일과 자르는 일을 나누는 것은 이 저장소의
-/// <c>Core::FitTextToWidth</c>가 이미 쓰는 모양이며, 그래야 규칙을 폰트 없이 시험할 수 있다.
+/// <c>UI::FitTextToWidth</c>가 이미 쓰는 모양이며, 그래야 규칙을 폰트 없이 시험할 수 있다.
 ///
 /// <paramref name="maxWidth"/>가 0이면 넘침으로 인한 줄바꿈은 하지 않는다 — 명시적 줄바꿈만
 /// 남는다.

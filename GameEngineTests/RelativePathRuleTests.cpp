@@ -24,7 +24,7 @@ namespace
     /// 있으면 다음 사람은 이것을 「여기 추가하면 되는 칸」으로 읽는다.
     /// </summary>
     constexpr std::array<std::pair<std::string_view, std::string_view>, 2> Allowed{
-        std::pair{ std::string_view("GameEngine/Core/RelativePath.cpp"),
+        std::pair{ std::string_view("GameEngine/Platform/RelativePath.cpp"),
             std::string_view("the rule itself") },
         std::pair{ std::string_view("GameEngine/Platform/DirectoryContentSource.cpp"),
             std::string_view("it needs the canonical absolute path back, and resolving is on the "
@@ -103,7 +103,7 @@ bool RunRelativePathRuleTests()
     }
     return Expect(
         violations.empty(),
-        "a path relative to a root should come from Core::RelativePathWithin, not from "
+        "a path relative to a root should come from Platform::RelativePathWithin, not from "
         "lexically_relative at the call site");
 }
 

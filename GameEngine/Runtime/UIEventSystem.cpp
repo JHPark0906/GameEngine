@@ -71,7 +71,7 @@ namespace
     /// 이번 프레임의 키와 타이핑을 편집 모델의 입력으로 옮긴다. 어느 키가 무엇을 뜻하는지는
     /// 위젯 쪽 지식이고, 그것이 무엇을 바꾸는지는 모델의 지식이다.
     /// </summary>
-    [[nodiscard]] Core::TextEditModel::Input MakeEditInput(const Input& input)
+    [[nodiscard]] UIModel::TextEditModel::Input MakeEditInput(const Input& input)
     {
         const bool control = input.GetKey(Platform::Key::Control);
         // 물리 키는 게임 입력에도 남아 있다. 텍스트 명령만 IME가 이미 처리한 누름을 제외한다.
@@ -79,7 +79,7 @@ namespace
         {
             return input.GetKeyDown(key) && !input.GetState().WasKeyHandledByIme(key);
         };
-        Core::TextEditModel::Input edit;
+        UIModel::TextEditModel::Input edit;
         edit.typedText = input.GetTypedText();
         edit.deleteForward = pressed(Platform::Key::Delete);
         edit.moveLeft = pressed(Platform::Key::Left);
@@ -328,12 +328,12 @@ bool UIEventSystem::Synchronize(SceneManager& sceneManager, const Input& input,
     // 드롭다운은 커서 자리와 다른 곳의 눌림과 키, 입력 필드는 포커스와 편집과 클립보드
     // 왕복이다. 한 함수로 묶으면 아무도 쓰지 않는 인자를 모두가 들고 다니게 된다. 대신 훑는
     // 목록은 하나이므로, 부류가 늘어도 후보를 모으는 자리는 그대로다.
-    Core::ChoiceModel::Input choiceKeys;
+    UIModel::ChoiceModel::Input choiceKeys;
     choiceKeys.moveUp = input.GetKeyDown(Platform::Key::Up);
     choiceKeys.moveDown = input.GetKeyDown(Platform::Key::Down);
     choiceKeys.confirm = input.GetKeyDown(Platform::Key::Enter);
     choiceKeys.cancel = input.GetKeyDown(Platform::Key::Escape);
-    const Core::TextEditModel::Input editInput = MakeEditInput(input);
+    const UIModel::TextEditModel::Input editInput = MakeEditInput(input);
     const unsigned int backspaces = UpdateBackspaceRepeat(input, result.focusedId, deltaTime);
     // typedText는 이전 입력 읽기 이후 누적된 글자다. 이번 프레임의 클릭/포커스 요청으로
     // 수신자를 먼저 바꾸면 IME의 마지막 확정 음절이 사라지거나 새 필드에 들어간다.
@@ -405,7 +405,7 @@ bool UIEventSystem::Synchronize(SceneManager& sceneManager, const Input& input,
         field->ClearFrameFlags();
         if (textBelongsToPreviousFocus && id == focusedBeforeUpdate)
         {
-            Core::TextEditModel::Input queuedText;
+            UIModel::TextEditModel::Input queuedText;
             queuedText.typedText = editInput.typedText;
             static_cast<void>(field->ApplyEditing(queuedText));
             // 클릭으로 IME가 확정됐으면 표시도 확정된 문자열로 바꾼 뒤 그 폭으로 클릭을 맞힌다.
@@ -427,7 +427,7 @@ bool UIEventSystem::Synchronize(SceneManager& sceneManager, const Input& input,
             (input.GetMouseButton(Platform::MouseButton::Left) || frame.released))
             field->PlaceCaretAt(cursorX, cursorY, true, textMeasure);
 
-        Core::TextEditModel::Input fieldInput = editInput;
+        UIModel::TextEditModel::Input fieldInput = editInput;
         fieldInput.backspace = backspaces != 0;
         if (textBelongsToPreviousFocus) fieldInput.typedText = {};
         std::string pasted;
@@ -436,9 +436,9 @@ bool UIEventSystem::Synchronize(SceneManager& sceneManager, const Input& input,
             pasted = mClipboard->GetText();
             fieldInput.pastedText = pasted;
         }
-        const Core::TextEditModel::Result edit = field->ApplyEditing(fieldInput);
+        const UIModel::TextEditModel::Result edit = field->ApplyEditing(fieldInput);
         // 반복 때 타이핑·붙여넣기·선택 명령을 재실행하지 않는다. UTF-8 삭제 규칙만 재사용한다.
-        Core::TextEditModel::Input repeatedBackspace;
+        UIModel::TextEditModel::Input repeatedBackspace;
         repeatedBackspace.backspace = true;
         for (unsigned int index = 1; index < backspaces; ++index)
             static_cast<void>(field->ApplyEditing(repeatedBackspace));

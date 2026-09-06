@@ -200,7 +200,7 @@ void EditorShell::UpdateFloatingWindowDrag()
         mWindowDrag.Press(mUI.GetPointerX(), mUI.GetPointerY());
     }
 
-    const GameEngine::Core::DragGesture::Result result =
+    const GameEditor::DragGesture::Result result =
         mWindowDrag.Update(mUI.GetPointerX(), mUI.GetPointerY(), mUI.IsPointerDown());
     // 끌기가 끝난 프레임에 한 번만 적는다. 움직이는 매 프레임 저장하면 설정 파일이 초당 수십 번
     // 쓰인다 — 남길 값은 손을 뗀 자리 하나다.
@@ -326,7 +326,7 @@ void EditorShell::UpdateAssetDrag()
 {
     const float mouseX = mUI.GetMouseX();
     const float mouseY = mUI.GetMouseY();
-    const GameEngine::Core::DragGesture::Result result =
+    const GameEditor::DragGesture::Result result =
         mAssetDrag.Update(mouseX, mouseY, mUI.IsMouseDown(), S(6.0f));
 
     // 끌던 것을 아무도 받지 않은 채 놓았거나, 문턱을 못 넘고 끝났다. 어느 쪽이든 집은 것을
@@ -363,7 +363,7 @@ void EditorShell::UpdatePanelDrag()
     }
 
     // 문턱은 계층 창의 것과 같다. 손이 떨리는 정도로는 패널이 움직이지 않아야 한다.
-    const GameEngine::Core::DragGesture::Result result =
+    const GameEditor::DragGesture::Result result =
         mPanelDrag.Update(mouseX, mouseY, mUI.IsMouseDown(), S(6.0f));
 
     if (mPanelDrag.IsDragging() || result.dropped)

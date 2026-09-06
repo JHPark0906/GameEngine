@@ -15,7 +15,7 @@ using TestSupport::Expect;
 ///
 /// 폭은 재는 쪽이 채워 주는 값이므로, 여기서는 글자마다 1.0을 넣고 「몇 글자에서 잘리는가」로
 /// 본다. 그러면 규칙이 폰트·크기·힌팅과 무관하게 시험되고, 실패했을 때 그 원인이 규칙 말고는
-/// 없다. <c>Core::FitTextToWidth</c>가 같은 이유로 같은 모양을 쓴다.
+/// 없다. <c>UI::FitTextToWidth</c>가 같은 이유로 같은 모양을 쓴다.
 /// </summary>
 namespace
 {

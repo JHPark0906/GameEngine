@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace GameEngine::Core
+namespace GameEngine::Assets
 {
 
 /// <summary>
@@ -26,7 +26,7 @@ enum class ResourceIdDomain : std::uint64_t
     /// <summary>디코딩된 오디오 클립 — PCM 샘플 버퍼 — 의 도메인이다.</summary>
     Audio = 5,
     /// <summary>
-    /// 뼈 영향을 가진 메시 — <c>Assets::SkinnedMeshData</c> — 의 도메인이다. <c>Mesh</c>와 다른
+    /// 뼈 영향을 가진 메시 — <c>SkinnedMeshData</c> — 의 도메인이다. <c>Mesh</c>와 다른
     /// 도메인인 이유는 한 모델 파일이 정적 메시와 스킨드 메시를 함께 담을 수 있어서다: 같은
     /// 도메인을 쓰면 둘이 같은 로컬 id를 가질 때 id가 충돌한다.
     /// </summary>
@@ -38,7 +38,7 @@ enum class ResourceIdDomain : std::uint64_t
 ///
 /// <b>그 56비트에 들어오는 것이 두 가지다.</b> 하나는 계수기다 — <c>Dynamic</c> 텍스처가 프레임마다
 /// 하나씩 발급받으며, 60fps로 3,800만 년을 써야 소진되므로 「어떤 실행도 소진하지 못할 크기」라는
-/// 말이 그쪽에는 그대로 맞다. 다른 하나는 해시다 — <see cref="Assets::ImportIdentity"/>가
+/// 말이 그쪽에는 그대로 맞다. 다른 하나는 해시다 — <see cref="ImportIdentity"/>가
 /// <c>assetId ^ contentHash ^ localId</c>를 넣는다.
 ///
 /// 둘은 같은 자리를 쓰지만 요구하는 것이 다르다. 계수기에 필요한 것은 <b>범위</b>이고 해시에

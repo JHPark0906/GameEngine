@@ -57,7 +57,7 @@
 #include "Rendering/RenderFrameBuilder.h"
 #include "SceneRendering/SceneRenderPass.h"
 #include "Runtime/Transform.h"
-#include "Core/TextFit.h"
+#include "UI/TextFit.h"
 #include "Platform/ITextRasterizer.h"
 #include "Platform/IAudioOutput.h"
 #include "Platform/ITextMeasure.h"

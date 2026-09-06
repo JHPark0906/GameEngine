@@ -47,7 +47,7 @@ namespace
         result->id = 0x1000'0000'0070'0001ull;
         const auto corner = [](const float x, const float y)
         {
-            Core::MeshVertex vertex;
+            Assets::MeshVertex vertex;
             vertex.position = { x, y, x + 3 };
             vertex.normal = { 0.70710678f, 0, -0.70710678f };
             vertex.textureCoordinate = { 0.5f, 0.5f };
@@ -95,7 +95,7 @@ namespace
             skinned->indices = mesh->indices;
             for (const auto& source : mesh->vertices)
             {
-                Core::SkinnedMeshVertex vertex;
+                Assets::SkinnedMeshVertex vertex;
                 vertex.position = source.position;
                 vertex.normal = source.normal;
                 vertex.textureCoordinate = source.textureCoordinate;

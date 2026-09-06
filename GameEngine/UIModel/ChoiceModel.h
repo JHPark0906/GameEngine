@@ -4,7 +4,7 @@
 #include <limits>
 #include <optional>
 
-namespace GameEngine::Core
+namespace GameEngine::UIModel
 {
 
 /// <summary>

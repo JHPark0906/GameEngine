@@ -7,9 +7,8 @@
 
 #include "../Math/Aabb3D.h"
 
-// The engine has one vertex layout and the shaders declare it, so a mesh is imported straight into
-// it. That is the only thing this borrows from Rendering, and it is a leaf header.
-#include "../Core/VertexLayout.h"
+// Assets owns the imported vertex layout shared with renderers.
+#include "VertexLayout.h"
 
 namespace GameEngine::Assets
 {
@@ -33,7 +32,7 @@ struct MeshData
     /// 백엔드는 정점을 다시 들여다보지 않고 id에 대고 업로드를 캐시해도 된다.
     /// </summary>
     std::uint64_t id = 0;
-    std::vector<Core::MeshVertex> vertices;
+    std::vector<Assets::MeshVertex> vertices;
     std::vector<std::uint32_t> indices;
 
     /// <summary>
@@ -57,7 +56,7 @@ struct MeshData
 
     [[nodiscard]] std::size_t GetByteSize() const
     {
-        return vertices.size() * sizeof(Core::MeshVertex) + indices.size() * sizeof(std::uint32_t);
+        return vertices.size() * sizeof(Assets::MeshVertex) + indices.size() * sizeof(std::uint32_t);
     }
 };
 
@@ -70,10 +69,10 @@ struct MeshData
 /// 필요하지 않다.
 /// </summary>
 /// <param name="vertices">로컬 공간의 정점들이다.</param>
-[[nodiscard]] inline Math::Aabb3D ComputeBounds(const std::span<const Core::MeshVertex> vertices)
+[[nodiscard]] inline Math::Aabb3D ComputeBounds(const std::span<const Assets::MeshVertex> vertices)
 {
     Math::Aabb3D bounds = Math::Aabb3D::Empty();
-    for (const Core::MeshVertex& vertex : vertices)
+    for (const Assets::MeshVertex& vertex : vertices)
     {
         bounds.Encapsulate({ vertex.position.x, vertex.position.y, vertex.position.z });
     }

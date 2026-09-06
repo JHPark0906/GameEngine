@@ -4,13 +4,13 @@
 
 ## 현재 확인 상태
 
-2026-09-06 AABB를 Math로, UndoStack을 GameEditor로 이동한 소스를 SampleGame과 기존 Git 이력이 없는 별도 사본에서 새로 구성·빌드·검증했다. 게임 프로젝트 및 외부 FBX 옵션은 모두 빈 값이었다. 공개 기본 구성은 **27개 CTest**를 등록한다. 엔진 실행 파일의 25개 suite와 `SuiteList`, 별도 CMake·CLI 회귀인 `ProjectBuildSourceCli`의 합계다.
+2026-09-06 Core의 공용 타입을 책임에 따라 재배치한 소스를 SampleGame과 기존 Git 이력이 없는 별도 사본에서 새로 구성·빌드·검증했다. 게임 프로젝트 및 외부 FBX 옵션은 모두 빈 값이었다. 공개 기본 구성은 **28개 CTest**를 등록한다. 엔진 실행 파일의 26개 suite와 `SuiteList`, 별도 CMake·CLI 회귀인 `ProjectBuildSourceCli`의 합계다.
 
 | 구성 | 전체 빌드 | CTest | 테스트 실행 시간 |
 | --- | --- | --- | --- |
-| Debug | 통과, 컴파일러 경고 없음 | 27/27 통과 | 95.98초 |
-| Release | 통과, 컴파일러 경고 없음 | 27/27 통과 | 89.74초 |
-| Debug, PCH 비활성 | 통과, 컴파일러 경고 없음 | 27/27 통과 | 97.35초 |
+| Debug | 통과, 컴파일러 경고 없음 | 28/28 통과 | 95.37초 |
+| Release | 통과, 컴파일러 경고 없음 | 28/28 통과 | 89.71초 |
+| Debug, PCH 비활성 | 통과, 컴파일러 경고 없음 | 28/28 통과 | 94.86초 |
 
 Windows 11 Pro 10.0.26200, Windows SDK 10.0.26100.0, MSVC 19.50.35728.0, CMake 4.2.3-msvc3에서 실행했다. GPU 환경은 NVIDIA GeForce RTX 5060 Ti(드라이버 32.0.15.9597)와 AMD Radeon Graphics(32.0.21043.5001)다. Debug 그래픽 검사에는 Direct3D 디버그 레이어를 사용했다. 소스 사본 바깥의 별도 출력 루트로 세 구성을 모두 빌드한 뒤 CTest를 실행했다. 위 시간은 회귀 테스트 소요 시간이며 렌더링 성능 수치가 아니다.
 
@@ -18,7 +18,9 @@ Windows 11 Pro 10.0.26200, Windows SDK 10.0.26100.0, MSVC 19.50.35728.0, CMake 4
 
 MP3 검사에는 자체 합성한 음원을, 애니메이션·프로젝트 검사에는 자체 생성한 데이터를 사용했다. 초기 공개 준비 때 기존 외부 골격 모델의 선택적 검사도 별도로 통과했으며 그 모델은 공개 소스에 포함하지 않는다.
 
-이번 경계 정리에서는 AABB와 UndoStack의 구현을 유지하고 경로·네임스페이스·소비자 연결을 변경했다. AABB 순수 기하 회귀는 `Math`, UndoStack 회귀는 `EditorDocument` suite에서 검사한다. 엔진은 Editor의 UndoStack 구현을 링크하지 않으며, 에디터와 통합 테스트가 해당 소스를 직접 빌드한다.
+이번 재배치에서는 알고리즘과 정점의 필드·기본값·바이트 배치를 유지하고 경로·네임스페이스·소비자 연결을 변경했다. 선택·텍스트 편집 상태 모델은 새 `UIModel` suite, 파일 I/O와 경로 규칙은 `ContentSource`, 표시 폭 계산은 `UIContext`, Editor 드래그 규칙은 `EditorDocument`에서 검사한다. 엔진은 Editor의 DragGesture·UndoStack 구현을 링크하지 않으며, 에디터와 통합 테스트가 해당 소스를 직접 빌드한다.
+
+정점 데이터는 Math의 실수 저장 타입, Assets의 메시 정점, Rendering의 스프라이트 정점으로 나눴다. 기존 셰이더 레이아웃 정적 검사와 실제 D3D11/D3D12 이미지 비교를 함께 통과했다. `Layering` 검사는 Runtime과 UI가 공용 UIModel을 사용하되 UIModel과 Platform이 서로 의존하지 않는 경계를 확인한다.
 
 ## 기본 빌드와 CTest
 
@@ -67,7 +69,7 @@ cmake --build --preset debug
 ctest --test-dir build/vs -C Debug -R "^GameEngineTests\.ExternalSkeletalAsset$" --output-on-failure
 ```
 
-옵션을 지정하면 기본 27개에 `ExternalSkeletalAsset` 한 항목을 추가한다. 경로가 없거나 비어 있는 파일이면 configure가 실패한다. 기본 구성으로 돌아갈 때는 옵션에 빈 값을 명시해 캐시를 지운다.
+옵션을 지정하면 기본 28개에 `ExternalSkeletalAsset` 한 항목을 추가한다. 경로가 없거나 비어 있는 파일이면 configure가 실패한다. 기본 구성으로 돌아갈 때는 옵션에 빈 값을 명시해 캐시를 지운다.
 
 ## 성능 확인
 

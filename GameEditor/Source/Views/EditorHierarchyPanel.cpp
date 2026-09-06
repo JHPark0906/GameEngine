@@ -319,7 +319,7 @@ void EditorHierarchyPanel::UpdateHierarchyDrag(
     }
 
     // 문턱은 손이 떨리는 정도로 재부모화가 일어나지 않게 한다. 화면 배율이 곱해진 값을 넘긴다.
-    const GameEngine::Core::DragGesture::Result result =
+    const GameEditor::DragGesture::Result result =
         mDrag.Update(mouseX, mouseY, mUI.IsMouseDown(), S(6.0f));
 
     auto* const dragged = dynamic_cast<GameEngine::Runtime::GameObject*>(

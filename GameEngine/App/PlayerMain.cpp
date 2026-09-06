@@ -19,7 +19,7 @@
 #include "GraphicsBackendChoice.h"
 #include "IGameBootstrap.h"
 #include "ProjectFile.h"
-#include "../Core/TextFile.h"
+#include "../Platform/TextFile.h"
 #include "../Diagnostics/Debug.h"
 #include "../Platform/ApplicationContent.h"
 #include "../Platform/PlatformServices.h"
@@ -69,7 +69,7 @@ namespace
             // 있고 시험 둘이 그것을 읽으므로, 제자리에 잘라 쓰면 읽는 쪽이 비었거나 잘린
             // 스키마를 온전한 것으로 알고 가져간다 — 빌드와 시험이 겹칠 때마다 이유 없이
             // 붉어지는 실패가 그것이다. 이름 바꾸기에는 파일이 비어 있는 순간이 없다.
-            const Core::FileWriteResult written = Core::WriteTextFileAtomically(
+            const Platform::FileWriteResult written = Platform::WriteTextFileAtomically(
                 path,
                 Serialization::WriteComponentSchemas(
                     Serialization::RegisteredComponentTypes()));

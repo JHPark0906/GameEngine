@@ -14,7 +14,7 @@
 
 #include "../Assets/TextureData.h"
 #include "DynamicTextureSnapshotPool.h"
-#include "../Core/TextEditModel.h"
+#include "../UIModel/TextEditModel.h"
 #include "../Math/Color.h"
 #include "../Platform/IClipboard.h"
 #include "../Rendering/RenderFrame.h"
@@ -425,7 +425,7 @@ private:
     /// </summary>
     [[nodiscard]] bool IsHovered(WidgetId id, const UIRect& rect);
 
-    // ---- 텍스트 필드의 편집. 캐럿·선택·편집 연산은 Core::TextEditModel이 쥔다.
+    // ---- 텍스트 필드의 편집. 캐럿·선택·편집 연산은 UIModel::TextEditModel이 쥔다.
     /// <summary>텍스트 왼쪽 끝에서 x 픽셀에 가장 가까운 UTF-8 문자 경계다.</summary>
     [[nodiscard]] std::size_t CaretIndexFromX(const std::string& text, float x);
     /// <summary>이 텍스트가 필드 글꼴로 그려질 때의 픽셀 폭이다. 래스터화 캐시로 잰다.</summary>
@@ -513,7 +513,7 @@ private:
     /// 전달이고, 무엇이 어떻게 바뀌는지는 이 모델이 안다 — 유지 모드 입력 필드도 같은 모델을
     /// 쓸 수 있도록 위젯 밖에 있다.
     /// </summary>
-    Core::TextEditModel mTextEdit;
+    UIModel::TextEditModel mTextEdit;
     /// <summary>
     /// 캐럿 깜박임의 기준 시각이다. 캐럿이 움직이거나 내용이 바뀔 때마다 되돌아가, 편집 중에는
     /// 캐럿이 늘 보인다.

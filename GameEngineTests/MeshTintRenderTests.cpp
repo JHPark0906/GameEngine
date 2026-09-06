@@ -78,7 +78,7 @@ namespace
         mesh->id = 0x1000'0000'0000'0020ull;
         const auto corner = [](const float x, const float y)
         {
-            Core::MeshVertex vertex;
+            Assets::MeshVertex vertex;
             vertex.position = { x, y, MeshDepth };
             vertex.normal = { 0.0f, 0.0f, -1.0f };
             vertex.textureCoordinate = { x, y };
@@ -97,7 +97,7 @@ namespace
         using namespace GameEngine;
         const auto vertex = [](const float x, const float y, const std::uint32_t boneIndex)
         {
-            Core::SkinnedMeshVertex result;
+            Assets::SkinnedMeshVertex result;
             result.position = { x, y, MeshDepth };
             result.normal = { 0.0f, 0.0f, -1.0f };
             result.textureCoordinate = { x, y };

@@ -4,7 +4,7 @@
 #include "Rules/EditorFileWrite.h"
 #include "Assets/AssetDatabase.h"
 #include "Core/Json.h"
-#include "Core/TextFile.h"
+#include "Platform/TextFile.h"
 
 #include <exception>
 #include <optional>
@@ -56,7 +56,7 @@ bool WriteSpriteSheet(
     GameEngine::Core::Json::Object members;
     if (!existingRelative.empty())
     {
-        const std::optional<std::string> text = GameEngine::Core::ReadTextFile(absolutePath);
+        const std::optional<std::string> text = GameEngine::Platform::ReadTextFile(absolutePath);
         if (!text)
         {
             return false;

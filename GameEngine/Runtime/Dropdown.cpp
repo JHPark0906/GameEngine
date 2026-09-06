@@ -48,13 +48,13 @@ void Dropdown::SetOptions(std::vector<std::string> options)
 int Dropdown::GetValue() const
 {
     const std::size_t selected = mChoice.GetSelected();
-    return selected == Core::ChoiceModel::NoSelection ? -1 : static_cast<int>(selected);
+    return selected == UIModel::ChoiceModel::NoSelection ? -1 : static_cast<int>(selected);
 }
 
 void Dropdown::SetValue(const int value)
 {
     mChoice.SetSelected(
-        value < 0 ? Core::ChoiceModel::NoSelection : static_cast<std::size_t>(value),
+        value < 0 ? UIModel::ChoiceModel::NoSelection : static_cast<std::size_t>(value),
         mOptions.size());
     SynchronizeDisplay();
 }
@@ -126,11 +126,11 @@ std::optional<std::size_t> Dropdown::OptionAt(const float x, const float y) cons
 
 void Dropdown::ApplyPointerState(
     const bool hovered, const bool clicked, const float cursorX, const float cursorY,
-    const bool pressedElsewhere, const Core::ChoiceModel::Input& keys)
+    const bool pressedElsewhere, const UIModel::ChoiceModel::Input& keys)
 {
     mHovered = hovered;
 
-    Core::ChoiceModel::Input input = keys;
+    UIModel::ChoiceModel::Input input = keys;
     if (clicked)
     {
         if (const std::optional<std::size_t> option = OptionAt(cursorX, cursorY))
@@ -151,7 +151,7 @@ void Dropdown::ApplyPointerState(
         input.hovered = OptionAt(cursorX, cursorY);
     }
 
-    const Core::ChoiceModel::Result result = mChoice.Apply(mOptions.size(), input);
+    const UIModel::ChoiceModel::Result result = mChoice.Apply(mOptions.size(), input);
     if (result.selectionChanged)
     {
         mValueChanged = true;

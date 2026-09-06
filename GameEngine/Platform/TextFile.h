@@ -6,7 +6,7 @@
 #include <string_view>
 #include <system_error>
 
-namespace GameEngine::Core
+namespace GameEngine::Platform
 {
 
 /// <summary>

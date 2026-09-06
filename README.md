@@ -140,19 +140,20 @@ ctest --test-dir build/vs-no-pch -C Debug --output-on-failure -j 4
 
 테스트는 객체 수명·씬·에셋·물리·UI·애니메이션·오디오·패키징·레이어 경계를 포함한다. 일부 그래픽 suite는 실제 D3D 장치를 사용한다. 렌더링 변경은 D3D11/12의 이미지와 디버그 로그를 함께 확인한다.
 
-기본 구성은 엔진·도구의 CTest 27개 항목을 등록한다. 공개 스냅샷의 실제 검증 결과와 실행 조건은 [검증 안내](Docs/VALIDATION.md)에 기록한다. 특수한 외부 골격 FBX 검사는 `GAMEENGINE_TEST_EXTERNAL_SKELETAL_FBX`로 입력을 명시한 경우에만 추가되며, 기본 빌드에는 필요하지 않다.
+기본 구성은 `UIModel` suite를 포함한 엔진·도구의 CTest 28개 항목을 등록한다. 공개 스냅샷의 실제 검증 결과와 실행 조건은 [검증 안내](Docs/VALIDATION.md)에 기록한다. 특수한 외부 골격 FBX 검사는 `GAMEENGINE_TEST_EXTERNAL_SKELETAL_FBX`로 입력을 명시한 경우에만 추가되며, 기본 빌드에는 필요하지 않다.
 
 ## 소스 구조
 
 | 경로 | 내용 |
 | --- | --- |
 | `GameEngine/App/`, `GameEngine/Runtime/` | 부트스트랩·메인 루프, 게임·씬·객체·컴포넌트 |
-| `GameEngine/Core/`, `GameEngine/Math/`, `GameEngine/Diagnostics/` | JSON·공통 식별자·수학(AABB 포함)·진단 |
-| `GameEngine/Assets/`, `GameEngine/Animation/`, `GameEngine/Text/` | 에셋 임포트·관리, 골격·클립, 폰트 처리 |
-| `GameEngine/Platform/` | 운영체제 인터페이스와 Win32 구현 |
+| `GameEngine/Core/`, `GameEngine/Math/`, `GameEngine/Diagnostics/` | GUID·JSON·문자 인코딩, 수학·plain-float 저장 타입·AABB, 진단 |
+| `GameEngine/Assets/`, `GameEngine/Animation/`, `GameEngine/Text/` | 에셋 임포트·관리·리소스 ID·메시 정점, 골격·클립, 폰트 처리 |
+| `GameEngine/Platform/` | 운영체제 인터페이스·파일 I/O·상대 경로 검사와 Win32 구현 |
 | `GameEngine/Rendering/`, `GameEngine/SceneRendering/` | 프레임 계약·공통 렌더링 정책·D3D 백엔드, 씬에서 프레임으로 변환 |
 | `GameEngine/Serialization/`, `GameEngine/Build/` | 씬 직렬화와 프로젝트 패키징 서비스 |
-| `GameEngine/UI/` | 도구가 사용하는 공통 UI 기반 |
+| `GameEngine/UIModel/` | Runtime과 즉시 모드 UI가 공유하는 선택·텍스트 편집 상태 모델 |
+| `GameEngine/UI/` | 도구가 사용하는 공통 UI 기반과 텍스트 폭 맞춤 정책 |
 | `cmake/` | 컴파일 옵션, 게임 프로젝트 선언, 콘텐츠·셰이더 스테이징 |
 | `GameEngineTests/` | 엔진 및 현재 통합된 도구 회귀 |
 

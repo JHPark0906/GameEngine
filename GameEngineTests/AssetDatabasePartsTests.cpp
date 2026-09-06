@@ -47,7 +47,7 @@ namespace
                 return true;
             }
             auto mesh = std::make_shared<GameEngine::Assets::MeshData>();
-            mesh->id = identity.MakeResourceId(GameEngine::Core::ResourceIdDomain::Mesh, 0);
+            mesh->id = identity.MakeResourceId(GameEngine::Assets::ResourceIdDomain::Mesh, 0);
             mesh->vertices.resize(3);
             mesh->indices = { 0, 1, 2 };
             contents.meshes.push_back(std::move(mesh));

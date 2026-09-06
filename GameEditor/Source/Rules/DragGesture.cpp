@@ -1,9 +1,8 @@
-#include "pch.h"
-#include "DragGesture.h"
+#include "Rules/DragGesture.h"
 
 #include <cmath>
 
-namespace GameEngine::Core
+namespace GameEditor
 {
 
 void DragGesture::Press(const float x, const float y)

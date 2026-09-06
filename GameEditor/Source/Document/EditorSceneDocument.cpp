@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "Assets/AssetDatabase.h"
-#include "Core/TextFile.h"
+#include "Platform/TextFile.h"
 #include "Diagnostics/Debug.h"
 #include "Runtime/Game.h"
 #include "Runtime/Object.h"
@@ -311,7 +311,7 @@ bool EditorSceneDocument::RestoreRecoverySnapshot(
         return false;
     }
 
-    const std::optional<std::string> contents = GameEngine::Core::ReadTextFile(filePath);
+    const std::optional<std::string> contents = GameEngine::Platform::ReadTextFile(filePath);
     if (!contents)
     {
         GameEngine::Diagnostics::Debug::LogError(

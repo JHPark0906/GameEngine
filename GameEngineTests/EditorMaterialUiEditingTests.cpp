@@ -12,7 +12,7 @@
 #include "../GameEditor/Source/Rules/EditorPanelHosts.h"
 #include "../GameEditor/Source/Views/EditorInspectorPanel.h"
 #include "Core/Json.h"
-#include "Core/TextFile.h"
+#include "Platform/TextFile.h"
 #include "Platform/IInput.h"
 #include "Rendering/RenderFrameBuilder.h"
 #include "Runtime/Input.h"
@@ -192,7 +192,7 @@ bool RunEditorMaterialUiEditingTests()
 
     {
         const std::optional<std::string> text =
-            Core::ReadTextFile(root / "Materials" / "Test.material");
+            Platform::ReadTextFile(root / "Materials" / "Test.material");
         passed &= Expect(text.has_value(), "the material file should still be readable");
         if (text)
         {
@@ -223,7 +223,7 @@ bool RunEditorMaterialUiEditingTests()
 
     {
         const std::optional<std::string> text =
-            Core::ReadTextFile(root / "Materials" / "Test.material");
+            Platform::ReadTextFile(root / "Materials" / "Test.material");
         passed &= Expect(text.has_value(), "the material file should still be readable");
         if (text)
         {

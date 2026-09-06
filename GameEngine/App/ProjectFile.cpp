@@ -3,8 +3,8 @@
 #include "ProjectFile.h"
 
 #include "ProjectSettingsLoader.h"
-#include "../Core/RelativePath.h"
-#include "../Core/TextFile.h"
+#include "../Platform/RelativePath.h"
+#include "../Platform/TextFile.h"
 #include "../Diagnostics/Debug.h"
 
 #include <algorithm>
@@ -91,7 +91,7 @@ namespace
         const std::filesystem::path& filePath,
         const std::string_view contents)
     {
-        return static_cast<bool>(Core::WriteTextFile(filePath, contents));
+        return static_cast<bool>(Platform::WriteTextFile(filePath, contents));
     }
 }
 
@@ -729,7 +729,7 @@ std::optional<ProjectFileData> ProjectFile::AddScene(
     // 프로젝트 밖의 장면은 등록할 수 없다: 경로가 프로젝트 기준 상대 경로로 배포되므로, 밖을
     // 가리키면 빌드된 게임에는 그 파일이 없다.
     const std::optional<std::filesystem::path> relative =
-        Core::RelativePathWithin(projectRoot, absoluteScenePath);
+        Platform::RelativePathWithin(projectRoot, absoluteScenePath);
     if (!relative)
     {
         Diagnostics::Debug::LogError(
@@ -1011,7 +1011,7 @@ std::optional<ProjectFileData> ProjectFile::RenameScene(
 
     const std::filesystem::path projectRoot = project.filePath.parent_path().lexically_normal();
     const std::optional<std::filesystem::path> relative =
-        Core::RelativePathWithin(projectRoot, absoluteNewPath);
+        Platform::RelativePathWithin(projectRoot, absoluteNewPath);
     if (!relative)
     {
         Diagnostics::Debug::LogError(

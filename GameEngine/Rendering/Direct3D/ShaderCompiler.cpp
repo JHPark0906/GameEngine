@@ -19,7 +19,7 @@
 
 #include "ShaderPaths.h"
 #include "../ShaderBindings.h"
-#include "../../Core/TextFile.h"
+#include "../../Platform/TextFile.h"
 #include "../../Platform/ApplicationContent.h"
 #include "../../Platform/Win32/Win32Diagnostics.h"
 
@@ -150,7 +150,7 @@ bool CompileRuntimeArtifacts(const std::filesystem::path& runtimeRootPath)
     {
         const std::filesystem::path sourcePath =
             runtimeRootPath / GetShaderRelativePath(program);
-        const std::string sourceText = Core::ReadTextFile(sourcePath).value_or(std::string{});
+        const std::string sourceText = Platform::ReadTextFile(sourcePath).value_or(std::string{});
         const std::span<const std::byte> source =
             std::as_bytes(std::span(sourceText.data(), sourceText.size()));
         if (source.empty())

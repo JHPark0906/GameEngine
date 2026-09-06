@@ -8,7 +8,7 @@
 #include "../Assets/AssetDatabase.h"
 #include "../Assets/AssetIdentityIssue.h"
 #include "../Core/Guid.h"
-#include "../Core/RelativePath.h"
+#include "../Platform/RelativePath.h"
 #include "../Rendering/GraphicsBackend.h"
 #include "../Diagnostics/Debug.h"
 
@@ -303,7 +303,7 @@ namespace
         const std::filesystem::path& relativePath)
     {
         if (relativePath.empty() || relativePath.is_absolute() ||
-            Core::EscapesRoot(relativePath))
+            Platform::EscapesRoot(relativePath))
         {
             return std::nullopt;
         }

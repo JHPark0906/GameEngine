@@ -13,7 +13,7 @@
 #include "Assets/Asset.h"
 #include "Assets/AssetReference.h"
 #include "Assets/MaterialData.h"
-#include "Core/ChoiceModel.h"
+#include "UIModel/ChoiceModel.h"
 #include "Math/Color.h"
 #include "Math/Vector.h"
 #include "Runtime/PropertyDescriptor.h"
@@ -218,7 +218,7 @@ private:
     /// <summary>지금 목록이 펼쳐진 에셋 참조 칸이다. 펼쳐진 것이 없으면 0이다.</summary>
     GameEngine::UI::WidgetId mOpenAssetChooser = 0;
     /// <summary>펼쳐진 에셋 목록의 상태다. 유지 모드 Dropdown과 같은 규칙을 쓴다.</summary>
-    GameEngine::Core::ChoiceModel mAssetChoice;
+    GameEngine::UIModel::ChoiceModel mAssetChoice;
     /// <summary>
     /// 이번 프레임에 헤더의 Remove가 눌린 컴포넌트다. 컴포넌트를 걷는 도중에 지우면 걷고 있는
     /// 목록이 무너지므로, 걷기가 끝난 뒤 인스펙터가 지운다.

@@ -7,7 +7,7 @@
 #include <string_view>
 
 #include "Assets/AssetDatabase.h"
-#include "Core/TextFile.h"
+#include "Platform/TextFile.h"
 #include "Platform/DirectoryContentSource.h"
 #include "TestSupport.h"
 
@@ -60,7 +60,7 @@ bool RunAssetManifestBytesTests()
     {
         return false;
     }
-    const std::optional<std::string> written = GameEngine::Core::ReadTextFile(manifestPath);
+    const std::optional<std::string> written = GameEngine::Platform::ReadTextFile(manifestPath);
     if (!Expect(written.has_value(), "the manifest should be readable"))
     {
         return false;

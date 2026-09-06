@@ -3,7 +3,7 @@
 #include <cstddef>
 #include <iostream>
 
-#include "Core/ChoiceModel.h"
+#include "UIModel/ChoiceModel.h"
 #include "TestSupport.h"
 
 using TestSupport::Expect;
@@ -18,7 +18,7 @@ namespace
 /// </summary>
 bool RunChoiceModelTests()
 {
-    using GameEngine::Core::ChoiceModel;
+    using GameEngine::UIModel::ChoiceModel;
     constexpr std::size_t Count = 4;
 
     ChoiceModel model;
@@ -122,4 +122,4 @@ bool RunChoiceModelTests()
 }
 
 static const TestSupport::Registration gChoiceModelTests{
-    "Core", "choice model tests should pass", RunChoiceModelTests };
+    "UIModel", "choice model tests should pass", RunChoiceModelTests };

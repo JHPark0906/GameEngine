@@ -15,7 +15,7 @@
 #include "Assets/AssetReference.h"
 #include "Assets/MeshData.h"
 #include "BackendPixelSupport.h"
-#include "Core/ResourceId.h"
+#include "Assets/ResourceId.h"
 #include "Math/Color.h"
 #include "Platform/DirectoryContentSource.h"
 #include "Platform/IAudioOutput.h"
@@ -68,10 +68,10 @@ namespace
                 return true;
             }
             auto mesh = std::make_shared<Assets::MeshData>();
-            mesh->id = identity.MakeResourceId(Core::ResourceIdDomain::Mesh, 0);
+            mesh->id = identity.MakeResourceId(Assets::ResourceIdDomain::Mesh, 0);
             const auto vertex = [](const float x, const float y)
             {
-                Core::MeshVertex result;
+                Assets::MeshVertex result;
                 result.position = { x, y, 2.0f };
                 result.normal = { 0.0f, 0.0f, -1.0f };
                 result.textureCoordinate = { 0.0f, 0.0f };

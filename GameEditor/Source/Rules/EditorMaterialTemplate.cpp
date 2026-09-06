@@ -2,7 +2,7 @@
 
 #include <system_error>
 
-#include "Core/TextFile.h"
+#include "Platform/TextFile.h"
 #include "Diagnostics/Debug.h"
 
 namespace GameEditor
@@ -49,8 +49,8 @@ std::optional<std::filesystem::path> CreateMaterialAsset(
         return std::nullopt;
     }
 
-    const GameEngine::Core::FileWriteResult written =
-        GameEngine::Core::WriteTextFile(chosenFilePath, DefaultMaterialJson);
+    const GameEngine::Platform::FileWriteResult written =
+        GameEngine::Platform::WriteTextFile(chosenFilePath, DefaultMaterialJson);
     if (!written)
     {
         GameEngine::Diagnostics::Debug::LogError(

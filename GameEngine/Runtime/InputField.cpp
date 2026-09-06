@@ -87,12 +87,12 @@ void InputField::ApplyFocus(const bool focused)
     }
 }
 
-Core::TextEditModel::Result InputField::ApplyEditing(const Core::TextEditModel::Input& input)
+UIModel::TextEditModel::Result InputField::ApplyEditing(const UIModel::TextEditModel::Input& input)
 {
     mEdit.ClampTo(mText);
     const auto previousCaret = mEdit.GetCaret();
     const auto previousSelection = mEdit.GetSelection();
-    Core::TextEditModel::Result result = mEdit.Apply(mText, input);
+    UIModel::TextEditModel::Result result = mEdit.Apply(mText, input);
     // 한 프레임에 누적 글자 확정과 포인터 이후 편집이 나뉘어 적용될 수 있다.
     mEdited = mEdited || result.textChanged;
     const auto selection = mEdit.GetSelection();
@@ -111,7 +111,7 @@ void InputField::SynchronizeDisplay(const std::string_view compositionText, cons
 {
     const auto selection = mEdit.GetSelection();
     mCompositionBegin = selection.begin;
-    const auto caret = Core::TextEditModel::SnapToCharBoundary(compositionText,
+    const auto caret = UIModel::TextEditModel::SnapToCharBoundary(compositionText,
         (std::min)(compositionCaret, compositionText.size()));
     const auto displayCaret = compositionText.empty() ? mEdit.GetCaret() : mCompositionBegin + caret;
     if (mCompositionText != compositionText || mDisplayCaret != displayCaret) mCaretClock = 0.0f;
@@ -229,7 +229,7 @@ void InputField::PlaceCaretAt(const float x, const float y, const bool extend, P
         const float distance = dx * dx + dy * dy;
         if (distance < nearest) { nearest = distance; offset = stop.byteOffset; }
     }
-    mEdit.PlaceCaret(Core::TextEditModel::SnapToCharBoundary(mText, offset), extend);
+    mEdit.PlaceCaret(UIModel::TextEditModel::SnapToCharBoundary(mText, offset), extend);
     mCaretClock = 0.0f;
 }
 

@@ -8,7 +8,7 @@
 #include <utility>
 
 #include "../Core/Json.h"
-#include "../Core/TextFile.h"
+#include "../Platform/TextFile.h"
 #include "GraphicsBackendChoice.h"
 
 namespace GameEngine::App
@@ -242,13 +242,13 @@ EditorSettingsData EditorSettings::FromText(const std::string_view text)
 
 EditorSettingsData EditorSettings::Load(const std::filesystem::path& filePath)
 {
-    const std::optional<std::string> contents = Core::ReadTextFile(filePath);
+    const std::optional<std::string> contents = Platform::ReadTextFile(filePath);
     return contents ? FromText(*contents) : EditorSettingsData{};
 }
 
 bool EditorSettings::Save(const EditorSettingsData& data, const std::filesystem::path& filePath)
 {
-    return static_cast<bool>(Core::WriteTextFile(filePath, ToText(data)));
+    return static_cast<bool>(Platform::WriteTextFile(filePath, ToText(data)));
 }
 
 }

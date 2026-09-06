@@ -36,6 +36,7 @@ namespace
         std::string_view("Math"),
         std::string_view("PoseSampler"),
         std::string_view("Core"),
+        std::string_view("UIModel"),
         std::string_view("Layering"),
         std::string_view("UIContext"),
         std::string_view("UILayout"),

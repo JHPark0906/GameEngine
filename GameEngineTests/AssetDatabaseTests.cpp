@@ -22,11 +22,11 @@
 #include "Assets/AssetDatabase.h"
 #include "Assets/AssetImporter.h"
 #include "Core/Guid.h"
-#include "Core/ResourceId.h"
+#include "Assets/ResourceId.h"
 #include "Assets/AssetImporterRegistry.h"
 #include "Assets/AssetReference.h"
 #include "Assets/MeshData.h"
-#include "Core/ResourceId.h"
+#include "Assets/ResourceId.h"
 #include "Platform/DirectoryContentSource.h"
 #include "Runtime/GameObject.h"
 #include "Runtime/Input.h"
@@ -82,7 +82,7 @@ namespace
             {
                 auto mesh = std::make_shared<GameEngine::Assets::MeshData>();
                 mesh->id = identity.MakeResourceId(
-                    GameEngine::Core::ResourceIdDomain::Mesh, localId);
+                    GameEngine::Assets::ResourceIdDomain::Mesh, localId);
                 mesh->vertices.resize(3);
                 mesh->indices = { 0, 1, 2 };
                 contents.meshes.push_back(std::move(mesh));
@@ -112,7 +112,7 @@ namespace
             if (mode == GameEngine::Assets::ImportMode::Full)
             {
                 auto mesh = std::make_shared<GameEngine::Assets::MeshData>();
-                mesh->id = identity.MakeResourceId(GameEngine::Core::ResourceIdDomain::Mesh, 0);
+                mesh->id = identity.MakeResourceId(GameEngine::Assets::ResourceIdDomain::Mesh, 0);
                 mesh->vertices.resize(3);
                 mesh->indices = { 0, 1, 2 };
                 contents.meshes.push_back(std::move(mesh));
@@ -576,8 +576,8 @@ bool RunAssetResidencyTests()
     // Ids distinguish the meshes inside one file, and distinguish kinds, so any cache may key
     // on one.
     const bool idsAreDistinct = horn && body && horn->id != body->id &&
-        GameEngine::Core::GetResourceIdDomain(horn->id) ==
-            GameEngine::Core::ResourceIdDomain::Mesh;
+        GameEngine::Assets::GetResourceIdDomain(horn->id) ==
+            GameEngine::Assets::ResourceIdDomain::Mesh;
 
     // Nothing else was touched by loading one file.
     const bool loadsOnlyWhatWasAsked =
@@ -933,23 +933,23 @@ bool RunSpriteSheetTests()
 bool RunResourceIdTests()
 {
     // The case that would collide: every kind's own counter starts at one.
-    const std::uint64_t firstMesh = GameEngine::Core::MakeResourceId(GameEngine::Core::ResourceIdDomain::Mesh, 1);
-    const std::uint64_t firstTexture = GameEngine::Core::MakeResourceId(GameEngine::Core::ResourceIdDomain::Texture, 1);
-    const std::uint64_t firstText = GameEngine::Core::MakeResourceId(GameEngine::Core::ResourceIdDomain::Text, 1);
+    const std::uint64_t firstMesh = GameEngine::Assets::MakeResourceId(GameEngine::Assets::ResourceIdDomain::Mesh, 1);
+    const std::uint64_t firstTexture = GameEngine::Assets::MakeResourceId(GameEngine::Assets::ResourceIdDomain::Texture, 1);
+    const std::uint64_t firstText = GameEngine::Assets::MakeResourceId(GameEngine::Assets::ResourceIdDomain::Text, 1);
 
     const bool distinct =
         firstMesh != firstTexture && firstTexture != firstText && firstMesh != firstText;
     const bool nonZero = firstMesh != 0 && firstTexture != 0 && firstText != 0;
     const bool domainsSurvive =
-        GameEngine::Core::GetResourceIdDomain(firstMesh) == GameEngine::Core::ResourceIdDomain::Mesh &&
-        GameEngine::Core::GetResourceIdDomain(firstTexture) == GameEngine::Core::ResourceIdDomain::Texture &&
-        GameEngine::Core::GetResourceIdDomain(firstText) == GameEngine::Core::ResourceIdDomain::Text;
+        GameEngine::Assets::GetResourceIdDomain(firstMesh) == GameEngine::Assets::ResourceIdDomain::Mesh &&
+        GameEngine::Assets::GetResourceIdDomain(firstTexture) == GameEngine::Assets::ResourceIdDomain::Texture &&
+        GameEngine::Assets::GetResourceIdDomain(firstText) == GameEngine::Assets::ResourceIdDomain::Text;
 
     // Within a kind, the counter still separates entries, and a large index keeps its kind.
-    const std::uint64_t manyTextures = GameEngine::Core::MakeResourceId(GameEngine::Core::ResourceIdDomain::Texture, 1'000'000);
+    const std::uint64_t manyTextures = GameEngine::Assets::MakeResourceId(GameEngine::Assets::ResourceIdDomain::Texture, 1'000'000);
     const bool countsWithinKind =
         manyTextures != firstTexture &&
-        GameEngine::Core::GetResourceIdDomain(manyTextures) == GameEngine::Core::ResourceIdDomain::Texture;
+        GameEngine::Assets::GetResourceIdDomain(manyTextures) == GameEngine::Assets::ResourceIdDomain::Texture;
 
     return Expect(distinct, "the first id of each kind should differ") &&
         Expect(nonZero, "no id should be zero, which every IsValid treats as absent") &&
@@ -1105,12 +1105,12 @@ bool RunAssetGuidTests()
     const GameEngine::Assets::ImportIdentity before{ 1, 0xABCDu };
     const GameEngine::Assets::ImportIdentity after{ 2, 0xABCDu };
     const bool resourceIdFollowsTheKey =
-        before.MakeResourceId(GameEngine::Core::ResourceIdDomain::Texture, 0) !=
-        after.MakeResourceId(GameEngine::Core::ResourceIdDomain::Texture, 0);
+        before.MakeResourceId(GameEngine::Assets::ResourceIdDomain::Texture, 0) !=
+        after.MakeResourceId(GameEngine::Assets::ResourceIdDomain::Texture, 0);
     const GameEngine::Assets::ImportIdentity sameFile{ 1, 0xABCDu };
     const bool resourceIdStableForSameInput =
-        before.MakeResourceId(GameEngine::Core::ResourceIdDomain::Texture, 0) ==
-        sameFile.MakeResourceId(GameEngine::Core::ResourceIdDomain::Texture, 0);
+        before.MakeResourceId(GameEngine::Assets::ResourceIdDomain::Texture, 0) ==
+        sameFile.MakeResourceId(GameEngine::Assets::ResourceIdDomain::Texture, 0);
 
     return Expect(textRoundTrips, "a guid should survive a trip through its text form") &&
         Expect(rejectsNonGuid, "text that is not 32 hex digits should not parse as a guid") &&

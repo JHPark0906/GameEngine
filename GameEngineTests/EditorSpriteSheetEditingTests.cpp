@@ -7,7 +7,7 @@
 #include "../GameEditor/Source/Rules/EditorSpriteSheetEditing.h"
 #include "Assets/AssetDatabase.h"
 #include "Core/Json.h"
-#include "Core/TextFile.h"
+#include "Platform/TextFile.h"
 #include "Platform/DirectoryContentSource.h"
 #include "TestSupport.h"
 
@@ -58,7 +58,7 @@ bool RunEditorSpriteSheetEditingTests()
             "writing a valid sheet over an existing sidecar should succeed");
 
         const std::optional<std::string> text =
-            GameEngine::Core::ReadTextFile(root / "Sprites" / "WithSidecar.png.meta");
+            GameEngine::Platform::ReadTextFile(root / "Sprites" / "WithSidecar.png.meta");
         if (!Expect(text.has_value(), "the sidecar should still be readable after the write"))
         {
             return false;
@@ -99,7 +99,7 @@ bool RunEditorSpriteSheetEditingTests()
             "writing a sheet with no existing sidecar should still succeed");
 
         const std::optional<std::string> text =
-            GameEngine::Core::ReadTextFile(root / "Sprites" / "NoSidecar.png.meta");
+            GameEngine::Platform::ReadTextFile(root / "Sprites" / "NoSidecar.png.meta");
         if (!Expect(text.has_value(), "a new sidecar should have been placed next to the source"))
         {
             return false;
@@ -121,13 +121,13 @@ bool RunEditorSpriteSheetEditingTests()
     {
         const auto* const sprite = database.FindAsset<Sprite>("Sprites/WithSidecar.png");
         const std::optional<std::string> before =
-            GameEngine::Core::ReadTextFile(root / "Sprites" / "WithSidecar.png.meta");
+            GameEngine::Platform::ReadTextFile(root / "Sprites" / "WithSidecar.png.meta");
         const Sprite::Sheet invalidSheet{ .columns = 0, .rows = 4, .frameCount = 0, .frameRate = 10.0f };
         passed &= Expect(
             sprite && !GameEditor::WriteSpriteSheet(database, *sprite, invalidSheet),
             "a sheet with zero columns should be rejected");
         const std::optional<std::string> after =
-            GameEngine::Core::ReadTextFile(root / "Sprites" / "WithSidecar.png.meta");
+            GameEngine::Platform::ReadTextFile(root / "Sprites" / "WithSidecar.png.meta");
         passed &= Expect(
             before == after, "a rejected write should leave the sidecar file untouched");
     }

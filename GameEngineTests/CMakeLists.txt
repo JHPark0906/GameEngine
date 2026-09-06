@@ -19,6 +19,7 @@ target_sources(GameEngineTests PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/../GameEditor/Source/Document/UndoStack.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/../GameEditor/Source/Document/EditorUndoService.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/../GameEditor/Source/Document/EditorSceneDocument.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../GameEditor/Source/Rules/DragGesture.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/../GameEditor/Source/Rules/EditorFileWrite.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/../GameEditor/Source/Rules/EditorComponentChoices.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/../GameEditor/Source/Views/EditorDockLayout.cpp"
@@ -124,7 +125,7 @@ gameengine_stage_runtime_files(GameEngineTests)
 # here would otherwise silently never run under CTest.
 set(GAMEENGINETESTS_SUITES
     AssetDatabase RenderFrame Physics RenderCache ShaderContract ContentSource
-    RuntimeObject Animator Audio AppTiming EditorSettings EditorDocument Diagnostics Math PoseSampler Core Layering UIContext UILayout UIEvent
+    RuntimeObject Animator Audio AppTiming EditorSettings EditorDocument Diagnostics Math PoseSampler Core UIModel Layering UIContext UILayout UIEvent
     ProjectBuilder BackendImage SkinnedMeshRender PlayerStartup FbxSkeletalImport)
 foreach(suite IN LISTS GAMEENGINETESTS_SUITES)
     add_test(NAME "GameEngineTests.${suite}"

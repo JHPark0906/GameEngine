@@ -16,7 +16,7 @@
 #include "TextureData.h"
 #include "../Animation/AnimationClip.h"
 #include "../Animation/Skeleton.h"
-#include "../Core/ResourceId.h"
+#include "ResourceId.h"
 
 namespace GameEngine::Assets
 {
@@ -41,12 +41,12 @@ struct ImportIdentity
     /// 같은 종류 안에서는 <b>해시</b>다. 셋을 XOR한 값이 하위 56비트로 잘려 들어가므로 충돌이
     /// 불가능하지는 않고, 그 확률은 한 종류 안 리소스 R개에 대해 대략 R²/2⁵⁷이다(백만 개에서
     /// 7e-6). 같은 비트를 쓰는 계수기와 해시의 요구가 다르다는 것은
-    /// <see cref="Core::MakeResourceId"/>의 주석에 적혀 있다.
+    /// <see cref="Assets::MakeResourceId"/>의 주석에 적혀 있다.
     /// </summary>
     [[nodiscard]] std::uint64_t MakeResourceId(
-        Core::ResourceIdDomain domain, std::uint32_t localId) const
+        Assets::ResourceIdDomain domain, std::uint32_t localId) const
     {
-        return Core::MakeResourceId(domain, assetId ^ contentHash ^ localId);
+        return Assets::MakeResourceId(domain, assetId ^ contentHash ^ localId);
     }
 };
 

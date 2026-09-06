@@ -11,7 +11,7 @@
 #include "Views/EditorConsolePanel.h"
 #include "Views/EditorFloatingPanelView.h"
 #include "Assets/AssetReference.h"
-#include "Core/DragGesture.h"
+#include "Rules/DragGesture.h"
 #include "Views/EditorContentBrowserPanel.h"
 #include "Views/EditorGameViewPanel.h"
 #include "Views/EditorHierarchyPanel.h"
@@ -274,9 +274,9 @@ private:
     /// <summary>집고 있는 패널의 번호다. <c>DockSlotCount</c>면 아무것도 집지 않았다.</summary>
     std::size_t mPanelDragIndex = DockSlotCount;
     /// <summary>그 패널을 끄는 손짓이다. 계층 창의 드래그와 같은 규칙을 쓴다.</summary>
-    GameEngine::Core::DragGesture mPanelDrag;
+    GameEditor::DragGesture mPanelDrag;
     /// <summary>에셋 끌기의 손짓이다. 문턱과 놓기 판정을 이것이 쥔다.</summary>
-    GameEngine::Core::DragGesture mAssetDrag;
+    GameEditor::DragGesture mAssetDrag;
     /// <summary>끌고 있는 에셋이다. 집지 않았으면 빈 참조다.</summary>
     GameEngine::Assets::AssetReference mDraggedAsset;
 
@@ -288,7 +288,7 @@ private:
     /// 창을 옮기는 손짓이다. 패널 제목줄·에셋 끌기와 같은 설비를 쓴다 — 누름 자리도 문턱도
     /// 잡힘도 여기서 다시 만들지 않는다.
     /// </summary>
-    GameEngine::Core::DragGesture mWindowDrag;
+    GameEditor::DragGesture mWindowDrag;
     /// <summary>
     /// 끌기가 시작된 순간 창이 있던 자리다. 이동량은 손짓이 답하고, 어디서부터 움직이는지는
     /// 창의 것이라 여기에 둔다.

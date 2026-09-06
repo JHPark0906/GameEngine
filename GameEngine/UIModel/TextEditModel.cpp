@@ -3,7 +3,7 @@
 
 #include <algorithm>
 
-namespace GameEngine::Core
+namespace GameEngine::UIModel
 {
 
 namespace

@@ -4,15 +4,15 @@
 #include <optional>
 #include <string>
 
-#include "Core/RelativePath.h"
+#include "Platform/RelativePath.h"
 #include "TestSupport.h"
 
 using TestSupport::Expect;
 
 bool RunRelativePathTests()
 {
-    using GameEngine::Core::EscapesRoot;
-    using GameEngine::Core::RelativePathWithin;
+    using GameEngine::Platform::EscapesRoot;
+    using GameEngine::Platform::RelativePathWithin;
 
     const std::filesystem::path root = "C:/Projects/Game";
     const auto within = [&root](const std::filesystem::path& path)
@@ -79,4 +79,4 @@ bool RunRelativePathTests()
 }
 
 static const TestSupport::Registration gRelativePathTests{
-    "Core", "relative path tests should pass", RunRelativePathTests };
+    "ContentSource", "relative path tests should pass", RunRelativePathTests };

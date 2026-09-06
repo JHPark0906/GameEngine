@@ -120,7 +120,7 @@ namespace
 
         const auto vertex = [](const float x, const float y, const std::uint32_t boneIndex)
         {
-            Core::SkinnedMeshVertex result;
+            Assets::SkinnedMeshVertex result;
             result.position = { x, y, MeshDepth };
             result.normal = { 0.0f, 0.0f, -1.0f };
             result.textureCoordinate = { x, y };

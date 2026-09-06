@@ -196,7 +196,7 @@ bool EditorSceneViewPanel::GetLocalBounds(
         }
         LocalBounds computed;
         bool first = true;
-        for (const GameEngine::Core::MeshVertex& vertex : meshData->vertices)
+        for (const GameEngine::Assets::MeshVertex& vertex : meshData->vertices)
         {
             if (first)
             {

@@ -12,7 +12,7 @@
 #include "../GameEditor/Source/Rules/EditorPanelHosts.h"
 #include "../GameEditor/Source/Views/EditorInspectorPanel.h"
 #include "Core/Json.h"
-#include "Core/TextFile.h"
+#include "Platform/TextFile.h"
 #include "Platform/IInput.h"
 #include "Rendering/RenderFrameBuilder.h"
 #include "Runtime/Input.h"
@@ -172,7 +172,7 @@ bool RunEditorSpriteSheetUiEditingTests()
     // 파일 감시는 이 시험에 없으므로, 디스크를 직접 읽어 사이드카가 실제로 바뀌었는지 본다.
 
     const std::optional<std::string> text =
-        Core::ReadTextFile(root / "Sprites" / "Chest.png.meta");
+        Platform::ReadTextFile(root / "Sprites" / "Chest.png.meta");
     bool passed = Expect(text.has_value(), "the sidecar should still be readable");
     if (!text)
     {
@@ -221,7 +221,7 @@ bool RunEditorSpriteSheetUiEditingTests()
     RunPanelFrame(source, input, ui, panel);
 
     const std::optional<std::string> textAfterEnter =
-        Core::ReadTextFile(root / "Sprites" / "Chest.png.meta");
+        Platform::ReadTextFile(root / "Sprites" / "Chest.png.meta");
     passed &= Expect(textAfterEnter.has_value(), "the sidecar should still be readable after Enter");
     if (textAfterEnter)
     {
@@ -265,7 +265,7 @@ bool RunEditorSpriteSheetUiEditingTests()
         RunPanelFrame(source, input, ui, panel);
 
         const std::optional<std::string> textAfterSameFrameEnter =
-            Core::ReadTextFile(root / "Sprites" / "Chest.png.meta");
+            Platform::ReadTextFile(root / "Sprites" / "Chest.png.meta");
         passed &= Expect(
             textAfterSameFrameEnter.has_value(),
             "the sidecar should still be readable after a same-frame type+Enter");

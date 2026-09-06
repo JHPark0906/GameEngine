@@ -10,7 +10,7 @@
 #include <system_error>
 
 #include "Diagnostics/Debug.h"
-#include "Core/TextFile.h"
+#include "Platform/TextFile.h"
 
 namespace GameEditor
 {
@@ -50,7 +50,7 @@ namespace
     [[nodiscard]] std::filesystem::path ReadRecoveryOwner(const std::filesystem::path& directory)
     {
         const std::optional<std::string> text =
-            GameEngine::Core::ReadTextFile(directory / "project.path");
+            GameEngine::Platform::ReadTextFile(directory / "project.path");
         return text && !text->empty()
             ? std::filesystem::path(std::u8string(text->begin(), text->end()))
             : std::filesystem::path{};
@@ -127,13 +127,13 @@ std::filesystem::path WriteRecoveryFile(
         const std::filesystem::path absolute = std::filesystem::weakly_canonical(requested, error);
         if (error) return {};
         const std::u8string utf8 = absolute.generic_u8string();
-        if (!GameEngine::Core::WriteTextFileAtomically(
+        if (!GameEngine::Platform::WriteTextFileAtomically(
                 directory / "project.path", std::string(utf8.begin(), utf8.end())))
         {
             return {};
         }
     }
-    if (!GameEngine::Core::WriteTextFileAtomically(fullPath, sceneText))
+    if (!GameEngine::Platform::WriteTextFileAtomically(fullPath, sceneText))
     {
         GameEngine::Diagnostics::Debug::LogError(
             "Could not write a recovery snapshot. path=", fullPath.string());

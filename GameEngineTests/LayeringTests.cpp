@@ -64,6 +64,7 @@ namespace
         // Core도 Animation도 서로를 모른다.
         { "Animation", 2, ModuleKind::Shared },
         { "Platform", 3, ModuleKind::Shared },
+        { "UIModel", 3, ModuleKind::Shared },
         { "Platform/Win32", 4, ModuleKind::Implementation },
         // Text는 Platform 인터페이스를 구현하는 4층 구현 모듈이다.
         // 래스터라이저는 PlatformServices 팩토리에서만 생성하며 다른 모듈의 직접 참조를 금지한다.
