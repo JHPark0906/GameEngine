@@ -1,0 +1,16 @@
+{
+  "projectName": "GameEditor",
+  "window": {
+    "width": 1440,
+    "height": 900
+  },
+  "targetFrameRate": 60,
+  "initialSceneId": 0,
+  "scenes": [
+    { "id": 0, "path": "Scenes/Editor.scene" }
+  ],
+  "graphicsApi": "Auto",
+  "windowChrome": "system",
+  "windowTheme": "dark",
+  "icon": "41096bbda0724c60a6c61c897fb51656"
+}

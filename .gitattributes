@@ -1,0 +1,24 @@
+# 장면, 프로젝트 디스크립터와 메타데이터는 LF로 저장한다.
+# 도구가 생성하는 파일도 기계별 Git 설정과 무관하게 같은 줄끝을 사용해야 한다.
+*.scene         text eol=lf
+*.gameproject   text eol=lf
+*.meta          text eol=lf
+
+# C++ 소스와 헤더도 LF를 사용해 줄끝 차이로 파일 전체가 바뀌는 diff를 방지한다.
+*.h             text eol=lf
+*.cpp           text eol=lf
+
+# 나머지 텍스트도 LF를 사용한다.
+# 특히 셸 스크립트의 CRLF는 명령 이름에 CR이 포함되는 실행 오류를 일으킬 수 있다.
+*.hlsl          text eol=lf
+*.sh            text eol=lf
+*.ps1           text eol=lf
+*.py            text eol=lf
+*.cmake         text eol=lf
+*.txt           text eol=lf
+*.md            text eol=lf
+*.json          text eol=lf
+*.rc            text eol=lf
+.gitattributes  text eol=lf
+.gitignore      text eol=lf
+.clang-format   text eol=lf

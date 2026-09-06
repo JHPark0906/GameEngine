@@ -1,0 +1,66 @@
+# Visual Studio and MSBuild user state
+.vs/
+*.suo
+*.user
+*.VC.db
+*.VC.opendb
+*.sln.DotSettings.user
+
+# JetBrains IDEs and local tooling caches
+.idea/
+.cache/
+.vscode/
+# Agent session state and its worktrees are ignored for every clone.
+.claude/
+.codex/
+.agents/
+
+# CMake build trees and user presets
+/build/
+/cmake-build-*/
+CMakeUserPresets.json
+
+# Each game project.s build writes its component schema into its own content, so the editor
+# finds it beside the project a person opens. It describes code, not content, and is rebuilt
+# whenever that code is.
+*/Content/Components.schema.json
+
+# Project build output directories
+/x64*/
+/GameEngine/x64/
+/GameEngine/Win32/
+/GameEditor/x64/
+/GameEditor/GameEditor/
+/GameEngineTests/x64/
+/GameEngineTests/GameEngineTests/
+/GameBuilder/x64/
+/GameBuilder/GameBuilder/
+/SampleGame/x64/
+/SampleGame/SampleGame/
+/Builds/
+
+# Local game content is kept outside the public source snapshot.
+/SampleGame/
+
+# Native build artifacts
+*.obj
+*.pch
+*.pdb
+*.idb
+*.ilk
+*.iobj
+*.ipdb
+*.tlog
+*.recipe
+*.lastbuildstate
+*.FileListAbsolute.txt
+*.AssemblyReference.cache
+
+# Executables and generated logs
+*.exe
+*.log
+
+# OS metadata
+.DS_Store
+Thumbs.db
+Desktop.ini

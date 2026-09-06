@@ -1,0 +1,52 @@
+{
+  "version": 8,
+  "configurePresets": [
+    {
+      "name": "vs",
+      "displayName": "Visual Studio 2026 (x64, multi-config)",
+      "generator": "Visual Studio 18 2026",
+      "architecture": { "value": "x64", "strategy": "set" },
+      "binaryDir": "${sourceDir}/build/vs"
+    },
+    {
+      "name": "ninja-debug",
+      "displayName": "Ninja Debug (run from a Developer PowerShell)",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/ninja-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "GAMEENGINE_OUTPUT_ROOT": "${sourceDir}/x64-ninja"
+      }
+    },
+    {
+      "name": "ninja-release",
+      "displayName": "Ninja Release (run from a Developer PowerShell)",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/ninja-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "GAMEENGINE_OUTPUT_ROOT": "${sourceDir}/x64-ninja"
+      }
+    },
+    {
+      "name": "vs-no-pch",
+      "displayName": "Visual Studio 2026 without the precompiled header (include hygiene check)",
+      "inherits": "vs",
+      "binaryDir": "${sourceDir}/build/vs-no-pch",
+      "cacheVariables": {
+        "GAMEENGINE_USE_PCH": "OFF",
+        "GAMEENGINE_OUTPUT_ROOT": "${sourceDir}/x64-no-pch"
+      }
+    }
+  ],
+  "buildPresets": [
+    { "name": "debug", "configurePreset": "vs", "configuration": "Debug" },
+    { "name": "release", "configurePreset": "vs", "configuration": "Release" },
+    { "name": "no-pch", "configurePreset": "vs-no-pch", "configuration": "Debug" },
+    { "name": "ninja-debug", "configurePreset": "ninja-debug" },
+    { "name": "ninja-release", "configurePreset": "ninja-release" }
+  ],
+  "testPresets": [
+    { "name": "debug", "configurePreset": "vs", "configuration": "Debug", "output": { "outputOnFailure": true } }
+  ]
+}
