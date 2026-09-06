@@ -9,8 +9,9 @@ complete notices preserved in
 [LICENSE-D2Coding.txt](../GameEditor/Content/Fonts/LICENSE-D2Coding.txt) and
 [LICENSE-NanumSquareNeo-MaruBuri.txt](../GameEditor/Content/Fonts/LICENSE-NanumSquareNeo-MaruBuri.txt).
 Keep those notices with the fonts. [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md)
-lists the included files and their embedded copyright credits; these font licenses
-do not assign a license to the engine, editor, or builder's original code.
+lists the included files and their embedded copyright credits. The project's
+[MIT-0 license](../LICENSE) applies separately to project-owned code and documentation;
+it does not replace these font licenses.
 
 ## Engine and platform dependencies
 

@@ -1,8 +1,9 @@
 # Third-party notices
 
 This file documents the third-party fonts bundled with GameEditor and used by its
-text regression tests. It does not assign a license to the original GameEngine,
-GameEditor, or GameBuilder code.
+text regression tests. Project-owned code and documentation are provided under
+the [MIT No Attribution (MIT-0) license](LICENSE). That license does not replace
+the third-party font licenses and notices below.
 
 ## Bundled fonts
 
