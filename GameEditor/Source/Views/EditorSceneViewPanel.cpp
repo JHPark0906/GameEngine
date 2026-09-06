@@ -421,7 +421,7 @@ void EditorSceneViewPanel::DrawWorldSegment(
 }
 
 void EditorSceneViewPanel::DrawWorldAabb(
-    const UIRect& content, const GameEngine::Core::Aabb2D& worldBounds,
+    const UIRect& content, const GameEngine::Math::Aabb2D& worldBounds,
     const float z, const float thickness, const GameEngine::Math::Color& color)
 {
     const GameEngine::Math::Vector3 corners[4] = {
@@ -437,7 +437,7 @@ void EditorSceneViewPanel::DrawWorldAabb(
 }
 
 void EditorSceneViewPanel::DrawWorldAabb(
-    const UIRect& content, const GameEngine::Core::Aabb3D& worldBounds,
+    const UIRect& content, const GameEngine::Math::Aabb3D& worldBounds,
     const float thickness, const GameEngine::Math::Color& color)
 {
     const GameEngine::Math::Vector3 corners[8] = {
@@ -494,7 +494,7 @@ void EditorSceneViewPanel::DrawColliderGizmos(const UIRect& content)
                         continue;
                     }
 
-                    const GameEngine::Core::Aabb2D worldBounds = collider->GetWorldBounds();
+                    const GameEngine::Math::Aabb2D worldBounds = collider->GetWorldBounds();
                     if (worldBounds.IsEmpty())
                     {
                         continue;
@@ -510,7 +510,7 @@ void EditorSceneViewPanel::DrawColliderGizmos(const UIRect& content)
                         continue;
                     }
 
-                    const GameEngine::Core::Aabb3D worldBounds = collider->GetWorldBounds();
+                    const GameEngine::Math::Aabb3D worldBounds = collider->GetWorldBounds();
                     if (!worldBounds.HasVolume())
                     {
                         continue;

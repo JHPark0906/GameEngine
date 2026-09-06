@@ -3,7 +3,7 @@
 #include <optional>
 #include <vector>
 
-#include "../Core/Aabb3D.h"
+#include "../Math/Aabb3D.h"
 #include "Behaviour.h"
 
 namespace GameEngine::Runtime
@@ -41,14 +41,14 @@ public:
     void SetTrigger(const bool isTrigger) { mIsTrigger = isTrigger; }
 
     /// <summary>월드 공간에서 이 콜라이더를 품는 축 정렬 상자다.</summary>
-    [[nodiscard]] virtual Core::Aabb3D GetWorldBounds() const = 0;
+    [[nodiscard]] virtual Math::Aabb3D GetWorldBounds() const = 0;
 
     /// <summary>
     /// 월드 공간의 상자가 이 콜라이더의 실제 모양과 겹치는지다. 단순 상자는 넓은 판정과 실제
     /// 모양이 같으므로 기본이 참이다. 성긴 3D 도형이 생기면 이 질의를 재정의한다.
     /// </summary>
     /// <param name="box">이미 넓은 판정을 통과한 월드 상자다.</param>
-    [[nodiscard]] virtual bool OverlapsBox(const Core::Aabb3D& box) const
+    [[nodiscard]] virtual bool OverlapsBox(const Math::Aabb3D& box) const
     {
         static_cast<void>(box);
         return true;
@@ -74,14 +74,14 @@ protected:
     /// 로컬 상자를 월드로 옮긴 뒤 다시 감싼 축 정렬 상자를 만든다. 여덟 모서리를 모두 변환하므로
     /// 회전·비균일 크기를 가진 부모 아래에서도 실제 자리를 빠뜨리지 않는다.
     /// </summary>
-    [[nodiscard]] Core::Aabb3D TransformToWorld(const Core::Aabb3D& localBounds) const;
+    [[nodiscard]] Math::Aabb3D TransformToWorld(const Math::Aabb3D& localBounds) const;
 
     /// <summary>
     /// 월드 공간의 움직이는 상자가 이 모양에 처음 닿는 때다. 물리 시스템만 쓰는 보호된 질의라,
     /// 나중에 복잡한 도형도 overlap과 고체 충돌에서 같은 모양을 답할 수 있다.
     /// </summary>
     [[nodiscard]] virtual std::optional<Collider3DSweepHit> SweepBox(
-        const Core::Aabb3D& movingBox, const Math::Vector3& worldDisplacement) const;
+        const Math::Aabb3D& movingBox, const Math::Vector3& worldDisplacement) const;
 
 private:
     friend class Physics3DSystem;

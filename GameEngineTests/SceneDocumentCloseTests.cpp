@@ -5,7 +5,7 @@
 #include <string>
 
 #include "../GameEditor/Source/Document/EditorContext.h"
-#include "../GameEngine/Core/UndoStack.h"
+#include "Document/UndoStack.h"
 
 #include "SceneDocumentCloseTests.h"
 #include "TestSupport.h"
@@ -50,7 +50,7 @@ namespace
     return wrote ? projectFile : std::filesystem::path{};
 }
 
-class NoOpEditCommand final : public GameEngine::Core::IEditCommand
+class NoOpEditCommand final : public GameEditor::IEditCommand
 {
 public:
     [[nodiscard]] bool Apply() override { return true; }

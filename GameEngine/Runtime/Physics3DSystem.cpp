@@ -134,8 +134,8 @@ void Physics3DSystem::CollectRigidbodies(
 }
 
 bool Physics3DSystem::AreOverlapping(
-    const Collider3D& first, const Core::Aabb3D& firstBounds,
-    const Collider3D& second, const Core::Aabb3D& secondBounds)
+    const Collider3D& first, const Math::Aabb3D& firstBounds,
+    const Collider3D& second, const Math::Aabb3D& secondBounds)
 {
     return firstBounds.Overlaps(secondBounds) && first.OverlapsBox(secondBounds) &&
         second.OverlapsBox(firstBounds);
@@ -234,7 +234,7 @@ std::optional<Collider3DSweepHit> Physics3DSystem::FindEarliestHit(
     }
 
     const GameObject* const owner = rigidbody.GetGameObject();
-    const Core::Aabb3D movingBounds = movingCollider.GetWorldBounds();
+    const Math::Aabb3D movingBounds = movingCollider.GetWorldBounds();
     if (!owner || !movingBounds.HasVolume())
     {
         return std::nullopt;
@@ -350,7 +350,7 @@ std::size_t Physics3DSystem::Synchronize(SceneManager& sceneManager)
     }
     SortByInstanceId(colliders);
 
-    std::vector<Core::Aabb3D> bounds;
+    std::vector<Math::Aabb3D> bounds;
     bounds.reserve(colliders.size());
     for (const Collider3D* const collider : colliders)
     {

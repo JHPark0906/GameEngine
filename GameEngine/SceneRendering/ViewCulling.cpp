@@ -41,7 +41,7 @@ ViewCulling::ViewCulling(const Rendering::CameraRenderData& camera, const bool c
         mViewProjection.TryInvert(inverse) && inverse.IsFinite()) mClipToWorld = inverse;
 }
 
-bool ViewCulling::IsVisible(const Core::Aabb3D& localBounds, const Math::Matrix4x4& localToWorld) const
+bool ViewCulling::IsVisible(const Math::Aabb3D& localBounds, const Math::Matrix4x4& localToWorld) const
 {
     if (!mClipToWorld || !localToWorld.IsFinite() || !localBounds.min.IsFinite() || !localBounds.max.IsFinite())
         return true;
@@ -72,7 +72,7 @@ bool ViewCulling::IsVisible(const Core::Aabb3D& localBounds, const Math::Matrix4
     return std::none_of(allOutside.begin(), allOutside.end(), [](const bool outside) { return outside; });
 }
 
-std::optional<Core::Aabb2D> ViewCulling::GetVisiblePlaneBounds(const Math::Matrix4x4& localToWorld) const
+std::optional<Math::Aabb2D> ViewCulling::GetVisiblePlaneBounds(const Math::Matrix4x4& localToWorld) const
 {
     Math::Matrix4x4 worldToLocal;
     if (!mClipToWorld || !localToWorld.IsFinite() || !localToWorld.TryInvert(worldToLocal) || !worldToLocal.IsFinite())
@@ -146,7 +146,7 @@ std::optional<Core::Aabb2D> ViewCulling::GetVisiblePlaneBounds(const Math::Matri
             }
         }
     }
-    if (!intersects) return Core::Aabb2D{};
+    if (!intersects) return Math::Aabb2D{};
     // Round outward before narrowing to float so a tile touching the view boundary
     // remains a candidate despite inverse-transform and intersection roundoff.
     const double padX = Tolerance * (std::max)({ 1.0, std::abs(minX), std::abs(maxX) });
@@ -154,7 +154,7 @@ std::optional<Core::Aabb2D> ViewCulling::GetVisiblePlaneBounds(const Math::Matri
     constexpr double maximumFloat = std::numeric_limits<float>::max();
     if (minX - padX < -maximumFloat || minY - padY < -maximumFloat ||
         maxX + padX > maximumFloat || maxY + padY > maximumFloat) return std::nullopt;
-    const Core::Aabb2D bounds{
+    const Math::Aabb2D bounds{
         { static_cast<float>(minX - padX), static_cast<float>(minY - padY) },
         { static_cast<float>(maxX + padX), static_cast<float>(maxY + padY) } };
     if (!std::isfinite(bounds.min.GetX()) || !std::isfinite(bounds.min.GetY()) ||

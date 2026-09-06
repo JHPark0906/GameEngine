@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "Core/Aabb2D.h"
+#include "Math/Aabb2D.h"
 #include "Math/MathUtility.h"
 #include "Platform/IAudioOutput.h"
 #include "Platform/ITextMeasure.h"
@@ -51,7 +51,7 @@ namespace
 
 bool RunRigidbody2DTests()
 {
-    using GameEngine::Core::Aabb2D;
+    using GameEngine::Math::Aabb2D;
     using GameEngine::Runtime::BoxCollider2D;
     using GameEngine::Runtime::Game;
     using GameEngine::Runtime::GameObject;

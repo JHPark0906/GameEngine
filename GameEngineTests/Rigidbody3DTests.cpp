@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "Core/Aabb3D.h"
+#include "Math/Aabb3D.h"
 #include "Math/MathUtility.h"
 #include "Platform/IAudioOutput.h"
 #include "Platform/ITextMeasure.h"
@@ -50,7 +50,7 @@ namespace
 
 bool RunRigidbody3DTests()
 {
-    using GameEngine::Core::Aabb3D;
+    using GameEngine::Math::Aabb3D;
     using GameEngine::Runtime::BoxCollider3D;
     using GameEngine::Runtime::Game;
     using GameEngine::Runtime::GameObject;

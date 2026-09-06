@@ -17,7 +17,7 @@ Play는 편집 씬 하나만 활성인 상태에서 시작하며, 진입할 때 
 
 복원 준비에 실패하면 Play 상태와 스냅샷을 유지하므로 Stop을 다시 시도하거나 편집 상태의 복구 사본을 저장할 수 있습니다. 정상 Stop도 진입 전의 미저장 표시를 지우지 않습니다. Stop의 재생성으로 객체 ID가 바뀌므로 Play 진입과 정상 복원에서 Undo 이력을 비웁니다. 이 흐름은 [EditorSceneDocument](Source/Document/EditorSceneDocument.cpp)와 [EditorPlaySession](Source/Document/EditorPlaySession.cpp)이 관리합니다.
 
-Edit 모드의 삭제·재부모화 Undo/Redo는 부모뿐 아니라 형제 위치와 저장한 로컬 변환도 복원합니다. UI의 겹침 순서는 [공통 UIStack](../GameEngine/Runtime/UIStackOrder.h)을 통해 그리기와 입력에 함께 적용됩니다. 창을 앞으로 옮기면 Sprite·텍스트·드롭다운과 입력 대상이 함께 이동하고, 중첩 창은 부모의 일반 콘텐츠 위에, 최상위 모달은 다른 창 위에 놓입니다.
+[UndoStack과 IEditCommand](Source/Document/UndoStack.h)는 Editor의 Document 계층에서 편집 이력을 관리합니다. 엔진 라이브러리는 이 편집 명령 계약에 의존하지 않습니다. Edit 모드의 삭제·재부모화 Undo/Redo는 부모뿐 아니라 형제 위치와 저장한 로컬 변환도 복원합니다. UI의 겹침 순서는 [공통 UIStack](../GameEngine/Runtime/UIStackOrder.h)을 통해 그리기와 입력에 함께 적용됩니다. 창을 앞으로 옮기면 Sprite·텍스트·드롭다운과 입력 대상이 함께 이동하고, 중첩 창은 부모의 일반 콘텐츠 위에, 최상위 모달은 다른 창 위에 놓입니다.
 
 ## 빌드와 실행
 

@@ -31,13 +31,13 @@ const ComponentType& BoxCollider3D::StaticType()
     return type;
 }
 
-Core::Aabb3D BoxCollider3D::GetWorldBounds() const
+Math::Aabb3D BoxCollider3D::GetWorldBounds() const
 {
     if (mSize.GetX() <= 0.0f || mSize.GetY() <= 0.0f || mSize.GetZ() <= 0.0f)
     {
-        return Core::Aabb3D::Empty();
+        return Math::Aabb3D::Empty();
     }
-    return TransformToWorld(Core::Aabb3D::FromCenterSize(mOffset, mSize));
+    return TransformToWorld(Math::Aabb3D::FromCenterSize(mOffset, mSize));
 }
 
 }

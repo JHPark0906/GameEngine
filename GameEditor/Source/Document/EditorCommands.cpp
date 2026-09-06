@@ -305,7 +305,7 @@ bool PropertyEditCommand::Revert()
     return SetValue(mBefore);
 }
 
-bool PropertyEditCommand::TryMerge(const GameEngine::Core::IEditCommand& next)
+bool PropertyEditCommand::TryMerge(const IEditCommand& next)
 {
     const auto* const other = dynamic_cast<const PropertyEditCommand*>(&next);
     if (!other || mMergeKey == 0 || other->mMergeKey != mMergeKey ||
@@ -352,7 +352,7 @@ bool GameObjectNameCommand::Revert()
     return SetName(mBefore);
 }
 
-bool GameObjectNameCommand::TryMerge(const GameEngine::Core::IEditCommand& next)
+bool GameObjectNameCommand::TryMerge(const IEditCommand& next)
 {
     const auto* const other = dynamic_cast<const GameObjectNameCommand*>(&next);
     if (!other || mMergeKey == 0 || other->mMergeKey != mMergeKey ||
@@ -574,7 +574,7 @@ bool PreservedPropertyEditCommand::Revert()
     return SetValue(mBefore);
 }
 
-bool PreservedPropertyEditCommand::TryMerge(const GameEngine::Core::IEditCommand& next)
+bool PreservedPropertyEditCommand::TryMerge(const IEditCommand& next)
 {
     const auto* const edit = dynamic_cast<const PreservedPropertyEditCommand*>(&next);
     if (!edit || mMergeKey == 0 || edit->mMergeKey != mMergeKey ||

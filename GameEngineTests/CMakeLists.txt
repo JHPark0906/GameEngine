@@ -16,6 +16,7 @@ target_sources(GameEngineTests PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/../GameEditor/Source/Document/EditorSettingsStore.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/../GameEditor/Source/Document/EditorPlaySession.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/../GameEditor/Source/Document/EditorProjectWatch.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../GameEditor/Source/Document/UndoStack.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/../GameEditor/Source/Document/EditorUndoService.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/../GameEditor/Source/Document/EditorSceneDocument.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/../GameEditor/Source/Rules/EditorFileWrite.cpp"

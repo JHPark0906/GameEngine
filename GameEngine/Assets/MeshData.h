@@ -5,7 +5,7 @@
 #include <span>
 #include <vector>
 
-#include "../Core/Aabb3D.h"
+#include "../Math/Aabb3D.h"
 
 // The engine has one vertex layout and the shaders declare it, so a mesh is imported straight into
 // it. That is the only thing this borrows from Rendering, and it is a leaf header.
@@ -48,7 +48,7 @@ struct MeshData
     /// 옛것이면, 틀린 상자로 거른 오브젝트가 오류도 로그도 없이 화면에서 사라진다.
     /// 다시 읽을 때 다시 계산하는 편이 언제나 맞다.
     /// </summary>
-    Core::Aabb3D bounds = Core::Aabb3D::Empty();
+    Math::Aabb3D bounds = Math::Aabb3D::Empty();
 
     [[nodiscard]] bool IsValid() const
     {
@@ -70,9 +70,9 @@ struct MeshData
 /// 필요하지 않다.
 /// </summary>
 /// <param name="vertices">로컬 공간의 정점들이다.</param>
-[[nodiscard]] inline Core::Aabb3D ComputeBounds(const std::span<const Core::MeshVertex> vertices)
+[[nodiscard]] inline Math::Aabb3D ComputeBounds(const std::span<const Core::MeshVertex> vertices)
 {
-    Core::Aabb3D bounds = Core::Aabb3D::Empty();
+    Math::Aabb3D bounds = Math::Aabb3D::Empty();
     for (const Core::MeshVertex& vertex : vertices)
     {
         bounds.Encapsulate({ vertex.position.x, vertex.position.y, vertex.position.z });

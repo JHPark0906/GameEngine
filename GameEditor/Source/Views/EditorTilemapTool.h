@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "Rules/EditorSceneTool.h"
-#include "Core/UndoStack.h"
+#include "Document/UndoStack.h"
 #include "Math/Vector.h"
 #include "UI/UIContext.h"
 
@@ -28,7 +28,7 @@ class EditorContext;
 /// 담으므로, 큰 타일맵에 한 칸을 칠한 undo가 격자만 한 메모리를 쓰지 않는다. 한 획이 커맨드
 /// 하나라서 Ctrl+Z 한 번이 그 획 전체를 지운다.
 /// </summary>
-class TilePaintCommand final : public GameEngine::Core::IEditCommand
+class TilePaintCommand final : public IEditCommand
 {
 public:
     /// <summary>획이 바꾼 칸 하나다. 배열 자리와 그 자리의 이전·새 타일 번호다.</summary>

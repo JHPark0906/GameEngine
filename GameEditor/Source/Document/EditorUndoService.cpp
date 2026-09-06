@@ -28,7 +28,7 @@ void EditorUndoService::RecordObjectIdAlias(const unsigned int oldId, const unsi
     }
 }
 
-void EditorUndoService::Record(std::unique_ptr<GameEngine::Core::IEditCommand> command)
+void EditorUndoService::Record(std::unique_ptr<IEditCommand> command)
 {
     mStack.Push(std::move(command));
 }

@@ -12,7 +12,7 @@
 #include "Rules/EditorPanelHosts.h"
 #include "Rules/EditorSceneTool.h"
 #include "Views/EditorSceneViewPanel.h"
-#include "Core/Aabb3D.h"
+#include "Math/Aabb3D.h"
 #include "Math/Color.h"
 #include "Math/Matrix.h"
 #include "Math/Vector.h"
@@ -158,7 +158,7 @@ namespace
     /// </summary>
     [[nodiscard]] bool DrawsFollowWorldAabb(
         const std::vector<const GameEngine::Rendering::SpriteDraw*>& draws,
-        const GameEngine::Core::Aabb3D& worldBounds,
+        const GameEngine::Math::Aabb3D& worldBounds,
         const GameEditor::EditorSceneViewPanel& panel, const GameEngine::UI::UIRect& content)
     {
         const GameEngine::Rendering::RenderTargetSize viewSize = panel.GetViewSize();

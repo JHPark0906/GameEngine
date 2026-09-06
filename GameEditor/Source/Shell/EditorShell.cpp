@@ -512,7 +512,7 @@ void EditorShell::HandleUndoShortcuts(const GameEngine::Runtime::Game& game)
 
 void EditorShell::PerformUndo()
 {
-    GameEngine::Core::UndoStack& stack = mContext.GetUndoStack();
+    UndoStack& stack = mContext.GetUndoStack();
     if (!stack.CanUndo())
     {
         return;
@@ -531,7 +531,7 @@ void EditorShell::PerformUndo()
 
 void EditorShell::PerformRedo()
 {
-    GameEngine::Core::UndoStack& stack = mContext.GetUndoStack();
+    UndoStack& stack = mContext.GetUndoStack();
     if (!stack.CanRedo())
     {
         return;

@@ -14,7 +14,7 @@
 #include "Animation/Skeleton.h"
 #include "Assets/FbxImporter.h"
 #include "Assets/SkinnedMeshData.h"
-#include "Core/Aabb3D.h"
+#include "Math/Aabb3D.h"
 #include "Math/Matrix.h"
 #include "TestSupport.h"
 
@@ -117,12 +117,12 @@ namespace
         // 잰다: 바인드 포즈에서 뼈들은 자신이 움직이는 메시의 경계 안(약간의 여유를 두고) 있어야
         // 한다.
         {
-            Core::Aabb3D meshBounds = Core::Aabb3D::Empty();
+            Math::Aabb3D meshBounds = Math::Aabb3D::Empty();
             for (const SkinnedMeshData& mesh : meshes) meshBounds = meshBounds.UnitedWith(mesh.bounds);
             const Math::Vector3 margin{
                 meshBounds.GetSize().GetX() * 0.5f + 1.0f, meshBounds.GetSize().GetY() * 0.5f + 1.0f,
                 meshBounds.GetSize().GetZ() * 0.5f + 1.0f };
-            const Core::Aabb3D generousBounds = Core::Aabb3D::FromCenterSize(
+            const Math::Aabb3D generousBounds = Math::Aabb3D::FromCenterSize(
                 meshBounds.GetCenter(), meshBounds.GetSize() + margin + margin);
             bool everyBoneNearMesh = true;
             for (const Math::Vector3& position : ComputeBoneObjectSpacePositions(skeleton))

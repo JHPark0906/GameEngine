@@ -5,7 +5,7 @@
 #include <span>
 #include <vector>
 
-#include "../Core/Aabb3D.h"
+#include "../Math/Aabb3D.h"
 
 // A skinned mesh is imported straight into the layout the skinning shader declares, the same
 // reason MeshData borrows from Core rather than Rendering.
@@ -36,7 +36,7 @@ struct SkinnedMeshData
     /// 바인드 포즈에서 이 형상을 감싸는 가장 작은 상자다. 스키닝은 포즈에 따라 실제 경계를
     /// 바꾸므로, 이 값은 대략의 컬링 기준일 뿐 애니메이션 중의 정확한 경계가 아니다.
     /// </summary>
-    Core::Aabb3D bounds = Core::Aabb3D::Empty();
+    Math::Aabb3D bounds = Math::Aabb3D::Empty();
 
     [[nodiscard]] bool IsValid() const
     {
@@ -54,10 +54,10 @@ struct SkinnedMeshData
 /// 그 정점들을 감싸는 가장 작은 상자다. <see cref="ComputeBounds"/>(MeshData.h)와 같은 이유로
 /// 이름 붙은 함수로 서 있다 — 파일도 창도 없이 시험할 수 있게.
 /// </summary>
-[[nodiscard]] inline Core::Aabb3D ComputeSkinnedBounds(
+[[nodiscard]] inline Math::Aabb3D ComputeSkinnedBounds(
     const std::span<const Core::SkinnedMeshVertex> vertices)
 {
-    Core::Aabb3D bounds = Core::Aabb3D::Empty();
+    Math::Aabb3D bounds = Math::Aabb3D::Empty();
     for (const Core::SkinnedMeshVertex& vertex : vertices)
     {
         bounds.Encapsulate({ vertex.position.x, vertex.position.y, vertex.position.z });

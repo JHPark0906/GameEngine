@@ -136,8 +136,8 @@ void Physics2DSystem::CollectRigidbodies(
 }
 
 bool Physics2DSystem::AreOverlapping(
-    const Collider2D& first, const Core::Aabb2D& firstBounds,
-    const Collider2D& second, const Core::Aabb2D& secondBounds)
+    const Collider2D& first, const Math::Aabb2D& firstBounds,
+    const Collider2D& second, const Math::Aabb2D& secondBounds)
 {
     // 양쪽 모두에게 묻는다. 한쪽만 물으면 타일맵의 빈 자리가 상대의 사각형으로만 판정되어,
     // 아무 타일도 없는 곳에서 겹쳤다고 답한다.
@@ -232,7 +232,7 @@ void Physics2DSystem::SimulateRigidbody(
         { 0.0f, rigidbody.GetVelocity().GetY() * FixedDeltaTime });
 }
 
-std::optional<Core::Aabb2DSweepHit> Physics2DSystem::FindEarliestHit(
+std::optional<Math::Aabb2DSweepHit> Physics2DSystem::FindEarliestHit(
     const Rigidbody2D& rigidbody, const BoxCollider2D& movingCollider,
     const std::vector<Collider2D*>& colliders,
     const Math::Vector2& worldDisplacement) const
@@ -244,13 +244,13 @@ std::optional<Core::Aabb2DSweepHit> Physics2DSystem::FindEarliestHit(
     }
 
     const GameObject* const owner = rigidbody.GetGameObject();
-    const Core::Aabb2D movingBounds = movingCollider.GetWorldBounds();
+    const Math::Aabb2D movingBounds = movingCollider.GetWorldBounds();
     if (!owner || movingBounds.IsEmpty())
     {
         return std::nullopt;
     }
 
-    std::optional<Core::Aabb2DSweepHit> earliest;
+    std::optional<Math::Aabb2DSweepHit> earliest;
     for (Collider2D* const target : colliders)
     {
         if (!target || target->IsTrigger())
@@ -271,7 +271,7 @@ std::optional<Core::Aabb2DSweepHit> Physics2DSystem::FindEarliestHit(
             continue;
         }
 
-        const std::optional<Core::Aabb2DSweepHit> hit =
+        const std::optional<Math::Aabb2DSweepHit> hit =
             target->SweepBox(movingBounds, worldDisplacement);
         if (hit && (!earliest || hit->fraction < earliest->fraction))
         {
@@ -301,7 +301,7 @@ void Physics2DSystem::MoveAlongAxis(
     }
 
     float fraction = 1.0f;
-    std::optional<Core::Aabb2DSweepHit> hit;
+    std::optional<Math::Aabb2DSweepHit> hit;
     if (movingCollider)
     {
         hit = FindEarliestHit(rigidbody, *movingCollider, colliders, worldDisplacement);
@@ -360,7 +360,7 @@ std::size_t Physics2DSystem::Synchronize(SceneManager& sceneManager)
 
     // 품는 사각형은 짝마다 다시 묻지 않는다. 콜라이더가 100개면 짝은 약 5000개이고, 그때마다
     // 계층을 거슬러 월드 행렬을 얻는 것이 이 시스템에서 가장 비싼 일이 된다.
-    std::vector<Core::Aabb2D> bounds;
+    std::vector<Math::Aabb2D> bounds;
     bounds.reserve(colliders.size());
     for (const Collider2D* const collider : colliders)
     {

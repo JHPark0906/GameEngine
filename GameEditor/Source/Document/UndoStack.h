@@ -1,10 +1,12 @@
 #pragma once
 
+// editor-layer: 1 (Document)
+
 #include <cstddef>
 #include <memory>
 #include <vector>
 
-namespace GameEngine::Core
+namespace GameEditor
 {
 
 /// <summary>
@@ -41,8 +43,8 @@ public:
 };
 
 /// <summary>
-/// undo/redo 커맨드 스택이다. 에디터 중립이다: 커맨드가 무엇을 편집하는지 모르고,
-/// Apply/Revert/TryMerge 계약만 안다 — 그래서 이 층(Core)에 살고 엔진 테스트로 시험된다.
+/// 편집 문서의 undo/redo 커맨드 스택이다. 커맨드가 무엇을 편집하는지 모르고,
+/// Apply/Revert/TryMerge 계약으로 편집 이력을 관리한다.
 ///
 /// Push는 "이미 실행된" 커맨드를 기록한다. 스택이 실행까지 맡지 않는 이유는, 에디터의 편집이
 /// 이미 각자의 길 — 인스펙터의 setter, 계층 창의 드래그 — 로 실행된 뒤에 기록되기 때문이다.

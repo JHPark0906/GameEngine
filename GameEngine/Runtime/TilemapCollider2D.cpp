@@ -27,7 +27,7 @@ namespace
 
     // 정수 변환 전에 격자로 제한한다. 큰 좌표를 먼저 int로 바꾸면 범위를 벗어날 수 있다.
     [[nodiscard]] CellRange FindOverlappingCells(
-        const Core::Aabb2D& local, const TilemapRenderer& tilemap)
+        const Math::Aabb2D& local, const TilemapRenderer& tilemap)
     {
         const Math::Vector2& cell = tilemap.GetCellSize();
         if (local.IsEmpty() || !std::isfinite(local.min.GetX()) || !std::isfinite(local.min.GetY()) ||
@@ -59,8 +59,8 @@ namespace
         return properties;
     }
 
-    [[nodiscard]] std::optional<Core::Aabb2DSweepHit> SweepTop(
-        const Core::Aabb2D& movingBox, const Core::Aabb2D& tile,
+    [[nodiscard]] std::optional<Math::Aabb2DSweepHit> SweepTop(
+        const Math::Aabb2D& movingBox, const Math::Aabb2D& tile,
         const Math::Vector2& displacement)
     {
         // 착지 위치를 적분하고 콜라이더의 발바닥을 다시 계산하면 각각 반올림이 생긴다.
@@ -87,7 +87,7 @@ namespace
         {
             return std::nullopt;
         }
-        return Core::Aabb2DSweepHit{ fraction, { 0.0f, 1.0f } };
+        return Math::Aabb2DSweepHit{ fraction, { 0.0f, 1.0f } };
     }
 }
 
@@ -105,15 +105,15 @@ const TilemapRenderer* TilemapCollider2D::FindTilemap() const
     return owner ? owner->GetComponent<TilemapRenderer>() : nullptr;
 }
 
-Core::Aabb2D TilemapCollider2D::GetWorldBounds() const
+Math::Aabb2D TilemapCollider2D::GetWorldBounds() const
 {
     const TilemapRenderer* const tilemap = FindTilemap();
     if (!tilemap)
     {
-        return Core::Aabb2D{};
+        return Math::Aabb2D{};
     }
     const Math::Vector2& cell = tilemap->GetCellSize();
-    const Core::Aabb2D local{
+    const Math::Aabb2D local{
         { 0.0f, 0.0f },
         { cell.GetX() * static_cast<float>(tilemap->GetColumns()),
           cell.GetY() * static_cast<float>(tilemap->GetRows()) }
@@ -121,7 +121,7 @@ Core::Aabb2D TilemapCollider2D::GetWorldBounds() const
     return TransformToWorld(local);
 }
 
-bool TilemapCollider2D::OverlapsBox(const Core::Aabb2D& box) const
+bool TilemapCollider2D::OverlapsBox(const Math::Aabb2D& box) const
 {
     const TilemapRenderer* const tilemap = FindTilemap();
     if (!tilemap)
@@ -136,7 +136,7 @@ bool TilemapCollider2D::OverlapsBox(const Core::Aabb2D& box) const
 
     // 상대 사각형이 덮는 칸의 범위만 본다. 격자가 아무리 넓어도 검사는 그 사각형이 걸친 칸 수에
     // 비례한다.
-    const Core::Aabb2D local = TransformToLocal(box);
+    const Math::Aabb2D local = TransformToLocal(box);
     if (local.IsEmpty())
     {
         return false;
@@ -150,7 +150,7 @@ bool TilemapCollider2D::OverlapsBox(const Core::Aabb2D& box) const
             {
                 continue;
             }
-            const Core::Aabb2D cellBox{
+            const Math::Aabb2D cellBox{
                 { static_cast<float>(column) * cell.GetX(),
                   static_cast<float>(row) * cell.GetY() },
                 { static_cast<float>(column + 1) * cell.GetX(),
@@ -169,7 +169,7 @@ bool TilemapCollider2D::OverlapsCollider(const Collider2D& other) const
 {
     const TilemapRenderer* const tilemap = FindTilemap();
     if (!tilemap) return false;
-    const Core::Aabb2D otherBounds = other.GetWorldBounds();
+    const Math::Aabb2D otherBounds = other.GetWorldBounds();
     const Math::Vector2& cell = tilemap->GetCellSize();
     const CellRange range = FindOverlappingCells(TransformToLocal(otherBounds), *tilemap);
     for (int row = range.firstRow; row <= range.lastRow; ++row)
@@ -177,7 +177,7 @@ bool TilemapCollider2D::OverlapsCollider(const Collider2D& other) const
         for (int column = range.firstColumn; column <= range.lastColumn; ++column)
         {
             if (tilemap->GetTile(column, row) == TilemapRenderer::EmptyTile) continue;
-            const Core::Aabb2D worldCell = TransformToWorld({
+            const Math::Aabb2D worldCell = TransformToWorld({
                 { static_cast<float>(column) * cell.GetX(), static_cast<float>(row) * cell.GetY() },
                 { static_cast<float>(column + 1) * cell.GetX(), static_cast<float>(row + 1) * cell.GetY() } });
             if (worldCell.Overlaps(otherBounds) && other.OverlapsBox(worldCell)) return true;
@@ -186,8 +186,8 @@ bool TilemapCollider2D::OverlapsCollider(const Collider2D& other) const
     return false;
 }
 
-std::optional<Core::Aabb2DSweepHit> TilemapCollider2D::SweepBox(
-    const Core::Aabb2D& movingBox, const Math::Vector2& worldDisplacement) const
+std::optional<Math::Aabb2DSweepHit> TilemapCollider2D::SweepBox(
+    const Math::Aabb2D& movingBox, const Math::Vector2& worldDisplacement) const
 {
     const TilemapRenderer* const tilemap = FindTilemap();
     if (!tilemap || movingBox.IsEmpty() || !std::isfinite(worldDisplacement.GetX()) ||
@@ -204,9 +204,9 @@ std::optional<Core::Aabb2DSweepHit> TilemapCollider2D::SweepBox(
     // 시작과 끝을 모두 품는 영역을 로컬 격자로 되돌린다. 양 끝에 한 칸을 더 보는 것은 닿기만
     // 한 상태에서 안쪽으로 들어갈 때도 그 칸을 후보로 남기기 위해서다. OverlapsBox와 달리
     // sweep은 바로 그 경계의 hit(0)를 알아야 한다.
-    const Core::Aabb2D end{
+    const Math::Aabb2D end{
         movingBox.min + worldDisplacement, movingBox.max + worldDisplacement };
-    const Core::Aabb2D local = TransformToLocal(movingBox.UnitedWith(end));
+    const Math::Aabb2D local = TransformToLocal(movingBox.UnitedWith(end));
     if (local.IsEmpty() || !std::isfinite(local.min.GetX()) || !std::isfinite(local.min.GetY()) ||
         !std::isfinite(local.max.GetX()) || !std::isfinite(local.max.GetY()))
     {
@@ -232,7 +232,7 @@ std::optional<Core::Aabb2DSweepHit> TilemapCollider2D::SweepBox(
         owner->GetTransform().GetLocalToWorldMatrix().TransformDirection({ 0.0f, 1.0f, 0.0f }).GetY() < 0.0f
         ? -1 : 1;
 
-    std::optional<Core::Aabb2DSweepHit> earliest;
+    std::optional<Math::Aabb2DSweepHit> earliest;
     for (int row = firstRow; row <= lastRow; ++row)
     {
         for (int column = firstColumn; column <= lastColumn; ++column)
@@ -245,14 +245,14 @@ std::optional<Core::Aabb2DSweepHit> TilemapCollider2D::SweepBox(
             {
                 continue;
             }
-            const Core::Aabb2D localCell{
+            const Math::Aabb2D localCell{
                 { static_cast<float>(column) * cell.GetX(),
                   static_cast<float>(row) * cell.GetY() },
                 { static_cast<float>(column + 1) * cell.GetX(),
                   static_cast<float>(row + 1) * cell.GetY() }
             };
-            const Core::Aabb2D worldCell = TransformToWorld(localCell);
-            const std::optional<Core::Aabb2DSweepHit> hit = mOneWay
+            const Math::Aabb2D worldCell = TransformToWorld(localCell);
+            const std::optional<Math::Aabb2DSweepHit> hit = mOneWay
                 ? SweepTop(movingBox, worldCell, worldDisplacement)
                 : movingBox.SweepAgainst(worldCell, worldDisplacement);
             if (hit && (!earliest || hit->fraction < earliest->fraction))

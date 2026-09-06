@@ -5,9 +5,9 @@
 #include <limits>
 #include <optional>
 
-#include "../Math/Vector.h"
+#include "Vector.h"
 
-namespace GameEngine::Core
+namespace GameEngine::Math
 {
 
 /// <summary>
@@ -18,7 +18,7 @@ namespace GameEngine::Core
 struct Aabb2DSweepHit
 {
     float fraction = 0.0f;
-    Math::Vector2 normal;
+    Vector2 normal;
 };
 
 /// <summary>
@@ -31,23 +31,23 @@ struct Aabb2DSweepHit
 struct Aabb2D
 {
     /// <summary>왼쪽 아래 모서리다.</summary>
-    Math::Vector2 min;
+    Vector2 min;
     /// <summary>오른쪽 위 모서리다.</summary>
-    Math::Vector2 max;
+    Vector2 max;
 
     /// <summary>가운데와 전체 크기로 영역을 만든다. 크기의 절반씩 양쪽으로 뻗는다.</summary>
     /// <param name="center">가운데 점이다.</param>
     /// <param name="size">가로세로 전체 길이다. 음수면 빈 영역이 된다.</param>
     [[nodiscard]] static constexpr Aabb2D FromCenterSize(
-        const Math::Vector2& center, const Math::Vector2& size)
+        const Vector2& center, const Vector2& size)
     {
-        const Math::Vector2 half{ size.GetX() * 0.5f, size.GetY() * 0.5f };
+        const Vector2 half{ size.GetX() * 0.5f, size.GetY() * 0.5f };
         return Aabb2D{ center - half, center + half };
     }
 
     /// <summary>두 점을 품는 가장 작은 영역이다. 어느 점이 어느 모서리인지 묻지 않는다.</summary>
     [[nodiscard]] static constexpr Aabb2D FromPoints(
-        const Math::Vector2& first, const Math::Vector2& second)
+        const Vector2& first, const Vector2& second)
     {
         return Aabb2D{
             { first.GetX() < second.GetX() ? first.GetX() : second.GetX(),
@@ -63,12 +63,12 @@ struct Aabb2D
         return max.GetX() <= min.GetX() || max.GetY() <= min.GetY();
     }
 
-    [[nodiscard]] constexpr Math::Vector2 GetCenter() const
+    [[nodiscard]] constexpr Vector2 GetCenter() const
     {
         return { (min.GetX() + max.GetX()) * 0.5f, (min.GetY() + max.GetY()) * 0.5f };
     }
 
-    [[nodiscard]] constexpr Math::Vector2 GetSize() const
+    [[nodiscard]] constexpr Vector2 GetSize() const
     {
         return { max.GetX() - min.GetX(), max.GetY() - min.GetY() };
     }
@@ -85,7 +85,7 @@ struct Aabb2D
     }
 
     /// <summary>점 하나를 품는지다. 왼쪽 아래 모서리는 안이고 오른쪽 위 모서리는 밖이다.</summary>
-    [[nodiscard]] constexpr bool Contains(const Math::Vector2& point) const
+    [[nodiscard]] constexpr bool Contains(const Vector2& point) const
     {
         return point.GetX() >= min.GetX() && point.GetX() < max.GetX() &&
             point.GetY() >= min.GetY() && point.GetY() < max.GetY();
@@ -124,7 +124,7 @@ struct Aabb2D
     /// <param name="displacement">이 사각형이 이번 스텝에 갈 월드 거리다.</param>
     /// <returns>0부터 1 사이의 최초 충돌과 법선, 또는 경로에 충돌이 없으면 nullopt다.</returns>
     [[nodiscard]] std::optional<Aabb2DSweepHit> SweepAgainst(
-        const Aabb2D& obstacle, const Math::Vector2& displacement) const
+        const Aabb2D& obstacle, const Vector2& displacement) const
     {
         constexpr float epsilon = 0.000001f;
         if (IsEmpty() || obstacle.IsEmpty() ||

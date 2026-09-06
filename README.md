@@ -147,7 +147,7 @@ ctest --test-dir build/vs-no-pch -C Debug --output-on-failure -j 4
 | 경로 | 내용 |
 | --- | --- |
 | `GameEngine/App/`, `GameEngine/Runtime/` | 부트스트랩·메인 루프, 게임·씬·객체·컴포넌트 |
-| `GameEngine/Core/`, `GameEngine/Math/`, `GameEngine/Diagnostics/` | JSON·공통 식별자·수학·진단 |
+| `GameEngine/Core/`, `GameEngine/Math/`, `GameEngine/Diagnostics/` | JSON·공통 식별자·수학(AABB 포함)·진단 |
 | `GameEngine/Assets/`, `GameEngine/Animation/`, `GameEngine/Text/` | 에셋 임포트·관리, 골격·클립, 폰트 처리 |
 | `GameEngine/Platform/` | 운영체제 인터페이스와 Win32 구현 |
 | `GameEngine/Rendering/`, `GameEngine/SceneRendering/` | 프레임 계약·공통 렌더링 정책·D3D 백엔드, 씬에서 프레임으로 변환 |

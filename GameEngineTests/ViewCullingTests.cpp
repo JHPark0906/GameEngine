@@ -6,8 +6,8 @@
 #include <limits>
 #include <optional>
 
-#include "Core/Aabb2D.h"
-#include "Core/Aabb3D.h"
+#include "Math/Aabb2D.h"
+#include "Math/Aabb3D.h"
 #include "Math/Matrix.h"
 #include "Rendering/RenderFrame.h"
 #include "SceneRendering/ViewCulling.h"
@@ -29,8 +29,8 @@ namespace
         return camera;
     }
 
-    [[nodiscard]] bool NearBounds(const std::optional<Core::Aabb2D>& actual,
-        const Core::Aabb2D& expected, const float tolerance = .001f)
+    [[nodiscard]] bool NearBounds(const std::optional<Math::Aabb2D>& actual,
+        const Math::Aabb2D& expected, const float tolerance = .001f)
     {
         return actual && !actual->IsEmpty() &&
             std::abs(actual->min.GetX() - expected.min.GetX()) < tolerance &&
@@ -42,7 +42,7 @@ namespace
     bool ClipPlanesAndDepth()
     {
         bool passed = true;
-        const auto unit = Core::Aabb3D::FromCenterSize({}, { .2f, .2f, .2f });
+        const auto unit = Math::Aabb3D::FromCenterSize({}, { .2f, .2f, .2f });
         for (const bool perspective : { false, true })
         {
             const ViewCulling culling(Camera(perspective));
@@ -56,11 +56,11 @@ namespace
                 "a box behind the camera must not reappear after a negative-w perspective divide");
             passed &= Expect(culling.IsVisible(unit, Matrix4x4::CreateTranslation({ 0, 0, -4 })),
                 "a box crossing the near plane must remain visible");
-            passed &= Expect(culling.IsVisible(Core::Aabb3D::FromCenterSize({}, { 1000, 1000, 1000 }),
+            passed &= Expect(culling.IsVisible(Math::Aabb3D::FromCenterSize({}, { 1000, 1000, 1000 }),
                 Matrix4x4::Identity()), "a box enclosing the frustum must survive even when none of its corners is inside");
             const auto plane = culling.GetVisiblePlaneBounds(Matrix4x4::Identity());
-            passed &= Expect(NearBounds(plane, perspective ? Core::Aabb2D{ { -10, -5 }, { 10, 5 } } :
-                Core::Aabb2D{ { -4, -2 }, { 4, 2 } }),
+            passed &= Expect(NearBounds(plane, perspective ? Math::Aabb2D{ { -10, -5 }, { 10, 5 } } :
+                Math::Aabb2D{ { -4, -2 }, { 4, 2 } }),
                 "tile bounds must match the actual camera footprint on local z=0");
             for (const float depth : { -6.0f, -4.5f, 7.0f })
             {
@@ -69,8 +69,8 @@ namespace
                     "a tile plane behind the view, before near, or beyond far must produce an empty range");
             }
             const auto onNear = culling.GetVisiblePlaneBounds(Matrix4x4::CreateTranslation({ 0, 0, -4 }));
-            passed &= Expect(NearBounds(onNear, perspective ? Core::Aabb2D{ { -2, -1 }, { 2, 1 } } :
-                Core::Aabb2D{ { -4, -2 }, { 4, 2 } }),
+            passed &= Expect(NearBounds(onNear, perspective ? Math::Aabb2D{ { -2, -1 }, { 2, 1 } } :
+                Math::Aabb2D{ { -4, -2 }, { 4, 2 } }),
                 "a tile plane coincident with the near face must retain that entire face");
         }
         auto offCenter = Camera(false);
@@ -99,11 +99,11 @@ namespace
             if (!Expect(sidePose.TryInvert(side.view), "the side-facing camera must be invertible")) return false;
             const ViewCulling culling(side);
             passed &= Expect(NearBounds(culling.GetVisiblePlaneBounds(Matrix4x4::Identity()),
-                perspective ? Core::Aabb2D{ { 11, -9 }, { 21, 13 } } : Core::Aabb2D{ { 11, 0 }, { 21, 4 } }),
+                perspective ? Math::Aabb2D{ { 11, -9 }, { 21, 13 } } : Math::Aabb2D{ { 11, 0 }, { 21, 4 } }),
                 "all twelve frustum edges must contribute to a side-on tile-plane intersection");
-            passed &= Expect(culling.IsVisible(Core::Aabb3D::FromCenterSize({}, { .2f, .2f, .2f }),
+            passed &= Expect(culling.IsVisible(Math::Aabb3D::FromCenterSize({}, { .2f, .2f, .2f }),
                 Matrix4x4::CreateTranslation({ 15, 2, 0 })) &&
-                !culling.IsVisible(Core::Aabb3D::FromCenterSize({}, { .2f, .2f, .2f }), Matrix4x4::Identity()),
+                !culling.IsVisible(Math::Aabb3D::FromCenterSize({}, { .2f, .2f, .2f }), Matrix4x4::Identity()),
                 "rotated cameras must cull from their view matrix rather than the game's XY camera center");
         }
 
@@ -115,17 +115,17 @@ namespace
         auto shifted = Camera(false);
         shifted.view = Matrix4x4::CreateTranslation({ -35, 26, 5 });
         const ViewCulling culling(shifted);
-        Core::Aabb3D expected = Core::Aabb3D::Empty();
+        Math::Aabb3D expected = Math::Aabb3D::Empty();
         for (const float x : { 31.0f, 39.0f })
             for (const float y : { -28.0f, -24.0f }) expected.Encapsulate(inverse.TransformPoint({ x, y, 0 }));
         passed &= Expect(NearBounds(culling.GetVisiblePlaneBounds(localToWorld),
             { { expected.min.GetX(), expected.min.GetY() }, { expected.max.GetX(), expected.max.GetY() } }),
             "tile-local bounds must account for hierarchy-induced shear, translation, and negative scale");
         const auto localCenter = inverse.TransformPoint({ 35, -26, 0 });
-        passed &= Expect(culling.IsVisible(Core::Aabb3D::FromCenterSize(localCenter, { .1f, .1f, .1f }), localToWorld),
+        passed &= Expect(culling.IsVisible(Math::Aabb3D::FromCenterSize(localCenter, { .1f, .1f, .1f }), localToWorld),
             "a visible local box must survive a mirrored nonuniform parent hierarchy");
         const auto outside = inverse.TransformPoint({ 60, -26, 0 });
-        passed &= Expect(!culling.IsVisible(Core::Aabb3D::FromCenterSize(outside, { .1f, .1f, .1f }), localToWorld),
+        passed &= Expect(!culling.IsVisible(Math::Aabb3D::FromCenterSize(outside, { .1f, .1f, .1f }), localToWorld),
             "the same parent hierarchy must still cull a box wholly beyond the view");
 
         const auto tilted = Matrix4x4::CreateRotationYDegrees(35);
@@ -138,7 +138,7 @@ namespace
     bool InvalidInputsRemainConservative()
     {
         bool passed = true;
-        const auto unit = Core::Aabb3D::FromCenterSize({}, { 1, 1, 1 });
+        const auto unit = Math::Aabb3D::FromCenterSize({}, { 1, 1, 1 });
         const auto nan = std::numeric_limits<float>::quiet_NaN();
         const auto infinity = std::numeric_limits<float>::infinity();
         const std::array invalid{ Matrix4x4::CreateTranslation({ nan, 0, 0 }),
@@ -157,7 +157,7 @@ namespace
         }
         passed &= Expect(valid.IsVisible({ { nan, 0, 0 }, { 1, 1, 1 } }, Matrix4x4::Identity()),
             "nonfinite source bounds must fail open instead of dropping a potentially visible draw");
-        passed &= Expect(!valid.IsVisible(Core::Aabb3D::Empty(), Matrix4x4::Identity()),
+        passed &= Expect(!valid.IsVisible(Math::Aabb3D::Empty(), Matrix4x4::Identity()),
             "an explicitly empty source box has no geometry to draw");
         auto singularCamera = Camera(false);
         singularCamera.projection = Matrix4x4::CreateScale({ 0, 1, 1 });
@@ -167,7 +167,7 @@ namespace
             "a singular camera matrix must request conservative draw and tile-range fallback");
         const auto flattened = Matrix4x4::CreateScale({ 1, 1, 0 });
         passed &= Expect(!valid.GetVisiblePlaneBounds(flattened) && valid.IsVisible(unit, flattened) &&
-            !valid.IsVisible(Core::Aabb3D::FromCenterSize({ 30, 0, 0 }, { 1, 1, 0 }), flattened),
+            !valid.IsVisible(Math::Aabb3D::FromCenterSize({ 30, 0, 0 }, { 1, 1, 0 }), flattened),
             "a flattened XY tilemap must still cull individual offscreen cells when its range inverse is unavailable");
         return passed;
     }

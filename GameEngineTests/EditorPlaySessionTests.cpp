@@ -5,7 +5,7 @@
 
 #include <memory>
 
-#include "../GameEngine/Core/UndoStack.h"
+#include "Document/UndoStack.h"
 #include "../GameEditor/Source/Document/EditorContext.h"
 #include "../GameEditor/Source/Document/EditorPlaySession.h"
 
@@ -49,7 +49,7 @@ namespace
 }
 
 /// <summary>편집 하나를 기록해 「저장할 것이 있음」을 세운다. 내용은 중요하지 않다.</summary>
-class NoOpEditCommand final : public GameEngine::Core::IEditCommand
+class NoOpEditCommand final : public GameEditor::IEditCommand
 {
 public:
     [[nodiscard]] bool Apply() override { return true; }

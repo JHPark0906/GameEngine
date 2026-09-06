@@ -15,7 +15,7 @@
 #include <string>
 #include <unordered_set>
 
-#include "Core/UndoStack.h"
+#include "Document/UndoStack.h"
 #include "Diagnostics/Debug.h"
 #include "Runtime/MonoBehaviour.h"
 #include "Runtime/PropertyDescriptor.h"
@@ -90,7 +90,7 @@ namespace
     using TestSupport::WriteFile;
 
     /// <summary>아무것도 하지 않지만 기록될 수는 있는 편집이다. RecordEdit의 경로만 시험한다.</summary>
-    class NoOpEditCommand final : public GameEngine::Core::IEditCommand
+    class NoOpEditCommand final : public GameEditor::IEditCommand
     {
     public:
         [[nodiscard]] bool Apply() override { return true; }

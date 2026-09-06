@@ -16,7 +16,9 @@ GameEngine, GameEditor, GameBuilder는 한 저장소의 별도 CMake 타깃이�
 
 | 모듈 | 책임 |
 | --- | --- |
-| `Core`, `Math`, `Diagnostics` | 공통 값·식별자·JSON·수학·진단 |
+| `Core` | 공통 식별자·JSON·정점 데이터 계약 |
+| `Math` | 벡터·행렬·쿼터니언·색상·2D/3D 축 정렬 경계 상자 |
+| `Diagnostics` | 로깅·진단 |
 | `Platform` | 창·입력·파일·콘텐츠·오디오 등 운영체제 경계와 Win32 구현 |
 | `Assets`, `Animation`, `Text` | 임포트와 공유 데이터, 골격·클립, 글꼴 해석·래스터화 |
 | `Runtime` | Game·Scene·GameObject·Component, 물리·입력·유지형 UI·오디오 |
@@ -27,6 +29,8 @@ GameEngine, GameEditor, GameBuilder는 한 저장소의 별도 CMake 타깃이�
 | `UI`, `Build` | 도구용 즉시 모드 UI, 프로젝트 패키징 서비스 |
 
 `Runtime`은 주입받은 씬 로더를 사용하며 `Serialization` 구현을 포함하지 않는다. `Rendering`은 런타임 오브젝트를 직접 알지 않고, `SceneRendering`이 두 계층을 연결한다. Win32와 Direct3D 자원은 해당 구현 디렉터리가 소유한다. 플랫폼 인터페이스의 존재가 다른 운영체제나 그래픽 API 구현을 뜻하지는 않는다.
+
+[Aabb2D](../GameEngine/Math/Aabb2D.h)와 [Aabb3D](../GameEngine/Math/Aabb3D.h)는 물리·에셋·컬링이 공유하는 수학 값이다. 2D 경계는 넓이가 없으면 비어 있고, 3D 경계는 평면·점을 렌더링 경계로 보존한다. 3D 물리는 `HasVolume()`으로 부피가 있는 경계를 구분한다.
 
 ## 실행과 프레임 흐름
 
@@ -70,7 +74,7 @@ flowchart LR
 
 Editor는 엔진의 게임 프로젝트·부트스트랩 확장 경로를 사용한다. 엔진 라이브러리가 Editor의 패널이나 문서 구현에 의존하지 않는다. Play는 열린 편집 씬 하나만 활성인 상태에서 시작하고 편집 스냅샷을 보관한다. Stop은 그 씬을 복원하고 실행 중 추가된 씬을 정리하며, 복원 실패 시 재시도할 스냅샷과 Play 상태를 유지한다.
 
-편집 Undo는 부모·형제 위치·로컬 변환을 복원한다. 화면 UI의 계층·창·modal 순서는 그리기와 입력 판정이 함께 사용한다. 세부 사용법은 [GameEditor](../GameEditor/README.md)에 있다.
+편집 이력의 [UndoStack과 IEditCommand](../GameEditor/Source/Document/UndoStack.h)는 Editor의 Document 계층이 소유한다. 편집 Undo는 부모·형제 위치·로컬 변환을 복원한다. 화면 UI의 계층·창·modal 순서는 그리기와 입력 판정이 함께 사용한다. 세부 사용법은 [GameEditor](../GameEditor/README.md)에 있다.
 
 GameBuilder CLI는 이미 구성된 CMake 트리에서 게임을 컴파일한 뒤 엔진의 `Build::ProjectBuilder`에 패키징을 요청한다. 빌드 전후로 타깃의 소스 출처를 확인하고 자동 재구성 후 출력 경로를 다시 읽는다. 패키지는 독립 임시 디렉터리에서 조립·검증한 다음 게시하며, 게시 실패 시 기존 출력을 복원한다.
 

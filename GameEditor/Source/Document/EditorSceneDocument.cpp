@@ -44,7 +44,7 @@ GameEngine::Runtime::Object* EditorSceneDocument::FindObject(
         : project.game->FindObject(mUndo.ResolveObjectId(instanceId));
 }
 
-void EditorSceneDocument::RecordEdit(std::unique_ptr<GameEngine::Core::IEditCommand> command)
+void EditorSceneDocument::RecordEdit(std::unique_ptr<IEditCommand> command)
 {
     // 기록해도 되는지는 문서의 물음이다 — 열린 장면이 있는 Edit 모드인가. 부품은 그것을 알 수
     // 없고, 답을 쓰는 곳이 여기 하나여야 편집 지점이 늘어도 묻는 것을 잊지 않는다.

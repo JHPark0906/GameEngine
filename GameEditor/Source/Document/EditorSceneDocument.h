@@ -115,7 +115,7 @@ public:
 
     // ---- 되돌리기
 
-    [[nodiscard]] GameEngine::Core::UndoStack& GetUndoStack() { return mUndo.GetStack(); }
+    [[nodiscard]] UndoStack& GetUndoStack() { return mUndo.GetStack(); }
     [[nodiscard]] unsigned int ResolveObjectId(const unsigned int instanceId) const
     {
         return mUndo.ResolveObjectId(instanceId);
@@ -125,7 +125,7 @@ public:
         mUndo.RecordObjectIdAlias(oldId, newId);
     }
     void ResetUndoHistory() { mUndo.Reset(); }
-    void RecordEdit(std::unique_ptr<GameEngine::Core::IEditCommand> command);
+    void RecordEdit(std::unique_ptr<IEditCommand> command);
 
     /// <summary>별칭으로 해석한 뒤 런타임에서 찾는다. 그 둘이 한 걸음이어야 하는 자리다.</summary>
     [[nodiscard]] GameEngine::Runtime::Object* FindObject(

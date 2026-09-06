@@ -3,7 +3,7 @@
 #include <optional>
 #include <vector>
 
-#include "../Core/Aabb2D.h"
+#include "../Math/Aabb2D.h"
 #include "Behaviour.h"
 
 namespace GameEngine::Runtime
@@ -42,7 +42,7 @@ public:
     /// <summary>
     /// 월드 공간에서 이 콜라이더를 품는 축 정렬 사각형이다. 넓은 판정이 이것으로 먼저 걸러진다.
     /// </summary>
-    [[nodiscard]] virtual Core::Aabb2D GetWorldBounds() const = 0;
+    [[nodiscard]] virtual Math::Aabb2D GetWorldBounds() const = 0;
 
     /// <summary>
     /// 월드 공간의 사각형이 이 콜라이더의 실제 모양과 겹치는지다. 기본은 참인데, 이 사각형은
@@ -50,7 +50,7 @@ public:
     /// 때문이다. 품는 사각형보다 성긴 모양 — 타일맵 — 이 이것을 재정의한다.
     /// </summary>
     /// <param name="box">이미 넓은 판정을 통과한 월드 사각형이다.</param>
-    [[nodiscard]] virtual bool OverlapsBox(const Core::Aabb2D& box) const
+    [[nodiscard]] virtual bool OverlapsBox(const Math::Aabb2D& box) const
     {
         static_cast<void>(box);
         return true;
@@ -86,11 +86,11 @@ protected:
     /// 모두 변환하므로 회전한 부모 아래에서도 실제 자리를 품는다.
     /// </summary>
     /// <param name="localBounds">오브젝트 로컬 공간의 사각형이다.</param>
-    [[nodiscard]] Core::Aabb2D TransformToWorld(const Core::Aabb2D& localBounds) const;
+    [[nodiscard]] Math::Aabb2D TransformToWorld(const Math::Aabb2D& localBounds) const;
 
     /// <summary>월드 사각형을 이 오브젝트의 로컬 공간으로 되돌린다. 회전이 없을 때 정확하다.</summary>
     /// <param name="worldBox">월드 공간의 사각형이다.</param>
-    [[nodiscard]] Core::Aabb2D TransformToLocal(const Core::Aabb2D& worldBox) const;
+    [[nodiscard]] Math::Aabb2D TransformToLocal(const Math::Aabb2D& worldBox) const;
 
     /// <summary>
     /// 월드 공간의 움직이는 사각형이 이 모양에 처음 닿는 때다. 단순한 모양은 자신의 품는
@@ -102,8 +102,8 @@ protected:
     /// <param name="movingBox">현재 월드 공간의 움직이는 사각형이다.</param>
     /// <param name="worldDisplacement">이번 스텝의 월드 이동 거리다.</param>
     /// <returns>최초 충돌, 또는 길이 비어 있으면 nullopt다.</returns>
-    [[nodiscard]] virtual std::optional<Core::Aabb2DSweepHit> SweepBox(
-        const Core::Aabb2D& movingBox, const Math::Vector2& worldDisplacement) const;
+    [[nodiscard]] virtual std::optional<Math::Aabb2DSweepHit> SweepBox(
+        const Math::Aabb2D& movingBox, const Math::Vector2& worldDisplacement) const;
 
 private:
     // 겹침을 채우는 것은 시스템 하나다. 다른 곳이 이것을 넣을 수 있으면 화면이 보이는 상태와

@@ -5,7 +5,7 @@
 #include <memory>
 #include <unordered_map>
 
-#include "Core/UndoStack.h"
+#include "Document/UndoStack.h"
 
 namespace GameEditor
 {
@@ -32,8 +32,8 @@ class EditorUndoService final
 {
 public:
     /// <summary>되돌리기 스택이다. 툴바와 단축키가 직접 민다.</summary>
-    [[nodiscard]] GameEngine::Core::UndoStack& GetStack() { return mStack; }
-    [[nodiscard]] const GameEngine::Core::UndoStack& GetStack() const { return mStack; }
+    [[nodiscard]] UndoStack& GetStack() { return mStack; }
+    [[nodiscard]] const UndoStack& GetStack() const { return mStack; }
 
     /// <summary>
     /// 커맨드가 잡아 둔 id를 지금 살아 있는 id로 바꾼다. 별칭이 없으면 그대로 돌려준다.
@@ -47,13 +47,13 @@ public:
     void RecordObjectIdAlias(unsigned int oldId, unsigned int newId);
 
     /// <summary>커맨드 하나를 쌓는다. 쌓아도 되는지는 부르는 쪽이 이미 보았다.</summary>
-    void Record(std::unique_ptr<GameEngine::Core::IEditCommand> command);
+    void Record(std::unique_ptr<IEditCommand> command);
 
     /// <summary>이력과 별칭을 함께 비운다. 편집 대상 문서가 바뀌는 자리가 부른다.</summary>
     void Reset();
 
 private:
-    GameEngine::Core::UndoStack mStack;
+    UndoStack mStack;
     /// <summary>
     /// 옛 인스턴스 id → 새 인스턴스 id. 경로 압축이 조회 중에 표를 다듬으므로 mutable이다 —
     /// 관찰 가능한 상태는 바뀌지 않는다.

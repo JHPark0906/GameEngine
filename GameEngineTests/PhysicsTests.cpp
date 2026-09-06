@@ -4,7 +4,7 @@
 #include <iostream>
 #include <memory>
 
-#include "Core/Aabb2D.h"
+#include "Math/Aabb2D.h"
 #include "Runtime/BoxCollider2D.h"
 #include "Runtime/Collider2D.h"
 #include "Runtime/GameObject.h"
@@ -34,7 +34,7 @@ namespace
 
 bool RunAabb2DTests()
 {
-    using GameEngine::Core::Aabb2D;
+    using GameEngine::Math::Aabb2D;
 
     constexpr Aabb2D unit = Aabb2D::FromCenterSize({ 0.0f, 0.0f }, { 2.0f, 2.0f });
     const bool centeredCorners = unit.min == GameEngine::Math::Vector2{ -1.0f, -1.0f } &&
@@ -248,7 +248,7 @@ bool RunTilemapCollider2DTests()
 }
 
 static const TestSupport::Registration gAabb2DTests{
-    "Physics", "axis-aligned box tests should pass", RunAabb2DTests };
+    "Math", "axis-aligned box tests should pass", RunAabb2DTests };
 
 static const TestSupport::Registration gCollider2DTests{
     "Physics", "collider tests should pass", RunCollider2DTests };

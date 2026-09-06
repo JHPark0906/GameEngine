@@ -3,13 +3,13 @@
 #include <iostream>
 
 #include "../GameEngine/Assets/MeshData.h"
-#include "../GameEngine/Core/Aabb3D.h"
+#include "../GameEngine/Math/Aabb3D.h"
 
 #include "MeshBoundsTests.h"
 #include "TestSupport.h"
 
 using GameEngine::Assets::ComputeBounds;
-using GameEngine::Core::Aabb3D;
+using GameEngine::Math::Aabb3D;
 using GameEngine::Core::MeshVertex;
 using GameEngine::Math::Vector3;
 using TestSupport::Expect;

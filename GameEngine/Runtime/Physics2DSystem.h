@@ -4,7 +4,7 @@
 #include <optional>
 #include <vector>
 
-#include "../Core/Aabb2D.h"
+#include "../Math/Aabb2D.h"
 #include "../Math/Vector.h"
 
 namespace GameEngine::Runtime
@@ -74,8 +74,8 @@ private:
 
     /// <summary>넓은 판정과 양쪽 도형의 좁은 판정을 한 규칙으로 묶는다.</summary>
     [[nodiscard]] static bool AreOverlapping(
-        const Collider2D& first, const Core::Aabb2D& firstBounds,
-        const Collider2D& second, const Core::Aabb2D& secondBounds);
+        const Collider2D& first, const Math::Aabb2D& firstBounds,
+        const Collider2D& second, const Math::Aabb2D& secondBounds);
 
     /// <summary>이번 fixed step의 모든 몸체를 중력·충돌 순으로 움직인다.</summary>
     void SimulateFixedStep(SceneManager& sceneManager);
@@ -85,7 +85,7 @@ private:
         Rigidbody2D& rigidbody, const std::vector<Collider2D*>& colliders);
 
     /// <summary>한 축 이동의 가장 이른 정적 고체 충돌이다.</summary>
-    [[nodiscard]] std::optional<Core::Aabb2DSweepHit> FindEarliestHit(
+    [[nodiscard]] std::optional<Math::Aabb2DSweepHit> FindEarliestHit(
         const Rigidbody2D& rigidbody, const BoxCollider2D& movingCollider,
         const std::vector<Collider2D*>& colliders,
         const Math::Vector2& worldDisplacement) const;

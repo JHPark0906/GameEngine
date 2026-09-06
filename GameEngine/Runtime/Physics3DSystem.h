@@ -61,8 +61,8 @@ private:
 
     /// <summary>넓은 판정과 양쪽 도형의 좁은 판정을 한 규칙으로 묶는다.</summary>
     [[nodiscard]] static bool AreOverlapping(
-        const Collider3D& first, const Core::Aabb3D& firstBounds,
-        const Collider3D& second, const Core::Aabb3D& secondBounds);
+        const Collider3D& first, const Math::Aabb3D& firstBounds,
+        const Collider3D& second, const Math::Aabb3D& secondBounds);
 
     /// <summary>이번 fixed step의 모든 몸체를 중력·충돌 순으로 움직인다.</summary>
     void SimulateFixedStep(SceneManager& sceneManager);

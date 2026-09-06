@@ -42,14 +42,14 @@ public:
     [[nodiscard]] bool IsOneWay() const { return mOneWay; }
     void SetOneWay(bool oneWay) { mOneWay = oneWay; }
 
-    [[nodiscard]] Core::Aabb2D GetWorldBounds() const override;
-    [[nodiscard]] bool OverlapsBox(const Core::Aabb2D& box) const override;
+    [[nodiscard]] Math::Aabb2D GetWorldBounds() const override;
+    [[nodiscard]] bool OverlapsBox(const Math::Aabb2D& box) const override;
     [[nodiscard]] bool OverlapsCollider(const Collider2D& other) const override;
 
 protected:
     /// <summary>채워진 칸 하나하나에 sweep을 물어 가장 이른 충돌만 돌려준다.</summary>
-    [[nodiscard]] std::optional<Core::Aabb2DSweepHit> SweepBox(
-        const Core::Aabb2D& movingBox, const Math::Vector2& worldDisplacement) const override;
+    [[nodiscard]] std::optional<Math::Aabb2DSweepHit> SweepBox(
+        const Math::Aabb2D& movingBox, const Math::Vector2& worldDisplacement) const override;
 
 private:
     /// <summary>격자를 정의하는 렌더러다. 같은 오브젝트에 없으면 null이고, 그때 이 콜라이더는 비어 있다.</summary>

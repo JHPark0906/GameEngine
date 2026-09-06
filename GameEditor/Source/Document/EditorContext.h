@@ -17,7 +17,7 @@
 #include "Document/EditorSettingsStore.h"
 #include "App/ProjectFile.h"
 #include "Core/Guid.h"
-#include "Core/UndoStack.h"
+#include "Document/UndoStack.h"
 #include "Serialization/ComponentSchema.h"
 #include "Platform/DirectoryContentSource.h"
 #include "Platform/IDirectoryWatcher.h"
@@ -410,7 +410,7 @@ public:
     // 스택의 커맨드들을 돌며 id를 고쳐 쓰는 브로드캐스트는 없다. 별칭 맵의 수명은 스택과 같다.
 
     /// <summary>에디터 편집의 undo/redo 스택이다. 셸이 기록하고 실행한다.</summary>
-    [[nodiscard]] GameEngine::Core::UndoStack& GetUndoStack() { return mDocument.GetUndoStack(); }
+    [[nodiscard]] UndoStack& GetUndoStack() { return mDocument.GetUndoStack(); }
 
     /// <summary>
     /// 이미 적용된 편집 하나를 undo 스택에 기록한다.
@@ -424,7 +424,7 @@ public:
     /// 커맨드 자신의 Apply — 로 일어난 뒤이고, 스택은 그 사실을 기록할 뿐이다.
     /// </summary>
     /// <param name="command">기록할 커맨드다. 기록하지 않기로 하면 여기서 사라진다.</param>
-    void RecordEdit(std::unique_ptr<GameEngine::Core::IEditCommand> command);
+    void RecordEdit(std::unique_ptr<IEditCommand> command);
 
     /// <summary>
     /// 재생성으로 id가 바뀐 객체의 별칭을 등록한다: 이후 oldId의 해석은 newId의 살아 있는

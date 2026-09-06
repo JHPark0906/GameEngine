@@ -21,7 +21,7 @@ namespace
     /// 기하 연산만 두고, 접촉 시점·법선처럼 시뮬레이션이 해석하는 결과는 콜라이더 쪽에 둔다.
     /// </summary>
     [[nodiscard]] std::optional<Collider3DSweepHit> SweepAabb(
-        const Core::Aabb3D& movingBox, const Core::Aabb3D& obstacle,
+        const Math::Aabb3D& movingBox, const Math::Aabb3D& obstacle,
         const Math::Vector3& displacement)
     {
         constexpr float Epsilon = 0.000001f;
@@ -142,7 +142,7 @@ bool Collider3D::IsOverlapping(const unsigned int instanceId) const
     return std::ranges::find(mOverlapping, instanceId) != mOverlapping.end();
 }
 
-Core::Aabb3D Collider3D::TransformToWorld(const Core::Aabb3D& localBounds) const
+Math::Aabb3D Collider3D::TransformToWorld(const Math::Aabb3D& localBounds) const
 {
     const GameObject* const owner = GetGameObject();
     if (!owner || !localBounds.HasVolume())
@@ -153,7 +153,7 @@ Core::Aabb3D Collider3D::TransformToWorld(const Core::Aabb3D& localBounds) const
 }
 
 std::optional<Collider3DSweepHit> Collider3D::SweepBox(
-    const Core::Aabb3D& movingBox, const Math::Vector3& worldDisplacement) const
+    const Math::Aabb3D& movingBox, const Math::Vector3& worldDisplacement) const
 {
     return SweepAabb(movingBox, GetWorldBounds(), worldDisplacement);
 }

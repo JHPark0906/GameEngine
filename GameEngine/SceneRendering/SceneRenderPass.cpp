@@ -12,8 +12,8 @@
 #include "../Assets/Asset.h"
 #include "../Assets/AssetDatabase.h"
 #include "../Assets/SkinnedMeshData.h"
-#include "../Core/Aabb2D.h"
-#include "../Core/Aabb3D.h"
+#include "../Math/Aabb2D.h"
+#include "../Math/Aabb3D.h"
 #include "../Core/Guid.h"
 #include "../Core/ResourceId.h"
 #include "../Diagnostics/Debug.h"
@@ -404,7 +404,7 @@ namespace
         /// 장면의 직교 카메라는 기존 XY 범위를 쓴다. 둘 다 없으면 거르지 않는다.
         /// </summary>
         [[nodiscard]] bool IsVisible(
-            const Core::Aabb3D& localBounds, const Math::Matrix4x4& localToWorld) const
+            const Math::Aabb3D& localBounds, const Math::Matrix4x4& localToWorld) const
         {
             if (viewCulling)
             {
@@ -879,7 +879,7 @@ namespace
                 : Math::Vector2{
                     static_cast<float>(texture->width) * draw.uvRect.width / pixelsPerUnit,
                     static_cast<float>(texture->height) * draw.uvRect.height / pixelsPerUnit };
-            const Core::Aabb3D localBounds{
+            const Math::Aabb3D localBounds{
                 { worldSize.GetX() * -0.5f, worldSize.GetY() * -0.5f, 0.0f },
                 { worldSize.GetX() * 0.5f, worldSize.GetY() * 0.5f, 0.0f } };
             if (!IsVisible(localBounds, draw.localToWorld))
@@ -936,7 +936,7 @@ namespace
                 if (viewCulling)
                 {
                     const Math::Vector2& cell = renderer->GetCellSize();
-                    const Core::Aabb3D tileBounds{
+                    const Math::Aabb3D tileBounds{
                         { static_cast<float>(column) * cell.GetX(), static_cast<float>(row) * cell.GetY(), 0.0f },
                         { static_cast<float>(column + 1) * cell.GetX(), static_cast<float>(row + 1) * cell.GetY(), 0.0f } };
                     if (!viewCulling->IsVisible(tileBounds, localToWorld))
@@ -1062,7 +1062,7 @@ namespace
             // 배경의 여백만 시야에 걸쳐도 그려야 하므로 같은 측정 블록을 여백만큼 확장한다.
             const float halfWidth = (hasBackground ? backgroundWidth : blockWidth) * 0.5f / pixelsPerUnit;
             const float halfHeight = (hasBackground ? backgroundHeight : blockHeight) * 0.5f / pixelsPerUnit;
-            const Core::Aabb3D localBounds{
+            const Math::Aabb3D localBounds{
                 { -halfWidth, -halfHeight, 0.0f }, { halfWidth, halfHeight, 0.0f } };
             if (!IsVisible(localBounds, textLocalToWorld))
             {

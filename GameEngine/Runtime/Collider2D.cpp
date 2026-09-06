@@ -40,7 +40,7 @@ bool Collider2D::IsOverlapping(const unsigned int instanceId) const
     return std::ranges::find(mOverlapping, instanceId) != mOverlapping.end();
 }
 
-Core::Aabb2D Collider2D::TransformToWorld(const Core::Aabb2D& localBounds) const
+Math::Aabb2D Collider2D::TransformToWorld(const Math::Aabb2D& localBounds) const
 {
     const GameObject* const owner = GetGameObject();
     if (!owner || localBounds.IsEmpty())
@@ -58,7 +58,7 @@ Core::Aabb2D Collider2D::TransformToWorld(const Core::Aabb2D& localBounds) const
     };
 
     const Math::Vector3 first = localToWorld.TransformPoint(corners[0]);
-    Core::Aabb2D world{ { first.GetX(), first.GetY() }, { first.GetX(), first.GetY() } };
+    Math::Aabb2D world{ { first.GetX(), first.GetY() }, { first.GetX(), first.GetY() } };
     for (std::size_t index = 1; index < std::size(corners); ++index)
     {
         const Math::Vector3 point = localToWorld.TransformPoint(corners[index]);
@@ -72,7 +72,7 @@ Core::Aabb2D Collider2D::TransformToWorld(const Core::Aabb2D& localBounds) const
     return world;
 }
 
-Core::Aabb2D Collider2D::TransformToLocal(const Core::Aabb2D& worldBox) const
+Math::Aabb2D Collider2D::TransformToLocal(const Math::Aabb2D& worldBox) const
 {
     const GameObject* const owner = GetGameObject();
     if (!owner || worldBox.IsEmpty())
@@ -89,7 +89,7 @@ Core::Aabb2D Collider2D::TransformToLocal(const Core::Aabb2D& worldBox) const
     const float scaleY = unitY.GetY() - worldOrigin.GetY();
     if (scaleX == 0.0f || scaleY == 0.0f)
     {
-        return Core::Aabb2D{};
+        return Math::Aabb2D{};
     }
 
     const Math::Vector2 origin{ worldOrigin.GetX(), worldOrigin.GetY() };
@@ -101,11 +101,11 @@ Core::Aabb2D Collider2D::TransformToLocal(const Core::Aabb2D& worldBox) const
         (worldBox.max.GetX() - origin.GetX()) / scaleX,
         (worldBox.max.GetY() - origin.GetY()) / scaleY
     };
-    return Core::Aabb2D::FromPoints(first, second);
+    return Math::Aabb2D::FromPoints(first, second);
 }
 
-std::optional<Core::Aabb2DSweepHit> Collider2D::SweepBox(
-    const Core::Aabb2D& movingBox, const Math::Vector2& worldDisplacement) const
+std::optional<Math::Aabb2DSweepHit> Collider2D::SweepBox(
+    const Math::Aabb2D& movingBox, const Math::Vector2& worldDisplacement) const
 {
     return movingBox.SweepAgainst(GetWorldBounds(), worldDisplacement);
 }

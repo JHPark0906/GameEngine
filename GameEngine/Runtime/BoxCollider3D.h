@@ -25,7 +25,7 @@ public:
     [[nodiscard]] const Math::Vector3& GetSize() const { return mSize; }
     void SetSize(const Math::Vector3& size) { mSize = size; }
 
-    [[nodiscard]] Core::Aabb3D GetWorldBounds() const override;
+    [[nodiscard]] Math::Aabb3D GetWorldBounds() const override;
 
 private:
     Math::Vector3 mOffset{ 0.0f, 0.0f, 0.0f };

@@ -13,7 +13,7 @@ namespace
 {
 
 /// <summary>아무것도 하지 않지만 쌓일 수는 있는 편집이다. 스택이 비는지만 보면 된다.</summary>
-class NoOpEditCommand final : public GameEngine::Core::IEditCommand
+class NoOpEditCommand final : public GameEditor::IEditCommand
 {
 public:
     [[nodiscard]] bool Apply() override { return true; }

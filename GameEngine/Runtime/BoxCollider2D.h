@@ -26,7 +26,7 @@ public:
     [[nodiscard]] const Math::Vector2& GetSize() const { return mSize; }
     void SetSize(const Math::Vector2& size) { mSize = size; }
 
-    [[nodiscard]] Core::Aabb2D GetWorldBounds() const override;
+    [[nodiscard]] Math::Aabb2D GetWorldBounds() const override;
 
 private:
     Math::Vector2 mOffset{ 0.0f, 0.0f };

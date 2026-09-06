@@ -128,7 +128,7 @@ void EditorContext::ResetUndoHistory()
     mDocument.ResetUndoHistory();
 }
 
-void EditorContext::RecordEdit(std::unique_ptr<GameEngine::Core::IEditCommand> command)
+void EditorContext::RecordEdit(std::unique_ptr<IEditCommand> command)
 {
     mDocument.RecordEdit(std::move(command));
 }

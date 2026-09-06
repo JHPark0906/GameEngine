@@ -96,7 +96,7 @@ private:
 /// <param name="read">지금 상태를 사람이 읽을 문자열로 만드는 것이다.</param>
 /// <param name="what">붉어졌을 때 어느 명령인지 말할 이름이다.</param>
 [[nodiscard]] bool RoundTrips(
-    GameEngine::Core::IEditCommand& command, const std::function<std::string()>& read,
+    GameEditor::IEditCommand& command, const std::function<std::string()>& read,
     const std::string& what)
 {
     const std::string before = read();

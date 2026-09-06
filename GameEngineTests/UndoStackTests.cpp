@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "../GameEngine/Core/UndoStack.h"
+#include "Document/UndoStack.h"
 
 #include "UndoStackTests.h"
 #include "TestSupport.h"
@@ -13,8 +13,8 @@ using TestSupport::Expect;
 
 namespace
 {
-    using GameEngine::Core::IEditCommand;
-    using GameEngine::Core::UndoStack;
+    using GameEditor::IEditCommand;
+    using GameEditor::UndoStack;
 
     /// <summary>
     /// 문서 구실을 하는 정수 하나다. 커맨드가 before/after로 값을 오가므로, undo/redo 뒤의 값이
@@ -257,4 +257,4 @@ bool RunUndoStackTests()
 }
 
 static const TestSupport::Registration gUndoStackTests{
-    "Core", "undo stack tests should pass", RunUndoStackTests };
+    "EditorDocument", "undo stack tests should pass", RunUndoStackTests };

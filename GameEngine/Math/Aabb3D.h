@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../Math/Matrix.h"
-#include "../Math/Vector.h"
+#include "Matrix.h"
+#include "Vector.h"
 
-namespace GameEngine::Core
+namespace GameEngine::Math
 {
 
 /// <summary>
@@ -25,23 +25,23 @@ namespace GameEngine::Core
 struct Aabb3D
 {
     /// <summary>각 축의 최솟값이다.</summary>
-    Math::Vector3 min;
+    Vector3 min;
     /// <summary>각 축의 최댓값이다.</summary>
-    Math::Vector3 max;
+    Vector3 max;
 
     /// <summary>가운데와 전체 크기로 상자를 만든다. 크기의 절반씩 세 축 양쪽으로 뻗는다.</summary>
     /// <param name="center">상자의 가운데 점이다.</param>
     /// <param name="size">세 축의 전체 길이다. 음수 축이 있으면 비어 있는 상자가 된다.</param>
     [[nodiscard]] static constexpr Aabb3D FromCenterSize(
-        const Math::Vector3& center, const Math::Vector3& size)
+        const Vector3& center, const Vector3& size)
     {
-        const Math::Vector3 half{ size.GetX() * 0.5f, size.GetY() * 0.5f, size.GetZ() * 0.5f };
+        const Vector3 half{ size.GetX() * 0.5f, size.GetY() * 0.5f, size.GetZ() * 0.5f };
         return Aabb3D{ center - half, center + half };
     }
 
     /// <summary>두 점을 품는 가장 작은 상자다. 어느 점이 어느 모서리인지 묻지 않는다.</summary>
     [[nodiscard]] static constexpr Aabb3D FromPoints(
-        const Math::Vector3& first, const Math::Vector3& second)
+        const Vector3& first, const Vector3& second)
     {
         return Aabb3D{
             { first.GetX() < second.GetX() ? first.GetX() : second.GetX(),
@@ -64,7 +64,7 @@ struct Aabb3D
     }
 
     /// <summary>점 하나가 들어오도록 상자를 넓힌다. 이미 안이면 그대로다.</summary>
-    constexpr void Encapsulate(const Math::Vector3& point)
+    constexpr void Encapsulate(const Vector3& point)
     {
         min = { point.GetX() < min.GetX() ? point.GetX() : min.GetX(),
                 point.GetY() < min.GetY() ? point.GetY() : min.GetY(),
@@ -93,13 +93,13 @@ struct Aabb3D
         return min.GetX() < max.GetX() && min.GetY() < max.GetY() && min.GetZ() < max.GetZ();
     }
 
-    [[nodiscard]] constexpr Math::Vector3 GetCenter() const
+    [[nodiscard]] constexpr Vector3 GetCenter() const
     {
         return { (min.GetX() + max.GetX()) * 0.5f, (min.GetY() + max.GetY()) * 0.5f,
                  (min.GetZ() + max.GetZ()) * 0.5f };
     }
 
-    [[nodiscard]] constexpr Math::Vector3 GetSize() const
+    [[nodiscard]] constexpr Vector3 GetSize() const
     {
         return { max.GetX() - min.GetX(), max.GetY() - min.GetY(), max.GetZ() - min.GetZ() };
     }
@@ -117,7 +117,7 @@ struct Aabb3D
     }
 
     /// <summary>점 하나를 품는지다. 최소 모서리는 안이고 최대 모서리는 밖이다.</summary>
-    [[nodiscard]] constexpr bool Contains(const Math::Vector3& point) const
+    [[nodiscard]] constexpr bool Contains(const Vector3& point) const
     {
         return point.GetX() >= min.GetX() && point.GetX() < max.GetX() &&
             point.GetY() >= min.GetY() && point.GetY() < max.GetY() &&
@@ -147,7 +147,7 @@ struct Aabb3D
     /// 크기만 옮기면 회전분만큼 상자가 작게 나온다. 여덟 꼭짓점을 다시 감싸면 항상 그 회전한
     /// 상자를 온전히 덮는 축 정렬 상자가 된다.
     /// </summary>
-    [[nodiscard]] Aabb3D TransformedBy(const Math::Matrix4x4& matrix) const
+    [[nodiscard]] Aabb3D TransformedBy(const Matrix4x4& matrix) const
     {
         if (IsEmpty())
         {

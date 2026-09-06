@@ -7,8 +7,8 @@
 #include <unordered_map>
 
 #include "Assets/TextureData.h"
-#include "Core/Aabb2D.h"
-#include "Core/Aabb3D.h"
+#include "Math/Aabb2D.h"
+#include "Math/Aabb3D.h"
 #include "Math/Color.h"
 #include "Math/Vector.h"
 #include "Rendering/RenderFrame.h"
@@ -170,7 +170,7 @@ private:
     /// <summary>
     /// 월드 공간의 축 정렬 사각형을 씬 뷰에 윤곽선으로 그린다. 네 모서리를 만들어
     /// <see cref="DrawWorldSegment"/> 넷으로 두른다 — 콜라이더의 <c>GetWorldBounds()</c>가
-    /// 이미 이 모양(XY 평면의 <c>Core::Aabb2D</c>)으로 답하므로, 그 값을 그대로 받는다.
+    /// 이미 이 모양(XY 평면의 <c>Math::Aabb2D</c>)으로 답하므로, 그 값을 그대로 받는다.
     /// </summary>
     /// <param name="content">투영 좌표가 놓이는 씬 뷰 이미지의 전체 UI 좌표 사각형이다.</param>
     /// <param name="worldBounds">월드 공간의 XY 사각형이다.</param>
@@ -178,20 +178,20 @@ private:
     /// <param name="thickness">선의 굵기다. 논리 픽셀이며 이 메서드가 <c>S()</c>로 배율을 곱한다.</param>
     /// <param name="color">선의 색이다.</param>
     void DrawWorldAabb(
-        const GameEngine::UI::UIRect& content, const GameEngine::Core::Aabb2D& worldBounds,
+        const GameEngine::UI::UIRect& content, const GameEngine::Math::Aabb2D& worldBounds,
         float z, float thickness, const GameEngine::Math::Color& color);
 
     /// <summary>
     /// 월드 공간의 축 정렬 입체를 씬 뷰에 윤곽선으로 그린다. 여덟 꼭짓점과 열두 변은
     /// <see cref="DrawWorldSegment"/>가 투영한다 — 3D 콜라이더의 <c>GetWorldBounds()</c>가
-    /// 이미 물리 판정에 쓰는 <c>Core::Aabb3D</c>이므로, 그 값을 그대로 받는다.
+    /// 이미 물리 판정에 쓰는 <c>Math::Aabb3D</c>이므로, 그 값을 그대로 받는다.
     /// </summary>
     /// <param name="content">투영 좌표가 놓이는 씬 뷰 이미지의 전체 UI 좌표 사각형이다.</param>
     /// <param name="worldBounds">월드 공간의 축 정렬 입체다.</param>
     /// <param name="thickness">선의 굵기다. 논리 픽셀이며 이 메서드가 <c>S()</c>로 배율을 곱한다.</param>
     /// <param name="color">선의 색이다.</param>
     void DrawWorldAabb(
-        const GameEngine::UI::UIRect& content, const GameEngine::Core::Aabb3D& worldBounds,
+        const GameEngine::UI::UIRect& content, const GameEngine::Math::Aabb3D& worldBounds,
         float thickness, const GameEngine::Math::Color& color);
 
     /// <summary>화면 좌표가 어느 축의 손잡이 위인지다. 아무 데도 아니면 None이다.</summary>

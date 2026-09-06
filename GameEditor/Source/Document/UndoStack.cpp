@@ -1,9 +1,8 @@
-#include "pch.h"
-#include "UndoStack.h"
+#include "Document/UndoStack.h"
 
 #include <utility>
 
-namespace GameEngine::Core
+namespace GameEditor
 {
 
 UndoStack::UndoStack(const std::size_t capacity)

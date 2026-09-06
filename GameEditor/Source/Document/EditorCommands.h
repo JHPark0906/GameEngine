@@ -10,7 +10,7 @@
 #include <vector>
 
 #include "Core/Json.h"
-#include "Core/UndoStack.h"
+#include "Document/UndoStack.h"
 #include "Math/Vector.h"
 #include "Runtime/PropertyDescriptor.h"
 
@@ -25,8 +25,8 @@ namespace GameEditor
 
 class IEditorObjectHost;
 
-// 에디터의 구체 undo 커맨드들이다. 스택(Core::UndoStack)은 에디터 중립이라 엔진에 살고, 여기의
-// 커맨드들은 Runtime 타입과 편집기의 호스트를 알므로 에디터에 산다.
+// 에디터의 구체 undo 커맨드들이다. 같은 Document 계층의 UndoStack이 편집 이력을 관리하고,
+// 각 커맨드는 Runtime 타입과 편집기의 호스트를 통해 실제 편집을 적용하거나 되돌린다.
 //
 // 대상은 모두 인스턴스 id로 잡고 실행 시점에 호스트에게 물어 해석한다. 객체를
 // 재생성하는 커맨드 — 삭제의 undo, 생성/추가/인스턴스화의 redo — 는 재생성된 객체의 새 id를
@@ -83,7 +83,7 @@ struct GameObjectSnapshot
 /// 그래서 "12.5"를 치는 네 번의 적용이 한 번의 undo가 되고, 필드를 떠났다 돌아온 편집은 새
 /// undo 단계가 된다.
 /// </summary>
-class PropertyEditCommand final : public GameEngine::Core::IEditCommand
+class PropertyEditCommand final : public IEditCommand
 {
 public:
     PropertyEditCommand(
@@ -93,7 +93,7 @@ public:
 
     [[nodiscard]] bool Apply() override;
     [[nodiscard]] bool Revert() override;
-    [[nodiscard]] bool TryMerge(const GameEngine::Core::IEditCommand& next) override;
+    [[nodiscard]] bool TryMerge(const IEditCommand& next) override;
 
 private:
     [[nodiscard]] bool SetValue(const GameEngine::Runtime::PropertyValue& value) const;
@@ -107,7 +107,7 @@ private:
 };
 
 /// <summary>GameObject 이름 변경이다. 속성 편집과 같은 규칙으로 타이핑이 흡수된다.</summary>
-class GameObjectNameCommand final : public GameEngine::Core::IEditCommand
+class GameObjectNameCommand final : public IEditCommand
 {
 public:
     GameObjectNameCommand(
@@ -116,7 +116,7 @@ public:
 
     [[nodiscard]] bool Apply() override;
     [[nodiscard]] bool Revert() override;
-    [[nodiscard]] bool TryMerge(const GameEngine::Core::IEditCommand& next) override;
+    [[nodiscard]] bool TryMerge(const IEditCommand& next) override;
 
 private:
     [[nodiscard]] bool SetName(const std::string& name) const;
@@ -129,7 +129,7 @@ private:
 };
 
 /// <summary>GameObject 활성 상태 변경이다.</summary>
-class GameObjectActiveCommand final : public GameEngine::Core::IEditCommand
+class GameObjectActiveCommand final : public IEditCommand
 {
 public:
     GameObjectActiveCommand(IEditorObjectHost& host, unsigned int gameObjectId, bool after);
@@ -154,7 +154,7 @@ private:
 /// 줄 모르는 타입이면 스키마의 기본값을 실은 보존 컴포넌트가 된다 — 에디터가 배치하고 값을
 /// 넣을 수 있는 것이 그 데이터다.
 /// </summary>
-class AddComponentCommand final : public GameEngine::Core::IEditCommand
+class AddComponentCommand final : public IEditCommand
 {
 public:
     /// <summary>이 프로세스가 이름으로 만들 수 있는 컴포넌트를 기본값으로 추가한다.</summary>
@@ -192,7 +192,7 @@ private:
 ///
 /// mergeKey는 속성 편집과 같은 규칙이다: 같은 필드에서 이어지는 타이핑이 한 단계가 된다.
 /// </summary>
-class PreservedPropertyEditCommand final : public GameEngine::Core::IEditCommand
+class PreservedPropertyEditCommand final : public IEditCommand
 {
 public:
     PreservedPropertyEditCommand(
@@ -201,7 +201,7 @@ public:
 
     [[nodiscard]] bool Apply() override;
     [[nodiscard]] bool Revert() override;
-    [[nodiscard]] bool TryMerge(const GameEngine::Core::IEditCommand& next) override;
+    [[nodiscard]] bool TryMerge(const IEditCommand& next) override;
 
 private:
     [[nodiscard]] bool SetValue(const GameEngine::Core::Json& value) const;
@@ -220,7 +220,7 @@ private:
 /// 부어 넣는다. 복원된 컴포넌트는 목록 끝에 붙는다 — GameObject에 위치 지정 추가가 없어서,
 /// 컴포넌트 순서까지는 복원하지 않는다.
 /// </summary>
-class RemoveComponentCommand final : public GameEngine::Core::IEditCommand
+class RemoveComponentCommand final : public IEditCommand
 {
 public:
     RemoveComponentCommand(IEditorObjectHost& host, const GameEngine::Runtime::Component& component);
@@ -240,7 +240,7 @@ private:
 /// 같은 길이라 redo가 선택을 되살린다. 재실행이 만든 객체와 Transform의 새 id는 처음 id의
 /// 별칭이 된다.
 /// </summary>
-class CreateGameObjectCommand final : public GameEngine::Core::IEditCommand
+class CreateGameObjectCommand final : public IEditCommand
 {
 public:
     CreateGameObjectCommand(IEditorObjectHost& host, std::string name);
@@ -261,7 +261,7 @@ private:
 /// 도중에 실패하면 이미 세운 것을 되지우고 별칭 없이 false를 반환해, 스택의 버림 정책과
 /// 맞물린다. 부모의 자식 목록에서도 원래 위치로 돌아가 레이아웃과 UI 순서를 보존한다.
 /// </summary>
-class DeleteGameObjectCommand final : public GameEngine::Core::IEditCommand
+class DeleteGameObjectCommand final : public IEditCommand
 {
 public:
     DeleteGameObjectCommand(IEditorObjectHost& host, GameEngine::Runtime::GameObject& gameObject);
@@ -280,7 +280,7 @@ private:
 /// 만들어진 부분 트리를 스냅숏하고, undo가 그것을 지우며, redo는 모델을 다시 임포트하는 대신
 /// 스냅숏에서 되세운다 — 삭제 커맨드의 undo와 같은 기계다. redo는 되살린 뿌리를 선택한다.
 /// </summary>
-class InstantiateModelCommand final : public GameEngine::Core::IEditCommand
+class InstantiateModelCommand final : public IEditCommand
 {
 public:
     InstantiateModelCommand(IEditorObjectHost& host, GameEngine::Runtime::GameObject& gameObject);
@@ -299,7 +299,7 @@ private:
 /// 앞뒤 상태로 기록한다. undo/redo는 월드 유지 재계산을 다시 하는 대신 기록된 로컬 값을 그대로
 /// 되세운다 — 부동소수 재계산이 값을 흔들지 않게. 부모 안의 형제 위치도 함께 복원한다.
 /// </summary>
-class ReparentGameObjectCommand final : public GameEngine::Core::IEditCommand
+class ReparentGameObjectCommand final : public IEditCommand
 {
 public:
     struct TransformState
