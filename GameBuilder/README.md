@@ -2,6 +2,8 @@
 
 GameBuilder는 [GameEngine](../README.md) 프로젝트의 C++ 타깃을 컴파일하고 실행 파일·콘텐츠·런타임 파일을 배포 폴더로 구성하는 Windows 명령줄 도구입니다. 엔진 저장소 안의 `GameBuilder` 타깃으로 관리합니다.
 
+개발 과정에서 생성형 AI의 도움을 받은 프로젝트입니다.
+
 [BuildToolMain.cpp](BuildToolMain.cpp)는 인자와 경로를 검증하고 CMake 빌드를 실행한 뒤, 엔진의 [Build::ProjectBuilder](../GameEngine/Build/ProjectBuilder.h)에 패키징을 요청합니다. 컴파일 순서를 정하는 CLI와 에셋·매니페스트·배포 폴더를 검증하는 엔진 서비스를 구분합니다. `Build::ProjectBuilder` 자체는 C++을 컴파일하지 않습니다.
 
 ## 도구 빌드

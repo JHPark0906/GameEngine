@@ -2,6 +2,8 @@
 
 GameEditor는 [GameEngine](../README.md)으로 게임의 프로젝트·씬·에셋을 편집하고 Play 모드로 실행하는 Windows 데스크톱 도구입니다. 엔진과 같은 저장소에서 함께 빌드하며, 엔진의 런타임·렌더링·UI·직렬화를 사용합니다.
 
+개발 과정에서 생성형 AI의 도움을 받은 프로젝트입니다.
+
 Editor 자체도 `gameengine_add_game_project`로 선언한 게임 프로젝트입니다. 별도의 `main`을 두지 않고 엔진의 플레이어 진입점에서 시작한 뒤, [EditorRegistration.cpp](Source/Shell/EditorRegistration.cpp)가 등록한 부트스트랩을 실행합니다. 편집 기능은 이 디렉터리에 있으며 엔진 라이브러리가 Editor를 참조하지 않습니다.
 
 ## 할 수 있는 일
